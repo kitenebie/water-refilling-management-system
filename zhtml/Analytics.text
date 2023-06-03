@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    @if($data)
+        @foreach ($data as $sales)
+            <script type="text/javascript">
+                window.onload = function () {
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    theme: "light1", // "light2", "dark1", "dark2"
+                    animationEnabled: false, // change to true
+                    title:{
+                        text: "Sales Report 2023"
+                    },
+                    data: [
+                    {
+                        // Change type to "bar", "area", "spline", "pie",etc.
+                        type: "column",
+                        dataPoints: [
+                            { label: "Jan",  y: {{ $sales->jan }}  },
+                            { label: "Feb", y: {{ $sales->feb }}  },
+                            { label: "Mar", y: {{ $sales->mar }}  },
+                            { label: "Apr",  y: {{ $sales->apr }}  },
+                            { label: "May",  y: {{ $sales->may }}  },
+                            { label: "Jun",  y: {{ $sales->jun }}  },
+                            { label: "Jul", y: {{ $sales->jul }}  },
+                            { label: "Aug", y: {{ $sales->aug }} },
+                            { label: "Sep",  y: {{ $sales->sep }}  },
+                            { label: "Oct",  y: {{ $sales->oct }}  },
+                            { label: "Nov",  y: {{ $sales->nov }}  },
+                            { label: "Dec",  y: {{ $sales->dec }}  }
+                        ]
+                    }
+                    ]
+                });
+                chart.render();
+
+                }
+            </script>
+        @endforeach
+    @endif
+
+    <div class="table-data">
+        <div class="order">
+            <div class="head">
+                <!-- <form action="#">
+                    <div class="form-input2">
+                        <input type="search" placeholder="Search..." class="recent-search">
+                        <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+                    </div>
+                </form> -->
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+            </div>
+
+        </div>
+</body>
+</html>
