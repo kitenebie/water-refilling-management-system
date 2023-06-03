@@ -9,12 +9,13 @@ use App\Models\AllSales;
 use App\Models\RefillSales;
 use App\Models\products;
 use App\Models\client_stocks;
+use App\Models\orders;
 
 class dashboardController extends Controller
 {
 
     private $constructSalse, $constructRefill, $constructApplicant, $constructProduct,
-            $constructclient_stocks;
+            $constructclient_stocks, $constructOrders;
     //* for total_income
 
 
@@ -25,7 +26,7 @@ class dashboardController extends Controller
         $this->constructRefill = new RefillSales();
         $this->constructProduct = new products();
         $this->constructclient_stocks = new client_stocks();
-
+        $this->constructOrders = new orders();
     }
 
     function dashboard(){
@@ -37,12 +38,15 @@ class dashboardController extends Controller
         }
         $this->constructSalse->GetAllUserCurrentYearlySALE(date('Y'));
         //*
-        return view('dashboard', compact('reqData'));
+        $RecentOrders = $this->constructOrders->getAllpendingOrders();
+        $orders_DATA = $this->constructOrders->OrdersPendingProcessData();
+        return view('dashboard', compact('reqData', 'RecentOrders', 'orders_DATA'));
     }
 
     function MyService(){
         $productData = $this->constructProduct->get_products();
-        return view('My-service', compact('productData'));
+        $RecentOrders = $this->constructOrders->getAllpendingOrders();
+        return view('My-service', compact('productData', 'RecentOrders'));
     }
 
     function getsalesmonth(){
@@ -90,6 +94,8 @@ class dashboardController extends Controller
             ]);
         }
 
-        return view('Sales', compact('Currentsales', 'refillSALES', 'Generalsales'));
+        $RecentOrders = $this->constructOrders->getAllpendingOrders();
+
+        return view('Sales', compact('Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders'));
     }
 }

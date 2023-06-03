@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text("reseller_ID");
             $table->text("product_ID");
             $table->integer("order");
-            $table->double('price');
+            $table->double('Amount');
             $table->text("status");
             $table->timestamps();
         });

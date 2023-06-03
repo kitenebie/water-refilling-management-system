@@ -132,20 +132,15 @@
 			</div>
 
 			<ul class="box-info">
-                @if (session()->get('auth') == 'Admin')
-                    <li>
-                        <i class='bx bxs-calendar-check' ></i>
-                        <span class="text">
-                            @if (session()->get('auth') == 'Admin')
-                                <h3>0</h3>
-                                <p>New Orders</p>
-                            @else
-                                <h3>0</h3>
-                                <p>New Orders</p>
-                            @endif
-                        </span>
-                    </li>
-                @endif
+                <li>
+                    <i class='bx bxs-calendar-check' ></i>
+                    <span class="text">
+                        @if (isset($RecentOrders))
+                            <h3>{{ $RecentOrders }}</h3>
+                        @endif
+                            <p>Orders</p>
+                    </span>
+                </li>
                 <li>
                     <i class='bx bxs-box' ></i>
                     <span class="text">

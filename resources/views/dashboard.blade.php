@@ -136,20 +136,15 @@
 			</div>
 
 			<ul class="box-info">
-                @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
                     <li>
                         <i class='bx bxs-calendar-check' ></i>
                         <span class="text">
-                            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-                                <h3>0</h3>
-                                <p>New Orders</p>
-                            @else
-                                <h3>0</h3>
-                                <p>New Orders</p>
+                            @if (isset($RecentOrders))
+                                <h3>{{ $RecentOrders }}</h3>
                             @endif
+                            <p>Orders</p>
                         </span>
                     </li>
-                @endif
                 <li>
                     <i class='bx bxs-box' ></i>
                     <span class="text">
@@ -178,22 +173,28 @@
                         </form>
 					</div>
                     <table>
-                        {{--  <thead>
+                        <thead>
                             <tr>
-                                <th>Year</th>
-                                <th>Month</th>
-                                <th>Total Sales</th>
+                                <th>Full Name</th>
+                                <th>Product</th>
+                                <th>order</th>
+                                <th>Total</th>
+                                <th>status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($sales as $sale)
-                                <tr>
-                                    <td>{{ $sale->Year }}</td>
-                                    <td>{{ $sale->Month }}</td>
-                                    <td>{{ $sale->TotalSales }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>  --}}
+                            @if (isset($orders_DATA))
+                                @foreach ($orders_DATA as $personInfo)
+                                    <tr>
+                                        <td>{{ $personInfo->firstname }}, {{ $personInfo->lastname }}</td>
+                                        <td>{{ $personInfo->product_Name }}</td>
+                                        <td>{{ $personInfo->order }}</td>
+                                        <td id="amount">{{ $personInfo->Amount }}</td>
+                                        <td><span class="status Pending" style="font-size: .8em; font-weight:600">{{ $personInfo->status }}</span></td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
                     </table>
 				</div>
 				<div class="todo">
@@ -225,24 +226,23 @@
 	<!-- CONTENT -->
 
 
+    <!-- Scripts -->
+    <script src="js/scripts.js"></script> <!-- Custom scripts -->
+    <link rel="stylesheet" href="{{ env('TOASTR_URL_CSS') }}">
 	<script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
+    <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
+    <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Get the number of elements with id="requesting"
-            var count = $('#req').length;
-
-            // Set the text of the span element to the count
-            $('#count').text(count);
-        });
-        </script>
-
-        <!-- Scripts -->
-        <script src="js/scripts.js"></script> <!-- Custom scripts -->
-        <link rel="stylesheet" href="{{ env('TOASTR_URL_CSS') }}">
-        <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
-        <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
-
+        $('document').ready(function(){
+            $('td[id^="amount"]').each(function() {
+                var amount = $(this).text();
+                $(this).text(amount.toFixed(2));
+                });
+        })
+    </script>
         @if (session('success'))
         <input hidden type="text" value="{{ session()->get(env('USER_SESSION_AUTHENTICATION_NAME')) }}" id="welcomeMSG">
         <script>

@@ -133,20 +133,15 @@
 
 
 			<ul class="box-info">
-                @if (session()->get('auth') == 'Admin')
                     <li>
                         <i class='bx bxs-calendar-check' ></i>
                         <span class="text">
-                            @if (isset($data_orders) && session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-                                <h3>{{ number_format($data_orders->count()) }}</h3>
-                                <p>New Orders</p>
-                            @else
-                                <h3>0</h3>
-                                <p>New Orders</p>
+                            @if (isset($RecentOrders))
+                                <h3>{{ $RecentOrders }}</h3>
                             @endif
+                                <p>Orders</p>
                         </span>
                     </li>
-                @endif
                 <li>
                     <i class='bx bxs-box' ></i>
                     <span class="text">

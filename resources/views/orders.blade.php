@@ -219,7 +219,7 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                PHP {{ number_format($resellerData->price, 2) }}
+                                                PHP {{ number_format($resellerData->Amount, 2) }}
                                                 <input type="text" hidden name="price" value="{{ $resellerData->price }}">
                                             </td>
                                             <td>{{ $resellerData->created_at = date("M-d-Y") }}</td>

@@ -84,7 +84,7 @@ class OrderController extends Controller
             'reseller_ID' => session()->get('key'),
             'product_ID' => $request_Product->product_ID,
             'order' => $request_Product->order,
-            'price' => $request_Product->price,
+            'Amount' => $request_Product->price,
             'status' => env('STATUS_ORDER_ONE'),
 
         ];
