@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('Account_SaleID');
             $table->text('ProductID');
             $table->integer('Quantity');
-            $table->decimal('Amount');
             $table->timestamps();
         });
 
