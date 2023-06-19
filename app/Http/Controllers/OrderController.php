@@ -16,8 +16,7 @@ class OrderController extends Controller
 {
     //do something
     private $constructOrder,$constructresseller,$constructProduct, $constructClientStocks, $constructAllSales, $constructResellerProduct;
-    public $adminStocks;
-    
+
     function __construct(){
         $this->constructOrder = new orders();
         $this->constructresseller = new LogInModel();
@@ -29,16 +28,13 @@ class OrderController extends Controller
 
     function orders(){
         if(session()->get(env('USER_SESSION_KEY'))){
-            if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-               $adminStocks = $this->constructProduct->getALLAdminStocks();
-            }
-            $img_ = "img/header-dashboard.png";
-            $productData = $this->constructProduct->get_products();
+        $img_ = "img/header-dashboard.png";
+        $productData = $this->constructProduct->get_products();
 
-            return view('orders', compact('adminStocks','img_', 'productData'));
-        }else{
-            return view('log-in');
-        }
+        return view('orders', compact('img_', 'productData'));
+    }else{
+        return view('log-in');
+    }
     }
     function Request(){
         $label_title = "Request Orders";
