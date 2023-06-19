@@ -39,6 +39,12 @@ class RefillSales extends Model
 
     }
     
+    protected $fillable = [
+        'Account_SaleID',
+        'Refill_ID',
+        'Quantity',
+        'Amount'
+    ];
     function SaveRefillSales($refillData){
         return $this->create($refillData);
     }

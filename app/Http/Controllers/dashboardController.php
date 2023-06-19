@@ -106,7 +106,7 @@ class dashboardController extends Controller
         // Sum Amount column for each month from all_sales table
         $allSales = DB::table('all_sales')
         ->select(DB::raw('MONTH(created_at) AS month'), DB::raw('SUM(Amount) AS allAmount'))
-        ->whereYear('created_at', '=', 2022)
+        ->whereYear('created_at', '=', date('Y'))
         ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
         ->groupBy(DB::raw('MONTH(created_at)'))
         ->get();
