@@ -40,9 +40,11 @@ class dashboardController extends Controller
             $year = date('Y');
             $reqData = $this->constructApplicant->getALLrequest();
             //*
-            $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
             if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
                $adminStocks = $this->constructProduct->getALLAdminStocks();
+            }
+            if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+               $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
             }
             $this->constructSalse->GetAllUserCurrentYearlySALE(date('Y'));
             //*
@@ -58,6 +60,9 @@ class dashboardController extends Controller
     function MyService(){
         if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
            $adminStocks = $this->constructProduct->getALLAdminStocks();
+        }
+        if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+           $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
         }
         if(session()->get(env('USER_SESSION_KEY'))){
             $year = Carbon::now()->year;
@@ -126,6 +131,9 @@ class dashboardController extends Controller
            $adminStocks = $this->constructProduct->getALLAdminStocks();
         }
 
+        if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+            $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
+         }
         return view('Sales', compact('adminStocks','Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
     }
 }

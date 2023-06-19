@@ -21,11 +21,9 @@ class client_stocks extends Model
     }
 
     function GetTotalSumOfAllUserStocks(){
-        $totalStock = DB::table('client_stocks')
+        return DB::table('client_stocks')
                     ->where('reseller_id', session()->get(env('USER_SESSION_KEY')))
                     ->sum('quantity');
-        return session()->put('totalStock',  $totalStock);
-        //session()->get('totalStock');
     }
         /**
         *SELECT * FROM client_stocks INNER JOIN products ON client_stocks.product_id = products.product_id;

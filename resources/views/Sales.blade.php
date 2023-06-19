@@ -144,7 +144,7 @@
                 <li>
                     <i class='bx bxs-box' ></i>
                     <span class="text">
-                        @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                        @if (isset($adminStocks))
                             <h3>{{ $adminStocks }}</h3>
                         @endif
                         <p>Stocks</p>
