@@ -8,13 +8,14 @@ use App\Models\LogInModel;
 use App\Models\products;
 use App\Models\client_stocks;
 use App\Models\AllSales;
+use App\Models\ResellerProducts;
 
 use PhpParser\Node\Stmt\Foreach_;
 
 class OrderController extends Controller
 {
     //do something
-    private $constructOrder,$constructresseller,$constructProduct, $constructClientStocks, $constructAllSales;
+    private $constructOrder,$constructresseller,$constructProduct, $constructClientStocks, $constructAllSales, $constructResellerProduct;
 
     function __construct(){
         $this->constructOrder = new orders();
@@ -22,14 +23,18 @@ class OrderController extends Controller
         $this->constructProduct = new Products();
         $this->constructClientStocks = new client_stocks();
         $this->constructAllSales = new AllSales();
+        $this->constructResellerProduct = new ResellerProducts();
     }
 
     function orders(){
+        if(session()->get(env('USER_SESSION_KEY'))){
         $img_ = "img/header-dashboard.png";
         $productData = $this->constructProduct->get_products();
 
         return view('orders', compact('img_', 'productData'));
-
+    }else{
+        return view('log-in');
+    }
     }
     function Request(){
         $label_title = "Request Orders";
@@ -91,8 +96,9 @@ class OrderController extends Controller
         $this->constructOrder->SubmitClientOrder($data_Submit);
     }
 
-    function AcceptOrder($id){
+    function AcceptOrder($id, $qty, $pdtID){
         $this->constructOrder->Accepted($id);
+        $this->constructProduct->decreaseStockUpdate($qty, $pdtID);
         return redirect('/orders/Request')->with('success', 'Order has been accepted!');
     }
 
@@ -109,9 +115,16 @@ class OrderController extends Controller
             'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
             'ProductID' => $success_req->product_ID,
             'Quantity' => $success_req->order,
-            'Amount' => $success_req->price
+            'Amount' => $success_req->Amount
+        ];
+        $Reseller_AddToNewPRoduct = [
+            'User_ID' => $success_req->resellerID,
+            'product_ID' => $success_req->product_ID,
+            'Price' => 0.00,
+            'Quantity' => $success_req->order
         ];
         $this->constructAllSales->AddtoAdminSale($AddSale);
+        $this->constructResellerProduct->ProductSave($Reseller_AddToNewPRoduct);
         $this->constructOrder->updateStateComplete($success_req->orderid);
         return redirect('/orders/ToReceive')->with('success', 'Order has been Completed!');
     }

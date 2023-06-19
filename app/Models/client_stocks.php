@@ -27,4 +27,15 @@ class client_stocks extends Model
         return session()->put('totalStock',  $totalStock);
         //session()->get('totalStock');
     }
+        /**
+        *SELECT * FROM client_stocks INNER JOIN products ON client_stocks.product_id = products.product_id;
+     */
+    function ClientStocks(){
+        return DB::table('client_stocks')
+        ->join('products', 'client_stocks.product_id', '=', 'products.product_id')
+        ->select('products.product_Name', 'products.price', DB::raw('SUM(client_stocks.quantity) AS total_quantity'))
+        ->groupBy('products.product_id','products.product_Name', 'products.price')
+        ->get();
+
+    }
 }

@@ -26,6 +26,8 @@ class LandingPage extends Controller
     }
 
     function login(){
+        session()->forget(env('USER_SESSION_KEY'));
+        session()->forget(env('USER_SESSION_AUTHENTICATION_ID'));
         return view('log-in');
     }
 
@@ -46,9 +48,13 @@ class LandingPage extends Controller
     }
 
     function logout(){
-        session()->forget(env('USER_SESSION_KEY'));
-        session()->forget(env('USER_SESSION_AUTHENTICATION_ID'));
-        return view('log-in');
+        if(session()->get(env('USER_SESSION_KEY'))){
+            session()->forget(env('USER_SESSION_KEY'));
+            session()->forget(env('USER_SESSION_AUTHENTICATION_ID'));
+            return view('log-in');
+        }else{
+            return view('log-in');
+        }
     }
 
 }

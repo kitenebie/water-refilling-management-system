@@ -17,8 +17,8 @@ class AllSales extends Model
     {
         $sales = DB::table('all_sales')
             ->select(DB::raw('YEAR(created_at) AS Year, MONTH(created_at) AS Month, SUM(Amount) AS TotalSales'))
-            ->where('Account_SaleID', session()->get('key'))
             ->whereYear('created_at', '=',  date('Y'))
+            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->get();
@@ -29,8 +29,8 @@ class AllSales extends Model
     {
         $Allsales = DB::table('all_sales')
             ->select(DB::raw('YEAR(created_at) AS Year, SUM(Amount) AS TotalSales'))
-            ->where('Account_SaleID', session()->get('key'))
             ->whereYear('created_at', '=',  date('Y'))
+            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
             ->groupBy(DB::raw('YEAR(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at)'))
             ->get();
@@ -48,11 +48,18 @@ class AllSales extends Model
     }
 
     function GetAllUserCurrentYearlySALE($year){
-        $totalUserAmount =  DB::table('all_sales')
-                            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+        $productSales =  DB::table('all_sales')
                             ->whereYear('created_at', $year)
+                            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
                             ->sum('Amount');
-        return session()->put('totalUserAmount',  $totalUserAmount);
-        //session()->get('totalUserAmount');
+        $refillSales = DB::table('refill_sales')
+                        ->whereYear('created_at', $year)
+                        ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                        ->sum('Amount');
+        return $productSales + $refillSales;
+    }
+
+    function AddResellerSales($Items_data){
+        return $this->create($Items_data);
     }
 }

@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('all_sales', function (Blueprint $table) {
+        Schema::create('reseller_products', function (Blueprint $table) {
             $table->id();
-            $table->text('Account_SaleID');
-            $table->text('ProductID');
+            $table->text('User_ID');
+            $table->text('product_ID');
+            $table->double('Price');
             $table->integer('Quantity');
-            $table->decimal('Amount');
             $table->timestamps();
         });
-
     }
 
     /**
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('all_sales');
+        Schema::dropIfExists('reseller_products');
     }
 };

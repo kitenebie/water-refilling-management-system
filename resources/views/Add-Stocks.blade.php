@@ -1,3 +1,4 @@
+@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,3 +37,6 @@
       @endif
 </body>
 </html>
+@else
+ {{ return view('logout') }}
+@endif

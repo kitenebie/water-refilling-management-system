@@ -151,21 +151,17 @@
                 <li>
                     <i class='bx bxs-coin-stack' ></i>
                     <span class="text">
-                        <h3>PHP {{ session()->get('totalUserAmount') }}</h3>
+                        <h3>PHP {{ $TOTALAMOUNTSALE }}</h3>
                         <p>Total Sales</p>
                     </span>
                 </li>
             </ul>
-
                 <script type="text/javascript">
                     window.onload = function () {
                     //************
                     var chart1 = new CanvasJS.Chart("chartContainer1", {
                         theme: "light2", // "light2", "dark1", "dark2"
                         animationEnabled: true, // change to true
-                        title: {
-                            text: "COD & Walk In Monthly Sales Report (₱) - {{ date('Y') }}"
-                        },
                         data: [{
                             // Change type to "bar", "area", "spline", "pie","bubble", 'column'.
                             type: "column",
@@ -176,7 +172,7 @@
                                 @foreach($Currentsales as $sale)
                                     { label: "{{ DateTime::createFromFormat('!m', $sale->Month)->format('F') }}", y: {{ $sale->TotalSales }} },
                                 @endforeach
-                            ]
+                            ],
                         }]
                     });
                     chart1.render();
@@ -185,9 +181,6 @@
                     var chart2 = new CanvasJS.Chart("chartContainer2", {
                         theme: "light2", // "light2", "dark1", "dark2"
                         animationEnabled: true, // change to true
-                        title: {
-                            text: "Refill Monthly Sales Report (₱) - {{ date('Y') }}"
-                        },
                         data: [{
                             // Change type to "bar", "area", "spline", "pie","bubble", 'column'.
                             type: "column",
@@ -207,9 +200,6 @@
                     var chart3 = new CanvasJS.Chart("chartContainer3", {
                         theme: "light2", // "light2", "dark1", "dark2"
                         animationEnabled: true, // change to true
-                        title: {
-                            text: "General Monthly Sales Report (₱) - {{ date('Y') }}"
-                        },
                         data: [{
                             // Change type to "bar", "area", "spline", "pie","bubble", 'column'.
                             type: "column",
@@ -226,11 +216,8 @@
                     chart3.render();
                     //************
                     var chart4 = new CanvasJS.Chart("chartContainer4", {
-                        theme: "dark2", // "light2", "dark1", "dark2"
+                        theme: "light2", // "light2", "dark1", "dark2"
                         animationEnabled: true, // change to true
-                        title: {
-                            text: "Pending And Process Report (₱) - {{ date('Y') }}"
-                        },
                         data: [{
                             // Change type to "bar", "area", "spline", "pie","bubble", 'column'.
                             type: "pie",
@@ -246,12 +233,16 @@
                     chart4.render();
             }
                 </script>
+                <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
 
 
 			<div class="table-data">
                 <div class="order">
+
+                    <div class="head">
+                        <h3>COD & Walk In Monthly Sales Report (₱) - {{ date('Y') }}</h3>
+                    </div>
                     <div id="chartContainer1" style="height: 370px; width: 100%; "></div>
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
                     <style>
                         canvas{border-radius: 10px; background: transparent}
                         .canvasjs-chart-credit{display: none}
@@ -260,8 +251,10 @@
                 </div>
 
                 <div class="order">
+                    <div class="head">
+                        <h3>Refill Monthly Sales Report (₱) - {{ date('Y') }}</h3>
+                    </div>
                     <div id="chartContainer2" style="height: 370px; width: 100%; "></div>
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
                     <style>
                         canvas{border-radius: 10px; background: transparent}
                         .canvasjs-chart-credit{display: none}
@@ -270,21 +263,26 @@
                 </div>
                 <div class="order">
                     <div class="head">
-                        <div id="chartContainer3" style="height: 370px; width: 100%; "></div>
-                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
-                        <style>
-                            canvas{border-radius: 10px; background: transparent}
-                            .canvasjs-chart-credit{display: none}
-                            .canvasjs-chart-tooltip{display: none}
-                        </style>
-                        <div id="chartContainer4" style="height: 370px; width: 40%; "></div>
-                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
-                        <style>
-                            canvas{border-radius: 10px; background: transparent}
-                            .canvasjs-chart-credit{display: none}
-                            .canvasjs-chart-tooltip{display: none}
-                        </style>
+                        <h3>General Monthly Sales Report (₱) - {{ date('Y') }}</h3>
                     </div>
+                        <div id="chartContainer3" style="height: 370px; width: 100%; "></div>
+                        <style>
+                            canvas{border-radius: 10px; background: transparent}
+                            .canvasjs-chart-credit{display: none}
+                            .canvasjs-chart-tooltip{display: none}
+                        </style>
+                </div>
+                <div class="order">
+                    <div class="head">
+                        <h3>Pending And Process Report (₱) - {{ date('Y') }}</h3>
+                    </div>
+                    <div id="chartContainer4" style="height: 370px; width: 100%; "></div>
+                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
+                    <style>
+                        canvas{border-radius: 10px; background: transparent}
+                        .canvasjs-chart-credit{display: none}
+                        .canvasjs-chart-tooltip{display: none}
+                    </style>
                 </div>
 			</div>
 		</main>

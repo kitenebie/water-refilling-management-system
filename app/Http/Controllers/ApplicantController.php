@@ -18,8 +18,12 @@ class ApplicantController extends Controller
     }
 
     function applicantRequest(){
-        $reqData = $this->constructApplicant->getALLrequest();
-        return view('applicant', compact('reqData'));
+        if(session()->get(env('USER_SESSION_KEY')) && session()->get(env('USER_SESSION_AUTHENTICATION_ID')) == env('USER_CREDINTIAL_ADMIN')){
+            $reqData = $this->constructApplicant->getALLrequest();
+            return view('applicant', compact('reqData'));
+        }else{
+            return view('log-in');
+        }
     }
 
     function RequestNotification($rsID){

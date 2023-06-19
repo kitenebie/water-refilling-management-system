@@ -49,4 +49,12 @@ class products extends Model
                     ->sum('stocks');
         return session()->put('totalStock',  $totalStock);
     }
+
+    function decreaseStockUpdate($qty, $pdtID){
+        return $this->where('user_id', session()->get(env('USER_SESSION_KEY')))
+                        ->where('product_id', $pdtID)
+                        ->update([
+                        'stocks' => DB::raw('stocks - '.$qty.''),
+                        ]);
+    }
 }

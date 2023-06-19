@@ -3,12 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LandingPage;
 use App\Http\Controllers\UserRegisterLogin;
-use App\Http\Controllers\month_sale_controller;
 use App\Http\Controllers\dashboardController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ResellerRequestController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ApplicantController;
+use App\Http\Controllers\Reseller_Add_Sales;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,6 +35,9 @@ Route::post('/Register-account', [UserRegisterLogin::class, 'register'])->name('
 Route::post('/log-in', [UserRegisterLogin::class, 'log_in'])->name('log_in');
 Route::post('/login', [UserRegisterLogin::class, 'login'])->name('login');
 
+//* logout
+Route::get('/logout', [LandingPage::class, 'logout'])->name('logout');
+
 //* dashboard
 Route::get('/dashboard', [dashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('/Sales', [dashboardController::class, 'getsalesmonth'])->name('getsalesmonth');
@@ -42,9 +45,6 @@ Route::get('/Sales', [dashboardController::class, 'getsalesmonth'])->name('getsa
 
 //* My-service
 Route::get('/My-service', [dashboardController::class, 'MyService'])->name('MyService');
-
-//* logout
-Route::get('/logout', [LandingPage::class, 'logout'])->name('logout');
 
 //* save_product
 Route::post('/save_product', [ProductController::class, 'saving_product'])->name('saving_product');
@@ -67,7 +67,7 @@ Route::get('/orders/ToReceive', [OrderController::class, 'ToReceive'])->name('To
 Route::get('/orders/Completed', [OrderController::class, 'Completed'])->name('Completed');
 Route::get('/orders/cancelled', [OrderController::class, 'cancelled'])->name('cancelled');
 //*Accept order
-Route::get('orders/Request/Accept/{id}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
+Route::get('/orders/Request/Accept/{id}/quantity/{qty}/productID/{pdtID}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
 
 //*CompleteAddSale
 Route::get('/CompleteAddSale', [OrderController::class, 'CompleteAddSale'])->name('CompleteAddSale');
@@ -92,3 +92,6 @@ Route::get('/applicant/Request/Accept/{id}', [ApplicantController::class, 'Accep
 Route::get('/applicant/Request/Decline/{id}', [ApplicantController::class, 'DeclineApplicant'])->name('DeclineApplicant');
 
 
+//***************************//
+Route::get('/GetProductPrice', [ProductController::class, 'ResellerProductPrice'])->name('ResellerProductPrice');
+Route::post('/add-to-sale', [Reseller_Add_Sales::class, 'RessellerProductAddToSales'])->name('RessellerProductAddToSales');

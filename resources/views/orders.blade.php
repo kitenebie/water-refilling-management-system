@@ -120,23 +120,23 @@
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="{{ route('orders') }}"><strong>Orders</strong></a>
+							<a class="active order_btn" href="{{ route('orders') }}"><strong>Orders</strong></a>
 						</li>
                         <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="{{ route('Request') }}">Request</a>
+							<a class="active order_btn" href="{{ route('Request') }}">Request</a>
 						</li>
                         <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="{{ route('ToReceive') }}">To Receive</a>
+							<a class="active order_btn" href="{{ route('ToReceive') }}">To Receive</a>
 						</li>
                         <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="{{ route('Completed') }}">Completed</a>
+							<a class="active order_btn" href="{{ route('Completed') }}">Completed</a>
 						</li>
                         <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="{{ route('cancelled') }}">Cancelled</a>
+							<a class="active order_btn" href="{{ route('cancelled') }}">Cancelled</a>
 						</li>
 					</ul>
 				</div>
@@ -220,13 +220,13 @@
                                             </td>
                                             <td>
                                                 PHP {{ number_format($resellerData->Amount, 2) }}
-                                                <input type="text" hidden name="price" value="{{ $resellerData->price }}">
+                                                <input type="text" hidden name="Amount" value="{{ $resellerData->Amount }}">
                                             </td>
                                             <td>{{ $resellerData->created_at = date("M-d-Y") }}</td>
                                             <td>
                                                 @if ($label_title == "Request Orders")
                                                     @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-                                                    <a href="/orders/Request/Accept/{{ $resellerData->id }}">
+                                                    <a href="/orders/Request/Accept/{{ $resellerData->id }}/quantity/{{ $resellerData->order }}/productID/{{ $resellerData->product_ID }}">
                                                     <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
                                                     </a>
                                                     <a href="/orders/Request/Decline/{{ $resellerData->id }}">

@@ -4,24 +4,27 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\products;
+use App\Models\ResellerProducts;
 
 class ProductController extends Controller
 {
-    private $constructProduct;
+    private $constructProduct, $comstructorResellerProducts;
     function __construct()
     {
         $this->constructProduct = new products();
+        $this->comstructorResellerProducts = new ResellerProducts();
     }
 
     function saving_product(Request $request){
         $data_PR0duct = [
+            'User_ID' => session()->get(env('USER_SESSION_KEY')),
             'product_id' => $request->product_ID,
             'product_Name' => $request->product_Name,
             'price' => $request->product_Price,
             'stocks' => $request->product_qty,
         ];
         $this->constructProduct->save_new_product($data_PR0duct);
-        echo '<h1><a href="http://127.0.0.1:8000/My-service">Successfully Saved!</a></h1>';
+        return back()->with('success', 'Successfully Saved!');
     }
 
     function AddingStocks($id){
@@ -42,6 +45,10 @@ class ProductController extends Controller
     function searchPresentProduct(Request $search_present_Product){
         $productData = $this->constructProduct->searchForPresentProduct($search_present_Product->search);
         return view('orders', compact('productData'));
+    }
+
+    function ResellerProductPrice(){
+        return $this->comstructorResellerProducts->GetProductPrice();
     }
 
 }

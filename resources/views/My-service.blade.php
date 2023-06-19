@@ -39,7 +39,7 @@
 					<span class="text">Sales</span>
 				</a>
 			</li>
-            @if (session()->get('auth') == 'Admin')
+            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
 			    <li>
                     <a href="{{ route('orders') }}">
                         <i class='bx bxs-store' ></i>
@@ -48,7 +48,7 @@
 			    </li>
             @endif
 
-                @if (session()->get('auth') == 'Admin')
+                @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
 			    <li>
                     <a href="#">
                         <i class='bx bxs-group' ></i>
@@ -63,7 +63,7 @@
                     </a>
                 </li>
                 @endif
-                @if (session()->get('auth') == 'Reseller')
+                @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
                 <li>
                     <a href="#">
                         <i class='bx bxs-cart' ></i>
@@ -152,17 +152,19 @@
                 <li>
                     <i class='bx bxs-coin-stack' ></i>
                     <span class="text">
-                        <h3>PHP {{ session()->get('totalUserAmount') }}</h3>
+                        <h3>PHP {{ $TOTALAMOUNTSALE }}</h3>
                         <p>Total Sales</p>
                     </span>
                 </li>
             </ul>
 
 
-			<div class="table-data" >
-                @if (session()->get('auth') == 'Admin')
+			<div class="table-data" id="tableT">
                         <div class="order" style="max-height: 620px">
-                            <h3 style="position: sticky">Products</h3>
+                            <div class="form-input2">
+                                <h3>Products</h3>
+                                <input type="search" name="search" id="search" placeholder="Search Product Name..." class="recent-search"><i tyle="cursor:text" class='bx bx-search' ></i>
+                            </div>
                             <div class="head">
                             </div>
                                     <table>
@@ -175,37 +177,53 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                    @if(isset($productData))
-                                        @foreach ($productData as $data_product)
-                                            <tr>
-                                                <td>
-                                                    <img src="img/header-dashboard.png"/>
-                                                    <p>{{ $data_product->product_Name }}</p>
-                                                </td>
-                                                <td>{{ $data_product->stocks }}</td>
-                                                <td>Php {{ $data_product->price }}</td>
-                                                <td style="display:grid; place-items: end">
-                                                    <ul class="side-menu">
-                                                        <li>
-                                                            <a class="asddnewStocks" href="/Add-Stock/{{ $data_product->id }}">
-                                                                <i class='bx bxs-cart' ></i>
-                                                                <span class="text">Add New Stock</span>
-                                                            </a>
-                                                        </li><br>
-                                                        <li>
-                                                            <a class="delprd" href="/del-product/{{ $data_product->id }}">
-                                                                <i class='bx bxs-trash' ></i>
-                                                                <span class="text">Delete Product</span>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
+                                        @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                                            @if(isset($productData))
+                                                @foreach ($productData as $data_product)
+                                                    <tr id="existingData">
+                                                        <td data-value="{{ $data_product->product_Name }}">
+                                                            {{ $data_product->product_Name }}
+                                                        </td>
+                                                        <td>{{ $data_product->stocks }}</td>
+                                                        <td>Php {{ $data_product->price }}</td>
+                                                        <td style="display:grid; place-items: end">
+                                                            <ul class="side-menu">
+                                                                <li>
+                                                                    <a class="asddnewStocks" href="/Add-Stock/{{ $data_product->id }}">
+                                                                        <i class='bx bxs-cart' ></i>
+                                                                        <span class="text">Add New Stock</span>
+                                                                    </a>
+                                                                </li><br>
+                                                                <li>
+                                                                    <a class="delprd" href="/del-product/{{ $data_product->id }}">
+                                                                        <i class='bx bxs-trash' ></i>
+                                                                        <span class="text">Delete Product</span>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        @endif
+                                        @if (session()->get('auth')==env('USER_CREDINTIAL_RESELLER'))
+                                            @if(isset($ResellerProduct))
+                                                @foreach ($ResellerProduct as $RessellerPRDT)
+                                                    <tr id="existingData">
+                                                        <td data-value="{{ $RessellerPRDT->product_Name }}">
+                                                            {{ $RessellerPRDT->product_Name }}
+                                                        </td>
+                                                        <td>{{ $RessellerPRDT->Quantity }}</td>
+                                                        <td>Php {{ $RessellerPRDT->Price }}</td>
+                                                        <td hidden>{{ $RessellerPRDT->Price }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
+                @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
                     <div class="">
                         <form action="{{ route('saving_product') }}" method="post">
                             @csrf
@@ -232,37 +250,55 @@
                     </div>
                 @endif
 
-                    @if (session()->get('auth') == 'Reseller')
-                        @if(isset($productData))
+                    @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+                        @if(isset($ResellerProduct))
                             <div class="order">
                                 <div class="head">
                                     <h2>POINT OF SALES</h2>
                                 </div>
-                                <form action="" method="post">
-                                    @csrf
                                 <div class="product-div">
+                                    <label for="">Purchase Type</label>
+                                    <Select onchange="purchase_type()" id="Ptype" class="inputs-products">
+                                        <option value="0" selected>Buy</option>
+                                        <option selected value="1" selected>Refill</option>
+                                    </Select>
+                                </div><br>
+                                <form action="{{ route('RessellerProductAddToSales') }}" method="post">
+                                    @csrf
+                                <div class="product-div" id="BuyItems">
                                     <label for="">Select Product</label>
-                                    <Select class="inputs-products">
-                                        <option value="">Gallon Round Water</option>
+                                    <Select id="prdctNames" class="inputs-products">
                                     </Select>
                                     <label for="">Quantity</label>
-                                    <input type="text" name="" id="" class="inputs-products" placeholder="e.g., 10">
-                                    <label for="">Price: </label>
-                                    <label for="">Total Amount: </label>
-
+                                    <input type="number" id="Cqty" name="Cqty" class="inputs-products" placeholder="e.g., 10" value="0">
+                                    <label for="" id="lblselectedPrice">Price: </label>
+                                    <input hidden type="text" id="selectedPrice">
+                                    <label for="" id="selectedToatalAmount">Total Amount: </label>
+                                    <input hidden style="border: none" type="text" name="total_amount" id="total_amount">
+                                    <input hidden style="border: none" type="text" name="product_id" id="product_id">
                                     <div style="width:100%">
                                         <button type="reset" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
-                                        <button type="submit" class="save-btn"><i class='bx bx-save' ></i> Buy</button>
+                                        <button type="submit" id="submitbtn" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
                                     </div>
-
+                                </div>
+                            </form>
+                                <div class="product-div" id="Fillwater">
+                                    <label for="">Bumber of Gallon</label>
+                                    <input type="number" id="Cqty" name="numberOFgallon" class="inputs-products" placeholder="e.g., 10" value="0">
+                                    <label for="">Refill Cost</label>
+                                    <input type="number" id="Cqty" name="refillCost" class="inputs-products" placeholder="e.g., 10" value="0">
+                                    <label for="" id="refillToatalAmount">Total Amount: </label>
+                                    <input hidden style="border: none" type="text" name="total_amount" id="total_amount">
+                                    <input hidden style="border: none" type="text" name="product_id" id="product_id">
+                                    <div style="width:100%">
+                                        <button type="reset" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
+                                        <button type="submit" id="submitbtn" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
+                                    </div>
                                     </form>
                                 </div>
                             </div>
                             <div class="order">
-                                <div class="head">
 
-                                </div>
-                            </div>
                         @endif
                     @endif
                 </div>
@@ -285,16 +321,129 @@
             });
         });
     </script>
+
+    <script src="js/scripts.js"></script> <!-- Custom scripts -->
+    <link rel="stylesheet" href="{{ env('TOASTR_URL_CSS') }}">
+    <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
+    <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
+    <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
+    <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
+
+    <script>
+        $('document').ready(function(){
+            getData();
+            calculateBuy()
+            $('#prdctNames').on('change', ()=>{
+                getData();
+                calculateBuy()
+            });
+            function getData(){
+                $.ajax({
+                    url: "{{ route('ResellerProductPrice') }}",
+                    type: "GET",
+                    success: handleResponse,
+                });
+            }
+            // Create a function to handle the Ajax response
+            function handleResponse(data) {
+                $('#product_id').val(data[$('select').val()].product_ID);
+                $('#selectedPrice').val(data[$('select').val()].Price);
+                $('#lblselectedPrice').text('Price: '+data[$('select').val()].Price)
+                calculateBuy();
+            }
+            $('#Cqty').on('input', ()=>{
+                var length = $('#Cqty').val().length
+                if(length==0){
+                    $('#Cqty').val(0)
+                }
+                calculateBuy();
+            })
+            function calculateBuy(){
+                if($('#selectedPrice').val()==0 || $('#Cqty').val()==0){
+                    $('#submitbtn').prop('disabled', true);
+                }else{
+                    $('#submitbtn').prop('disabled', false);
+                }
+                const TotalAmountPrice = parseFloat($('#selectedPrice').val()) * parseFloat($('#Cqty').val());
+                const FinalTotalAmountPrice = TotalAmountPrice.toFixed(2);
+                $('#total_amount').val(TotalAmountPrice);
+                $('#selectedToatalAmount').text('Total Amount: ' + FinalTotalAmountPrice);
+            }
+        });
+        purchase_type();
+        function purchase_type(){
+            if($('#Ptype').val()==0){
+                $("#BuyItems").show();
+                $("#Fillwater").hide();
+            }
+            if($('#Ptype').val()==1){
+                $("#Fillwater").show();
+                $("#BuyItems").hide();
+            }
+        }
+    </script>
+
+    @if (session('success'))
+        <script>
+            toastr.success("New product has been added", 'Successfully Saved',  {
+                closeButton: true,
+                tapToDismiss: true, // prevent the toast from disappearing when clicked
+                newestOnTop: true,
+                positionClass: 'toast-top-right', // set the position of the toast
+                preventDuplicates: true,
+            }, 5000);
+        </script>
+    @endif
+    @if (session('deleted'))
+        <script>
+            toastr.success("Product has been deleted", 'Successfully Deleted',  {
+                closeButton: true,
+                tapToDismiss: true, // prevent the toast from disappearing when clicked
+                newestOnTop: true,
+                positionClass: 'toast-top-right', // set the position of the toast
+                preventDuplicates: true,
+            }, 5000);
+        </script>
+    @endif
+    @if (session('AddedSales'))
+        <script>
+            toastr.success("Product has been Purchased", 'Successfully Submitted!',  {
+                closeButton: true,
+                tapToDismiss: true, // prevent the toast from disappearing when clicked
+                newestOnTop: true,
+                positionClass: 'toast-top-right', // set the position of the toast
+                preventDuplicates: true,
+            }, 5000);
+        </script>
+    @endif
+    <script>
+        var count = 0;
+        $('table td:first-child').each(function() {
+            var value = $(this).text();
+            $('#prdctNames').append('<option value="' + count + '">' + value + '</option>');
+            count++;
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            var searchInput = $("#search");
+
+            searchInput.on("keyup", function() {
+                var searchTerm = this.value;
+                var rows = $("#tableT #existingData");
+                rows.each(function() {
+                var rowText = $(this).text();
+
+                if (rowText.indexOf(searchTerm) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+                });
+            });
+
+        </script>
 </body>
 </html>
-
-<!-- <td><span class="status completed">Completed</span></td> -->
-</tr>
-<!-- <tr>
-    <td>
-        <img src="img/people.png">
-        <p>Kenneth Gimpao</p>
-    </td>
-    <td>03-19-2023</td>
-    <td><span class="status process">Process</span></td>
-</tr> -->

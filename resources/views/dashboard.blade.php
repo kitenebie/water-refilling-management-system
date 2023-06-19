@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
 	<title>Dashboard</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 </head>
 <body onload="darkmode()">
 
@@ -155,7 +156,7 @@
                 <li>
                     <i class='bx bxs-coin-stack' ></i>
                     <span class="text">
-                        <h3>PHP {{ session()->get('totalUserAmount') }}</h3>
+                        <h3 id="totalSALE">PHP {{ $TOTALAMOUNTSALE }}</h3>
                         <p>Total Sales</p>
                     </span>
                 </li>
@@ -234,7 +235,6 @@
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script>
         $('document').ready(function(){
             $('td[id^="amount"]').each(function() {
