@@ -60,6 +60,10 @@ class AllSales extends Model
     }
 
     function AddResellerSales($Items_data){
+        DB::table('client_stocks')
+        ->where('reseller_id', $Items_data['Account_SaleID'])
+        ->where('product_id',  $Items_data['ProductID'])
+        ->update(['quantity'=>'quantity' -  $Items_data['Quantity']]);
         return $this->create($Items_data);
     }
 }
