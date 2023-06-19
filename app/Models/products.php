@@ -45,9 +45,8 @@ class products extends Model
     }
 
     function getALLAdminStocks(){
-        $totalStock = DB::table('products')
+        return DB::table('products')
                     ->sum('stocks');
-        return session()->put('totalStock',  $totalStock);
     }
 
     function decreaseStockUpdate($qty, $pdtID){

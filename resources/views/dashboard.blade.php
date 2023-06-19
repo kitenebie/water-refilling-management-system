@@ -149,7 +149,9 @@
                 <li>
                     <i class='bx bxs-box' ></i>
                     <span class="text">
-                        <h3>{{ session()->get('totalStock') }}</h3>
+                        @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                            <h3>{{ $adminStocks }}</h3>
+                        @endif
                         <p>Stocks</p>
                     </span>
                 </li>

@@ -19,6 +19,7 @@ class dashboardController extends Controller
     private $constructSalse, $constructRefill, $constructApplicant, $constructProduct,
             $constructclient_stocks, $constructOrders, $constructResellerProducts;
     //* for total_income
+    public $adminStocks;
 
 
 
@@ -41,20 +42,23 @@ class dashboardController extends Controller
             //*
             $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
             if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-                $this->constructProduct->getALLAdminStocks();
+               $adminStocks = $this->constructProduct->getALLAdminStocks();
             }
             $this->constructSalse->GetAllUserCurrentYearlySALE(date('Y'));
             //*
             $RecentOrders = $this->constructOrders->getAllpendingOrders();
             $orders_DATA = $this->constructOrders->OrdersPendingProcessData();
             $TOTALAMOUNTSALE = $this->constructSalse->GetAllUserCurrentYearlySALE($year);
-            return view('dashboard', compact('reqData', 'RecentOrders', 'orders_DATA', 'TOTALAMOUNTSALE'));
+            return view('dashboard', compact('adminStocks','reqData', 'RecentOrders', 'orders_DATA', 'TOTALAMOUNTSALE'));
         }else{
             return view('log-in');
         }
     }
 
     function MyService(){
+        if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
+           $adminStocks = $this->constructProduct->getALLAdminStocks();
+        }
         if(session()->get(env('USER_SESSION_KEY'))){
             $year = Carbon::now()->year;
             $year = date('Y');
@@ -63,7 +67,7 @@ class dashboardController extends Controller
             $RecentOrders = $this->constructOrders->getAllpendingOrders();
             $TOTALAMOUNTSALE = $this->constructSalse->GetAllUserCurrentYearlySALE($year);
             $ResellerProduct = $this->constructResellerProducts->GetAllResellerData();
-            return view('My-service', compact('productData', 'ResellerProduct','RecentOrders','Client_Stocks','TOTALAMOUNTSALE'));
+            return view('My-service', compact('adminStocks','productData', 'ResellerProduct','RecentOrders','Client_Stocks','TOTALAMOUNTSALE'));
         }else{
             return view('log-in');
         }
@@ -118,7 +122,10 @@ class dashboardController extends Controller
 
         $RecentOrders = $this->constructOrders->getAllpendingOrders();
         $TOTALAMOUNTSALE = $this->constructSalse->GetAllUserCurrentYearlySALE($year);
+        if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
+           $adminStocks = $this->constructProduct->getALLAdminStocks();
+        }
 
-        return view('Sales', compact('Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
+        return view('Sales', compact('adminStocks','Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
     }
 }
