@@ -19,6 +19,7 @@ class AllRefillSalesController extends Controller
         $randomNumber = Str::random(12);
         $refillData = [
             'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
+            'Refill_ID' =>  $randomNumber,
             'Quantity' => $request->numberOFgallon,
             'Amount' => $request->refilltotal_amount
         ];
