@@ -348,9 +348,9 @@
             }
             // Create a function to handle the Ajax response
             function handleResponse(data) {
-                $('#product_id').val(data[$('select').val()].product_ID);
-                $('#selectedPrice').val(data[$('select').val()].Price);
-                $('#lblselectedPrice').text('Price: '+data[$('select').val()].Price)
+                $('#product_id').val(data[$('#prdctNames').val()].product_ID);
+                $('#selectedPrice').val(data[$('#prdctNames').val()].Price);
+                $('#lblselectedPrice').text('Price: '+data[$('#prdctNames').val()].Price)
                 calculateBuy();
             }
             $('#Cqty').on('input', ()=>{
@@ -423,7 +423,7 @@
         $('table td:first-child').each(function() {
             var value = $(this).text();
             $('#prdctNames').append('<option value="' + count + '">' + value + '</option>');
-            count++;
+            count = count+1;
         });
     </script>
     <script>

@@ -60,10 +60,14 @@ class AllSales extends Model
     }
 
     function AddResellerSales($Items_data){
+        DB::table('reseller_products')
+            ->where('user_id', $Items_data['Account_SaleID'])
+            ->where('product_id', $Items_data['ProductID'])
+            ->update(['quantity' => DB::raw('quantity - '.$Items_data['Quantity'].'')]);
         DB::table('client_stocks')
         ->where('reseller_id', $Items_data['Account_SaleID'])
         ->where('product_id',  $Items_data['ProductID'])
-        ->update(['quantity'=>'quantity' -  $Items_data['Quantity']]);
+        ->update(['quantity' => DB::raw('quantity - '.$Items_data['Quantity'].'')]);
         return $this->create($Items_data);
     }
 }
