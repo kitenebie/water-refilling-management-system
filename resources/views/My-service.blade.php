@@ -286,12 +286,12 @@
                                 @csrf
                                 <div class="product-div" id="Fillwater">
                                     <label for="">Bumber of Gallon</label>
-                                    <input type="number" id="Cqty" name="numberOFgallon" class="inputs-products" placeholder="e.g., 10" value="0">
+                                    <input onchange="refillCostCalculateToatal()" type="number" id="Cqty" name="numberOFgallon" class="inputs-products" placeholder="e.g., 10" value="0">
                                     <label for="">Refill Cost</label>
-                                    <input type="number" id="Cqty" name="refillCost" class="inputs-products" placeholder="e.g., 10" value="0">
+                                    <input onchange="refillCostCalculateToatal()" type="number" id="Cqty" name="refillCost" class="inputs-products" placeholder="e.g., 10" value="0">
                                     <label for="" id="refillToatalAmount">Total Amount: </label>
-                                    <input hidden style="border: none" type="text" name="total_amount" id="total_amount">
-                                    <input hidden style="border: none" type="text" name="product_id" id="product_id">
+                                    <input hidden style="border: none" type="text" name="refilltotal_amount" id="total_amount">
+                                    <input hidden style="border: none" type="text" name="user_id" id="user_id">
                                     <div style="width:100%">
                                         <button type="reset" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
                                         <button type="submit" id="Refillsubmitbtn" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
@@ -427,7 +427,19 @@
             count++;
         });
     </script>
-
+    <script>
+        $('document').ready(()=>){
+            refillCostCalculateToatal();
+            function refillCostCalculateToatal(){
+                const numberOFgallon = parseFloat($('#numberOFgallon').val());
+                const refillCost = parseFloat($('#refillCost').val());
+                const refilltotal_amount = $('#refilltotal_amount').val();
+                const refillTotalCost = number * refillCost;
+                refilltotal_amount = refillTotalCost.toFixed(2);
+                $('#refilltotal_amount').text('Total Amount: ' + refilltotal_amount)
+            }
+        }
+    </script>
     <script>
         $(document).ready(function() {
 
