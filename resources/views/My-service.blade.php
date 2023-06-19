@@ -283,6 +283,7 @@
                                 </div>
                             </form>
                             <form action="{{ route('AddRefillSale') }}" method="post">
+                                @csrf
                                 <div class="product-div" id="Fillwater">
                                     <label for="">Bumber of Gallon</label>
                                     <input type="number" id="Cqty" name="numberOFgallon" class="inputs-products" placeholder="e.g., 10" value="0">
