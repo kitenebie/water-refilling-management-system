@@ -97,8 +97,8 @@ class OrderController extends Controller
     }
 
     function AcceptOrder($id, $qty, $pdtID){
-        $this->constructOrder->Accepted($id);
         $this->constructProduct->decreaseStockUpdate($qty, $pdtID);
+        $this->constructOrder->Accepted($id);
         return redirect('/orders/Request')->with('success', 'Order has been accepted!');
     }
 
