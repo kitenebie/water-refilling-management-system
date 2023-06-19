@@ -8,7 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\Reseller_Add_Sales;
-
+use App\Http\Controllers\AllRefillSalesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -95,3 +95,6 @@ Route::get('/applicant/Request/Decline/{id}', [ApplicantController::class, 'Decl
 //***************************//
 Route::get('/GetProductPrice', [ProductController::class, 'ResellerProductPrice'])->name('ResellerProductPrice');
 Route::post('/add-to-sale', [Reseller_Add_Sales::class, 'RessellerProductAddToSales'])->name('RessellerProductAddToSales');
+
+
+Route::post('/submitRefillSales', [AllRefillSalesController::class, 'AddRefillSale'])->name('AddRefillSale');

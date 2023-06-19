@@ -282,6 +282,7 @@
                                     </div>
                                 </div>
                             </form>
+                            <form action="{{ route('AddRefillSale') }}" method="post">
                                 <div class="product-div" id="Fillwater">
                                     <label for="">Bumber of Gallon</label>
                                     <input type="number" id="Cqty" name="numberOFgallon" class="inputs-products" placeholder="e.g., 10" value="0">
@@ -292,10 +293,11 @@
                                     <input hidden style="border: none" type="text" name="product_id" id="product_id">
                                     <div style="width:100%">
                                         <button type="reset" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
-                                        <button type="submit" id="submitbtn" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
+                                        <button type="submit" id="Refillsubmitbtn" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
                                     </div>
                                     </form>
                                 </div>
+                            </form>
                             </div>
                             <div class="order">
 
