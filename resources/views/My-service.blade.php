@@ -420,6 +420,17 @@
             }, 5000);
         </script>
     @endif
+    @if (session('refilled'))
+        <script>
+            toastr.success("Refilled", 'Successfully Submitted!',  {
+                closeButton: true,
+                tapToDismiss: true, // prevent the toast from disappearing when clicked
+                newestOnTop: true,
+                positionClass: 'toast-top-right', // set the position of the toast
+                preventDuplicates: true,
+            }, 5000);
+        </script>
+    @endif
     <script>
         var count = 0;
         $('table td:first-child').each(function() {

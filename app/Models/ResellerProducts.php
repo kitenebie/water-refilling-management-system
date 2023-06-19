@@ -42,4 +42,5 @@ class ResellerProducts extends Model
         ->join('products', 'reseller_products.product_ID', '=', 'products.product_id')
         ->get();
     }
+
 }

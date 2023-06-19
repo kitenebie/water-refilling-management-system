@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('refill_sales', function (Blueprint $table) {
             $table->id();
             $table->text('Account_SaleID');
-            $table->text('Refill_ID');
             $table->integer('Quantity');
             $table->decimal('Amount');
             $table->timestamps();

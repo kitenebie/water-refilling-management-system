@@ -3,16 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\RefillSales;
+use Illuminate\Support\Str;
 
 class AllRefillSalesController extends Controller
 {
-    //
+    private $constructRefill;
 
+    function __construct()
+    {
+        return $this->constructRefill = new RefillSales();
+    }
     function AddRefillSale(Request $request){
-        echo $request->numberOFgallon. '<hr>';
-        echo $request->refillCost. '<hr>';
-        echo $request->refilltotal_amount. '<hr>';
-        echo session()->get(env('USER_SESSION_KEY')). '<hr>';
-        echo "working";
+
+        $randomNumber = Str::random(12);
+        $refillData = [
+            'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
+            'Quantity' => $request->numberOFgallon,
+            'Amount' => $request->refilltotal_amount
+        ];
+        $this->constructRefill->SaveRefillSales($refillData);
+        return back()->with('refilled', 'Successfully Purchased!');
     }
 }

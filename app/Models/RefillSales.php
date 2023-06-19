@@ -38,4 +38,8 @@ class RefillSales extends Model
        return $refillAllsales->toArray();
 
     }
+    
+    function SaveRefillSales($refillData){
+        return $this->create($refillData);
+    }
 }
