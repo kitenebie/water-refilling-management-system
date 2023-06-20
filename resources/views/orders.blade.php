@@ -273,22 +273,21 @@
             @if (!isset($label_title))
 			<div class="table-data">
 				<div class="order" style="display: flex; flex-direction:column">
-                    <form style="display: flex; flex-direction:column" action="{{ route('SubmitProductRequest') }}" method="post">
-                            <h1>Refill and Purchase Request</h1>
-                            @csrf
-                            @if (session()->get('auth') == 'Admin')
-                            <label class="input_margin" for="">Select Category</label>
-                            <select name="" id="category" class="inputs-products">
-                                <option value="Refill">Refill</option>
-                                <option selected value="Purchase">Purchase</option>
-                            </select>
-                            @endif
+                            <h1>Refill and Purchase Request</h1><br>
+                           <form style="display: flex; flex-direction:column; width:100%;">
+                                <label  class="input_margin" for="">Select Category</label>
+                                <select style="font-weight:700" id="category" class="inputs-products">
+                                    <option value="0">Refill</option>
+                                    <option selected value="1">Purchase</option>
+                                </select>
+                            </form>       
+                            <form id="PurchaseRequest" style="display: flex; flex-direction:column" action="{{ route('SubmitProductRequest') }}" method="post">
+                                @csrf
                                 <input hidden type="text" name="product_ID" id="product_ID">
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Select Product</label>
-                                <select name="productname" id="productname" class="inputs-products">
+                                <select readonly name="productname" id="productname" class="inputs-products">
                                 </select>
-                                <input type="text" name="gallon" id="gallon" class="inputs-products" placeholder="e.g., 10"/>
-                                <label class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span>Quantity</label>
+                               <label class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span>Quantity</label>
                                 <input type="text" name="order" id="prdqty" class="inputs-products" placeholder="e.g., 10"/>
                                 <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
                                 <input readonly type="text" name="" id="prdcost" class="inputs-products" placeholder=""/>
@@ -310,8 +309,26 @@
                                     <button id="reset" type="button" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
                                     <button type="submit" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
                                 </div>
+                            </form>       
+                            <form id="RefillRequest" style="display: flex; flex-direction:column" action="{{ route('SubmitProductRequest') }}" method="post">
+                                @csrf
+                                <input hidden type="text" name="product_ID" id="product_ID">
+                                <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Number of Gallon</label>
+                                <input type="text" name="numberGalllon" id="numberGalllon" placeholder="e.g., 10" class="inputs-products"/>
+                                <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
+                                <input type="text" name="" id="refillcost" class="inputs-products" placeholder=""/>
+                                <label id="refillshipfee" class="input_margin" for="">Shipping Fee (Php)</label>
+                                <input type="text" value="5" name="" id="refillfee" class="inputs-products" placeholder="e.g., 10"/>
+                                <label class="input_margin" for="">Total Cost (Php)</label>
+                                <input style="font-weight: 700" type="text" readonly name="refilltotal" id="refilltotal" class="inputs-products"/>
+
+                                <br>
+                                <div style="width:100%;">
+                                    <button id="reset" type="button" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
+                                    <button type="submit" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
+                                </div>
                             </form>
-				</div>
+				        </div>
                 <div class="order">
                     <h1>Present Items</h1><br>
                     <div class="head">
@@ -381,24 +398,43 @@
     <script>
         $(document).ready(()=>{
             @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
-            $('#gallon').hide();
-            $('#category').on("change",()=>{
-                if($('#category').val() == "Refill"){
-                    $('#labelCahange').html("Number of Gallon");
-                    $('#productname').hide();
-                    $('#gallon').show();
-                }else{
-                    $('#labelCahange').html("Select Product");
-                    $('#productname').show();
-                    $('#gallon').hide();
+            $('#RefillRequest').hide()
+            $('#category').on('change',()=>{
+                if($('#category').val()==0){
+                    $('#PurchaseRequest').hide()
+                    $('#RefillRequest').show()
+                }
+                if($('#category').val()==1){
+                    $('#PurchaseRequest').show()
+                    $('#RefillRequest').hide()
                 }
             });
+            $('#numberGalllon').on('input', ()=>{
+                ResellerRefilCaculate();
+            });
+            $('#refillcost').on('input', ()=>{
+                ResellerRefilCaculate();
+            });
+            $('#refillfee').on('input', ()=>{
+                ResellerRefilCaculate();
+            });
+            function ResellerRefilCaculate(){
+                const numberGalllon = $('#numberGalllon').val();
+                const refillcost = $('#refillcost').val();
+                const refillfee = $('#refillfee').val();
+                const refilltotal = $('#refilltotal');
+                const refilltotalamount = parseInt(numberGalllon)*(parseFloat(refillcost)+parseFloat(refillfee));
+                if(refilltotalamount !== refilltotalamount){
+                    return refilltotal.val(parseFloat(0.00));  
+                }
+                refilltotal.val(refilltotalamount.toFixed(2));
+            }
             $('#table tr').click(function() {
                 var productNAme = $(this).find('td:first').text();
                 var productCost = $(this).find('td:nth-child(3)').text();
                 var productID = $(this).find('td:last').text();
                 $('#prdcost').val(productCost);
-                $('#productname').append('<option selected value="' + productNAme + '">' + productNAme + '</option>');
+                $('#productname').html('<option selected value="' + productNAme + '">' + productNAme + '</option>');
                 $('#product_ID').val(productID);
             });
 
@@ -424,29 +460,13 @@
             $('#category').on("change",()=>{
                 selectFunction();
             });
-            function selectFunction(){
-                if($('#category').val() == "Refill"){
-                    $('#labelCahange').html('<span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Number of Gallon');
-                    $('#productname').hide();
-                    $('#gallon').show();
-                    $('#prdcost').attr('readonly', false)
-                    $('#prdcost').val(0)
-                    $('#costlbl').html('<span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Cost (Php)')
-                }else{
-                    $('#labelCahange').html('<span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Select Product');
-                    $('#productname').show();
-                    $('#gallon').hide();
-                    $('#prdcost').attr('readonly', true)
-                    $('#prdcost').val(0)
-                }
-            }
 
             $('#table tr').click(function() {
                 var productNAme = $(this).find('td:first').text();
                 var productCost = $(this).find('td:nth-child(3)').text();
                 var productID = $(this).find('td:last').text();
                 $('#prdcost').val(productCost);
-                $('#productname').append('<option selected value="' + productNAme + '">' + productNAme + '</option>');
+                $('#productname').html('<option selected value="' + productNAme + '">' + productNAme + '</option>');
                 $('#product_ID').val(productID);
                 calculate();
             });
