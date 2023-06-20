@@ -441,11 +441,15 @@
     </script>
     <script>
         $('document').ready(()=>{
+            setTotaltoZero()
+            refillCostCalculateToatal();
             $('#numberOFgallon').on('input', ()=>{
                 refillCostCalculateToatal();
+                setTotaltoZero()
             })
             $('#refillCost').on('input', ()=>{
                 refillCostCalculateToatal();
+                setTotaltoZero()
             })
             function refillCostCalculateToatal(){
                 let numberOFgallon = $('#numberOFgallon').val();
@@ -456,6 +460,14 @@
                 $('#refilltotal_amount').val(refilltotal_amount)
                 $('#refillToatalAmount').text('Total Amount: '+refilltotal_amount)
                 //alert(refilltotal_amount);
+            }
+            function setTotaltoZero(){
+                if($('#refilltotal_amount').val() == 0.00 || $('#refilltotal_amount').val() == 0){
+                    $('#Refillsubmitbtn').prop('disabled', true);
+                }else{
+                    
+                    $('#Refillsubmitbtn').prop('disabled', false);
+                }
             }
         });
     </script>
