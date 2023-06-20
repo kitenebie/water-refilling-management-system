@@ -1,3 +1,4 @@
+<?php use Illuminate\Support\Str; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -201,7 +202,7 @@
                                         @endphp
                                             <td>
                                                 <input type="text" hidden name="orderid" value=" {{ $resellerData->id }}">
-                                                {{ $resellerData->reseller_ID }}
+                                                {{ str::mask($resellerData->reseller_ID, 'X', 7,5) }}
                                                 <input type="text" hidden name="resellerID" value=" {{ $resellerData->reseller_ID }}">
                                             </td>
                                             <td>
@@ -390,7 +391,6 @@
         }, 5000);
     </script>
     @endif
-
 	<script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
