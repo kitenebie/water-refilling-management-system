@@ -132,6 +132,7 @@ class OrderController extends Controller
 
     function SubmitRefillRequest(Request $request){
         $refillrequestDATA = [
+            'Reseller_ID' => session()->get(env('USER_SESSION_KEY')),
             'NumberOfGallon' => $request->numberGalllon,
             'RefillCost' => $request->refillcost,
             'RefillShipFee' => $request->refillfee,
