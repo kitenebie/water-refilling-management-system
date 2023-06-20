@@ -49,7 +49,7 @@
 			    </li>
 			    <li>
                     <a href="{{ route('refillrequest') }}">
-                        <i class='bx bxs-store' ></i>
+                        <i class='bx bxs-store-alt' ></i>
                         <span class="text">Refill Request</span>
                     </a>
 			    </li>
@@ -58,7 +58,7 @@
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
                 <a href="#">
-                    <i class='bx bxs-group' ></i>
+                    <i class='bx bxs-user-account' ></i>
                     <span class="text">Members</span>
                 </a>
             </li>

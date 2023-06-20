@@ -21,7 +21,7 @@
 			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
-			<li class="active">
+			<li>
 				<a href="{{ route('dashboard') }}">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
@@ -33,7 +33,7 @@
 					<span class="text">My Service</span>
 				</a>
 			</li>
-			<li>
+			<li  class="active">
 				<a href="{{ route('getsalesmonth') }}">
 					<i class='bx bxs-chart' ></i>
 					<span class="text">Sales</span>
@@ -48,7 +48,7 @@
 			    </li>
 			    <li>
                     <a href="{{ route('refillrequest') }}">
-                        <i class='bx bxs-store' ></i>
+                        <i class='bx bxs-store-alt' ></i>
                         <span class="text">Refill Request</span>
                     </a>
 			    </li>
@@ -57,7 +57,7 @@
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
                 <a href="#">
-                    <i class='bx bxs-group' ></i>
+                    <i class='bx bxs-user-account' ></i>
                     <span class="text">Members</span>
                 </a>
             </li>
