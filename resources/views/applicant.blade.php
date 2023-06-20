@@ -1,4 +1,4 @@
-
+<?php use Illuminate\Support\Str; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -165,11 +165,11 @@
                             @if (isset($reqData))
                                 @foreach ($reqData as $req)
                                     <tr id="existingData">
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->reseller_id }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->reseller_id, 'X', 7,5) }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->firstname }} {{ $req->lastname }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->address }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->contact }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->email }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->contact, 'X', 2,7) }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->email, 'X', 1,-4) }}</td>
                                         <td style="auto">
                                             <a href="/applicant/Request/Accept/{{ $req->id }}">
                                                 <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>

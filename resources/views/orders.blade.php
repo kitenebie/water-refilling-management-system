@@ -285,6 +285,8 @@
 			<div class="table-data">
 				<div class="order" style="display: flex; flex-direction:column">
                             <h1>Refill and Purchase Request</h1><br>
+                        
+    @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
                            <form style="display: flex; flex-direction:column; width:100%;">
                                 <label  class="input_margin" for="">Select Category</label>
                                 <select style="font-weight:700" id="category" class="inputs-products">
@@ -349,6 +351,7 @@
                                 <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
                             </div>
                         </form>
+    @endif
                     </div>
 					<div class="head">
                         <table id="table">
@@ -407,11 +410,11 @@
     
 
     @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
-        <script src="{{ asset('js/resellerorders.js') }}"></script>
+        <script src="asset('js/resellerorders.js') }}"></script>
     @endif
 
     @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-    {{-- <script src="{{ asset('js/adminorders.js') }}"></script> --}}
+    <script src="{{ asset('js/adminorders.js') }}"></script>
     @endif
             {{-- //$('#pymnt').on('change', ()=>{
             //    resellerCal();
