@@ -18,16 +18,16 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
-			<span class="text">My Services</span>
+			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
-			<li>
+			<li class="active">
 				<a href="{{ route('dashboard') }}">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
 				</a>
 			</li>
-			<li  class="active">
+			<li>
 				<a href="{{ route('MyService') }}">
 					<i class='bx bxs-shopping-bag-alt' ></i>
 					<span class="text">My Service</span>
@@ -46,33 +46,44 @@
                         <span class="text">Orders</span>
                     </a>
 			    </li>
+			    <li>
+                    <a href="{{ route('refillrequest') }}">
+                        <i class='bx bxs-store' ></i>
+                        <span class="text">Refill Request</span>
+                    </a>
+			    </li>
             @endif
 
-                @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-			    <li>
-                    <a href="#">
-                        <i class='bx bxs-group' ></i>
-                        <span class="text">Resellers</span>
-                    </a>
-
-			    </li>
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-group' ></i>
-                        <span class="text">Applicants</span>
-                    </a>
-                </li>
-                @endif
-                @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
-                <li>
-                    <a href="#">
-                        <i class='bx bxs-cart' ></i>
-                        <span class="text">Request Order</span>
-                    </a>
-                </li>
-                @endif
+            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+            <li>
+                <a href="#">
+                    <i class='bx bxs-group' ></i>
+                    <span class="text">Members</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('applicantRequest') }}">
+                    <i class='bx bxs-group' ></i>
+                    <span class="text">Applicants</span>
+                </a>
+            </li>
+            @endif
+            @if (session()->get('auth') == 'Reseller')
+            <li>
+                <a href="{{ route('orders') }}">
+                    <i class='bx bxs-cart' ></i>
+                    <span class="text">Request Order</span>
+                </a>
+            </li>
+            @endif
 		</ul>
 		<ul class="side-menu">
+			<li>
+				<a href="#">
+					<i class='bx bxs-bell' ></i>
+					<span class="text">Notification</span>
+				</a>
+			</li>
 			<li>
 				<a href="#">
 					<i class='bx bxs-cog' ></i>
@@ -88,8 +99,6 @@
 		</ul>
 	</section>
 	<!-- SIDEBAR -->
-
-
 
 	<!-- CONTENT -->
 	<section id="content">

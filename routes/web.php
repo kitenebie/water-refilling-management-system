@@ -99,3 +99,7 @@ Route::post('/add-to-sale', [Reseller_Add_Sales::class, 'RessellerProductAddToSa
 
 
 Route::post('/submitRefillSales', [AllRefillSalesController::class, 'AddRefillSale'])->name('AddRefillSale');
+
+
+//* refillrequest
+Route::get('/Refill-request', [dashboardController::class, 'refillrequest'])->name('refillrequest');

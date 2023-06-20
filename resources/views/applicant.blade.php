@@ -19,10 +19,10 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
-			<span class="text">Applicants</span>
+			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
-			<li >
+			<li class="active">
 				<a href="{{ route('dashboard') }}">
 					<i class='bx bxs-dashboard' ></i>
 					<span class="text">Dashboard</span>
@@ -40,25 +40,30 @@
 					<span class="text">Sales</span>
 				</a>
 			</li>
-            @if (session()->get('auth') == 'Admin')
+            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
 			    <li>
                     <a href="{{ route('orders') }}">
                         <i class='bx bxs-store' ></i>
                         <span class="text">Orders</span>
                     </a>
 			    </li>
+			    <li>
+                    <a href="{{ route('refillrequest') }}">
+                        <i class='bx bxs-store' ></i>
+                        <span class="text">Refill Request</span>
+                    </a>
+			    </li>
             @endif
 
-            @if (session()->get('auth') == 'Admin')
+            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
                 <a href="#">
                     <i class='bx bxs-group' ></i>
-                    <span class="text">Resellers</span>
+                    <span class="text">Members</span>
                 </a>
-
             </li>
-            <li class="active">
-                <a href="">
+            <li>
+                <a href="{{ route('applicantRequest') }}">
                     <i class='bx bxs-group' ></i>
                     <span class="text">Applicants</span>
                 </a>
@@ -95,8 +100,6 @@
 		</ul>
 	</section>
 	<!-- SIDEBAR -->
-
-
 
 	<!-- CONTENT -->
 	<section id="content">

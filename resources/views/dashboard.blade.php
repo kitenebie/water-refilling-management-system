@@ -47,15 +47,20 @@
                         <span class="text">Orders</span>
                     </a>
 			    </li>
+			    <li>
+                    <a href="{{ route('refillrequest') }}">
+                        <i class='bx bxs-store' ></i>
+                        <span class="text">Refill Request</span>
+                    </a>
+			    </li>
             @endif
 
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
                 <a href="#">
                     <i class='bx bxs-group' ></i>
-                    <span class="text">Resellers</span>
+                    <span class="text">Members</span>
                 </a>
-
             </li>
             <li>
                 <a href="{{ route('applicantRequest') }}">

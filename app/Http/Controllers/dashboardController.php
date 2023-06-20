@@ -136,4 +136,8 @@ class dashboardController extends Controller
          }
         return view('Sales', compact('adminStocks','Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
     }
+
+    function refillrequest(){
+        return view('Refill-Request');
+    }
 }
