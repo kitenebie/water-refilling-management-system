@@ -84,8 +84,9 @@ Route::get('/RequestNotification/{id}', [ApplicantController::class, 'RequestNot
 Route::post('/searchPresentProduct', [ProductController::class, 'searchPresentProduct'])->name('searchPresentProduct');
 
 
-//* OrderController Submit-Product-Request
+//* OrderController Submit-Product-Request - SubmitRefillRequest
 Route::post('/SubmitProductRequest', [OrderController::class, 'SubmitProductRequest'])->name('SubmitProductRequest');
+Route::post('/SubmitRefillRequest', [OrderController::class, 'SubmitRefillRequest'])->name('SubmitRefillRequest');
 
 //* accept applicant request
 Route::get('/applicant/Request/Accept/{id}', [ApplicantController::class, 'AcceptApplicant'])->name('AcceptApplicant');

@@ -310,15 +310,14 @@
                                     <button type="submit" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
                                 </div>
                             </form>       
-                            <form id="RefillRequest" style="display: flex; flex-direction:column" action="{{ route('SubmitProductRequest') }}" method="post">
+                            <form id="RefillRequest" style="display: flex; flex-direction:column" action="{{ route('SubmitRefillRequest') }}" method="post">
                                 @csrf
-                                <input hidden type="text" name="product_ID" id="product_ID">
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Number of Gallon</label>
                                 <input type="text" name="numberGalllon" id="numberGalllon" placeholder="e.g., 10" class="inputs-products"/>
                                 <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
-                                <input type="text" name="" id="refillcost" class="inputs-products" placeholder=""/>
+                                <input type="text" name="refillcost" id="refillcost" class="inputs-products" placeholder=""/>
                                 <label id="refillshipfee" class="input_margin" for="">Shipping Fee (Php)</label>
-                                <input type="text" value="5" name="" id="refillfee" class="inputs-products" placeholder="e.g., 10"/>
+                                <input type="text" value="5" name="refillfee" id="refillfee" class="inputs-products" placeholder="e.g., 10"/>
                                 <label class="input_margin" for="">Total Cost (Php)</label>
                                 <input style="font-weight: 700" type="text" readonly name="refilltotal" id="refilltotal" class="inputs-products"/>
 
@@ -395,95 +394,16 @@
 	<script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
-    <script>
-        $(document).ready(()=>{
-            @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
-            $('#RefillRequest').hide()
-            $('#category').on('change',()=>{
-                if($('#category').val()==0){
-                    $('#PurchaseRequest').hide()
-                    $('#RefillRequest').show()
-                }
-                if($('#category').val()==1){
-                    $('#PurchaseRequest').show()
-                    $('#RefillRequest').hide()
-                }
-            });
-            $('#numberGalllon').on('input', ()=>{
-                ResellerRefilCaculate();
-            });
-            $('#refillcost').on('input', ()=>{
-                ResellerRefilCaculate();
-            });
-            $('#refillfee').on('input', ()=>{
-                ResellerRefilCaculate();
-            });
-            function ResellerRefilCaculate(){
-                const numberGalllon = $('#numberGalllon').val();
-                const refillcost = $('#refillcost').val();
-                const refillfee = $('#refillfee').val();
-                const refilltotal = $('#refilltotal');
-                const refilltotalamount = parseInt(numberGalllon)*(parseFloat(refillcost)+parseFloat(refillfee));
-                if(refilltotalamount !== refilltotalamount){
-                    return refilltotal.val(parseFloat(0.00));  
-                }
-                refilltotal.val(refilltotalamount.toFixed(2));
-            }
-            $('#table tr').click(function() {
-                var productNAme = $(this).find('td:first').text();
-                var productCost = $(this).find('td:nth-child(3)').text();
-                var productID = $(this).find('td:last').text();
-                $('#prdcost').val(productCost);
-                $('#productname').html('<option selected value="' + productNAme + '">' + productNAme + '</option>');
-                $('#product_ID').val(productID);
-            });
+    
 
-            $('#prdqty').on('input', ()=>{
-                calculate();
-            });
+    @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+        <script src="{{ asset('js/resellerorders.js') }}"></script>
+    @endif
 
-            $('#prdcost').on('input', ()=>{
-                calculate();
-            });
-            function calculate(){
-                let calFee = $('#prdfee').val() * $('#prdqty').val();
-                let totalCost =$('#prdqty').val() * $('#prdcost').val() + calFee;
-                $('#prdtotal').val(totalCost.toFixed(2));
-            }
-            @endif
-
-            @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-            $('#gallon').hide();
-            $('#reset').on('click', ()=>{
-                window.location.href = "{{ route('orders') }}";
-            });
-            $('#category').on("change",()=>{
-                selectFunction();
-            });
-
-            $('#table tr').click(function() {
-                var productNAme = $(this).find('td:first').text();
-                var productCost = $(this).find('td:nth-child(3)').text();
-                var productID = $(this).find('td:last').text();
-                $('#prdcost').val(productCost);
-                $('#productname').html('<option selected value="' + productNAme + '">' + productNAme + '</option>');
-                $('#product_ID').val(productID);
-                calculate();
-            });
-
-            $('#prdqty').on('input', ()=>{
-                calculate();
-            });
-
-            $('#prdcost').on('input', ()=>{
-                calculate();
-            });
-            function calculate(){
-                let totalCost =$('#prdqty').val() * $('#prdcost').val();
-                $('#prdtotal').val(totalCost.toFixed(2));
-            }
-            @endif
-            //$('#pymnt').on('change', ()=>{
+    @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+    {{-- <script src="{{ asset('js/adminorders.js') }}"></script> --}}
+    @endif
+            {{-- //$('#pymnt').on('change', ()=>{
             //    resellerCal();
             //});
             //function resellerCal(){
@@ -498,8 +418,6 @@
             //    $('#prdfee').val(5);
             //    calculate();
             //}
-            //}
-        });
-    </script>
+            //} --}}
 </body>
 </html>

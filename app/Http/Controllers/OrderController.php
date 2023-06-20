@@ -9,6 +9,7 @@ use App\Models\products;
 use App\Models\client_stocks;
 use App\Models\AllSales;
 use App\Models\ResellerProducts;
+use Illuminate\Support\Str;
 
 use PhpParser\Node\Stmt\Foreach_;
 
@@ -127,5 +128,15 @@ class OrderController extends Controller
         $this->constructResellerProduct->ProductSave($Reseller_AddToNewPRoduct);
         $this->constructOrder->updateStateComplete($success_req->orderid);
         return redirect('/orders/ToReceive')->with('success', 'Order has been Completed!');
+    }
+
+    function SubmitRefillRequest(Request $request){
+        $refillrequestDATA = [
+            'NumberOfGallon' => $request->numberGalllon,
+            'RefillCost' => $request->refillcost,
+            'RefillShipFee' => $request->refillfee,
+            'TotalCost' => $request->refilltotal
+        ];
+        var_dump($refillrequestDATA);
     }
 }
