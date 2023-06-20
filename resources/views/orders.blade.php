@@ -410,7 +410,7 @@
     
 
     @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
-        <script src="asset('js/resellerorders.js') }}"></script>
+        <script src="{{ asset('js/resellerorders.js') }}"></script>
     @endif
 
     @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
