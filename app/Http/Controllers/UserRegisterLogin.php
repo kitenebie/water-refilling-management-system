@@ -60,7 +60,8 @@ class UserRegisterLogin extends Controller
                 if($pedingAcc->email == $data['email'] && $pedingAcc->password == $data['password']){
                     $applicantData = [
                         'fullName' => $pedingAcc->lastname . ", ".$pedingAcc->firstname,
-                        'userID' => $pedingAcc->reseller_id
+                        'userID' => $pedingAcc->reseller_id,
+                        'email' => $pedingAcc->email
                     ];
                     return view('Applicant-waiting-dashboard', compact('applicantData'));
                 }

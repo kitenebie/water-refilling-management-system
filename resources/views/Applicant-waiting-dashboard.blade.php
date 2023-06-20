@@ -71,7 +71,7 @@
                     Hello <strong>{{ $applicantData['fullName'] }}</strong>. Your account is under review. Please check your email
                      for an update from our admin.
                      Thank you for your patience.</p>
-                    <span style="font-size: .8em; font-weight:600;"><i>User ID: {{ str::mask($applicantData['userID'], 'X', 7,5) }}</i></span>
+                    <span style="font-size: .8em; font-weight:600;"><i>ACCOUNT ID: {{ str::mask($applicantData['userID'], 'X', 7,5) }}</i> : <i>{{ str::mask($applicantData['email'], 'X', 2,-4) }}</i></span>
         </div> <!-- end of text-container -->
       </div> <!-- end of container-ter -->
     </section> <!-- end of form-2 -->

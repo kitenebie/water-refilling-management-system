@@ -286,7 +286,7 @@
 				<div class="order" style="display: flex; flex-direction:column">
                             <h1>Refill and Purchase Request</h1><br>
                         
-    @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+ 
                            <form style="display: flex; flex-direction:column; width:100%;">
                                 <label  class="input_margin" for="">Select Category</label>
                                 <select style="font-weight:700" id="category" class="inputs-products">
@@ -294,7 +294,14 @@
                                     <option selected value="1">Purchase</option>
                                 </select>
                             </form>       
-                            <form id="PurchaseRequest" style="display: flex; flex-direction:column" action="{{ route('SubmitProductRequest') }}" method="post">
+                            <form id="PurchaseRequest" style="display: flex; flex-direction:column" 
+                            @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+                                action="{{ route('SubmitProductRequest') }}"
+                            @endif
+                            @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                                action="{{ route('AddProductSales') }}"
+                            @endif
+                            method="post">
                                 @csrf
                                 <input hidden type="text" name="product_ID" id="product_ID">
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Select Product</label>
@@ -323,7 +330,15 @@
                                     <button type="submit" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
                                 </div>
                             </form>       
-                            <form id="RefillRequest" style="display: flex; flex-direction:column" action="{{ route('SubmitRefillRequest') }}" method="post">
+                            <form id="RefillRequest" style="display: flex; flex-direction:column" 
+                                @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+                                    action="{{ route('SubmitRefillRequest') }}"
+                                @endif
+                                @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                                    action="{{ route('AddRefillSalesAdmin') }}"
+                                @endif
+                            
+                                method="post">
                                 @csrf
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Number of Gallon</label>
                                 <input type="text" name="numberGalllon" id="numberGalllon" placeholder="e.g., 10" class="inputs-products"/>
@@ -351,7 +366,6 @@
                                 <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
                             </div>
                         </form>
-    @endif
                     </div>
 					<div class="head">
                         <table id="table">
@@ -404,18 +418,23 @@
         }, 5000);
     </script>
     @endif
+    {{-- refilled --}}
+    @if (session('refilled'))
+    <script>
+        toastr.success("Refill Completed", "Request Submitted!", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
 	<script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
     
-
-    @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
-        <script src="{{ asset('js/resellerorders.js') }}"></script>
-    @endif
-
-    @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-    <script src="{{ asset('js/adminorders.js') }}"></script>
-    @endif
+    <script src="{{ asset('js/resellerorders.js') }}"></script>
             {{-- //$('#pymnt').on('change', ()=>{
             //    resellerCal();
             //});

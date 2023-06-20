@@ -98,8 +98,11 @@ Route::get('/GetProductPrice', [ProductController::class, 'ResellerProductPrice'
 Route::post('/add-to-sale', [Reseller_Add_Sales::class, 'RessellerProductAddToSales'])->name('RessellerProductAddToSales');
 
 
-Route::post('/submitRefillSales', [AllRefillSalesController::class, 'AddRefillSale'])->name('AddRefillSale');
-
-
 //* refillrequest
 Route::get('/Refill-request', [dashboardController::class, 'refillrequest'])->name('refillrequest');
+
+
+//*adminsales AddProductSales - AddRefillSalesAdmin
+
+Route::post('/Add-Product-Sales', [AllRefillSalesController::class, 'AddProductSales'])->name('AddProductSales');
+Route::post('/Add-Refill-Sales-Admin', [AllRefillSalesController::class, 'AddRefillSalesAdmin'])->name('AddRefillSalesAdmin');
