@@ -9,6 +9,7 @@ use App\Models\products;
 use App\Models\client_stocks;
 use App\Models\AllSales;
 use App\Models\ResellerProducts;
+use App\Models\refillRequest;
 use Illuminate\Support\Str;
 
 use PhpParser\Node\Stmt\Foreach_;
@@ -16,7 +17,9 @@ use PhpParser\Node\Stmt\Foreach_;
 class OrderController extends Controller
 {
     //do something
-    private $constructOrder,$constructresseller,$constructProduct, $constructClientStocks, $constructAllSales, $constructResellerProduct;
+    private $constructOrder,$constructresseller,$constructProduct,
+             $constructClientStocks, $constructAllSales,
+             $constructResellerProduct, $constructrefillRequest;
 
     function __construct(){
         $this->constructOrder = new orders();
@@ -25,6 +28,8 @@ class OrderController extends Controller
         $this->constructClientStocks = new client_stocks();
         $this->constructAllSales = new AllSales();
         $this->constructResellerProduct = new ResellerProducts();
+        $this->constructrefillRequest = new refillRequest();
+        return $this;
     }
 
     function orders(){
@@ -138,6 +143,6 @@ class OrderController extends Controller
             'RefillShipFee' => $request->refillfee,
             'TotalCost' => $request->refilltotal
         ];
-        var_dump($refillrequestDATA);
+        $this->constructrefillRequest->SaveRefillRequest($refillrequestDATA);
     }
 }

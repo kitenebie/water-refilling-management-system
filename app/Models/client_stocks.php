@@ -10,12 +10,12 @@ class client_stocks extends Model
 {
     use HasFactory;
 
-    protected $gruarded = [];
-    protected $fillable = [
-        'reseller_id',
-        'product_id',
-        'quantity'
-    ];
+    protected $guarded = [];
+    // protected $fillable = [
+    //     'reseller_id',
+    //     'product_id',
+    //     'quantity'
+    // ];
     function Save_Stocks($client_stock_data){
         return $this->create($client_stock_data);
     }

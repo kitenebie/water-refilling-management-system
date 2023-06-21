@@ -19,7 +19,7 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
-			<span class="text">Dashboard</span>
+			<span class="text">Refill Transaction</span>
 		</a>
 		<ul class="side-menu top">
 			<li>
@@ -53,27 +53,30 @@
                         <span class="text">Refill Request</span>
                     </a>
 			    </li>
-            @endif
-
-            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-            <li>
-                <a href="#">
-                    <i class='bx bxs-user-account' ></i>
-                    <span class="text">Members</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('applicantRequest') }}">
-                    <i class='bx bxs-group' ></i>
-                    <span class="text">Applicants</span>
-                </a>
-            </li>
+				<li>
+					<a href="#">
+						<i class='bx bxs-user-account' ></i>
+						<span class="text">Members</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('applicantRequest') }}">
+						<i class='bx bxs-group' ></i>
+						<span class="text">Applicants</span>
+					</a>
+				</li>
             @endif
             @if (session()->get('auth') == 'Reseller')
             <li>
                 <a href="{{ route('orders') }}">
                     <i class='bx bxs-cart' ></i>
                     <span class="text">Request Order</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="{{ route('refillrequest') }}">
+                    <i class='bx bxs-store-alt' ></i>
+                    <span class="text">Refill Transaction</span>
                 </a>
             </li>
             @endif
@@ -127,12 +130,10 @@
 					<h1>Refill Transactions</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a href="{{ route('dashboard') }}">Dashboard</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-                        <li><i class='bx bx-chevron-right' ></i></li>
-						<li>
 							<a class="active order_btn" href="#">Request</a>
+						</li>
+						<li>
+							<a class="active order_btn" href="#">ToReceive</a>
 						</li>
 						<li>
 							<a class="active order_btn" href="#">Completed</a>

@@ -19,7 +19,7 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
-			<span class="text">Dashboard</span>
+			<span class="text">Order & Transaction</span>
 		</a>
 		<ul class="side-menu top">
 			<li>
@@ -76,6 +76,12 @@
                     <span class="text">Request Order</span>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('refillrequest') }}">
+                    <i class='bx bxs-store-alt' ></i>
+                    <span class="text">Refill Transaction</span>
+                </a>
+            </li>
             @endif
 		</ul>
 		<ul class="side-menu">
@@ -127,25 +133,17 @@
 					<h1>Orders and Transactions</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a href="{{ route('dashboard') }}">Dashboard</a>
-						</li>
-						<li><i class='bx bx-chevron-right' ></i></li>
-						<li>
 							<a class="active order_btn" href="{{ route('orders') }}"><strong>Orders</strong></a>
 						</li>
-                        <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
 							<a class="active order_btn" href="{{ route('Request') }}">Request</a>
 						</li>
-                        <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active order_btn" href="{{ route('ToReceive') }}">To Receive</a>
+							<a class="active order_btn" href="{{ route('ToReceive') }}">ToReceive</a>
 						</li>
-                        <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
 							<a class="active order_btn" href="{{ route('Completed') }}">Completed</a>
 						</li>
-                        <li><i class='bx bx-chevron-right' ></i></li>
 						<li>
 							<a class="active order_btn" href="{{ route('cancelled') }}">Cancelled</a>
 						</li>

@@ -86,7 +86,7 @@ Route::post('/searchPresentProduct', [ProductController::class, 'searchPresentPr
 
 //* OrderController Submit-Product-Request - SubmitRefillRequest
 Route::post('/SubmitProductRequest', [OrderController::class, 'SubmitProductRequest'])->name('SubmitProductRequest');
-Route::post('/SubmitRefillRequest', [OrderController::class, 'SubmitRefillRequest'])->name('SubmitRefillRequest');
+Route::post('/Submit-Refill-Request', [OrderController::class, 'SubmitRefillRequest'])->name('SubmitRefillRequest');
 
 //* accept applicant request
 Route::get('/applicant/Request/Accept/{id}', [ApplicantController::class, 'AcceptApplicant'])->name('AcceptApplicant');
@@ -106,3 +106,5 @@ Route::get('/Refill-request', [dashboardController::class, 'refillrequest'])->na
 
 Route::post('/Add-Product-Sales', [AllRefillSalesController::class, 'AddProductSales'])->name('AddProductSales');
 Route::post('/Add-Refill-Sales-Admin', [AllRefillSalesController::class, 'AddRefillSalesAdmin'])->name('AddRefillSalesAdmin');
+//*client AddRefillSale
+Route::post('Add-Refill-Sale', [AllRefillSalesController::class, 'AddRefillSale'])->name('AddRefillSale');

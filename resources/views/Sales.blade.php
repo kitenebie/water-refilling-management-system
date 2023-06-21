@@ -18,7 +18,7 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
-			<span class="text">Dashboard</span>
+			<span class="text">Sales</span>
 		</a>
 		<ul class="side-menu top">
 			<li>

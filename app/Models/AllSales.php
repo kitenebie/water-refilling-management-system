@@ -10,7 +10,7 @@ class AllSales extends Model
 {
     use HasFactory;
 
-    protected $gruarded = [];
+    protected $guarded = [];
 
 
     function getMonthlySales()
@@ -37,12 +37,12 @@ class AllSales extends Model
 
         return $Allsales->toArray();
     }
-    protected $fillable = [
-        'Account_SaleID',
-        'ProductID',
-        'Quantity',
-        'Amount'
-    ];
+    // protected $fillable = [
+    //     'Account_SaleID',
+    //     'ProductID',
+    //     'Quantity',
+    //     'Amount'
+    // ];
     function AddtoAdminSale($AddSale){
         return $this->create($AddSale);
     }
