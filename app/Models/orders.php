@@ -80,10 +80,13 @@ class orders extends Model
 
     function getAllpendingOrders(){
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            return $this->where('status', 'Pending')
-                        ->orwhere('status', 'Process')
-                        ->where('orders.reseller_ID', session()->get(env('USER_SESSION_KEY')))
-                        ->count();
+            $orders = orders::where('status', 'Pending')
+                            ->orwhere('status', 'Process')
+                            ->get();
+            $filtered_orders = $orders->where('reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
+                                      ->count();
+            return  $filtered_orders;
+
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
             return $this->where('status', 'Pending')
@@ -94,17 +97,20 @@ class orders extends Model
 
     function OrdersPendingProcessData(){
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            return orders::join('products', 'orders.product_id', '=', 'products.product_id')
-                            ->join('log_in_models', 'orders.reseller_id', '=', 'log_in_models.reseller_id')
-                            ->where('reseller_ID', session()->get(env('USER_SESSION_KEY')))
-                            ->where('orders.status', 'Pending')
-                            ->orWhere('orders.status', 'Process')
-                            ->where('orders.reseller_ID', session()->get(env('USER_SESSION_KEY')))
-                            ->get();
+            $orders =  orders::join('products', 'orders.product_id', '=', 'products.product_id')
+                        ->join('log_in_models', 'orders.reseller_ID', '=', 'log_in_models.reseller_id')
+                        ->where('orders.reseller_ID',  session()->get(env('USER_SESSION_KEY')))
+                        ->get();
+            $filtered_orders = $orders->filter(function ($order) {
+                return $order->status === 'Pending' || $order->status === 'Process';
+            });
+                        
+            return  $filtered_orders;
+
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
             return orders::join('products', 'orders.product_id', '=', 'products.product_id')
-                            ->join('log_in_models', 'orders.reseller_id', '=', 'log_in_models.reseller_id')
+                            ->join('log_in_models', 'orders.reseller_ID', '=', 'log_in_models.reseller_id')
                             ->where('orders.status', 'Pending')
                             ->orWhere('orders.status', 'Process')
                             ->get();
