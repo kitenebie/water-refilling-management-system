@@ -64,12 +64,12 @@ class AllRefillSalesController extends Controller
     function refilltoreceive(){
         $label_title = "Process Refill Request";
         $statusRefill = $this->constructrefillRequest->statusProcessRefill();
-        return view('Refill-request', compact('statusRefill','label_title')); 
+        return view('Refill-Request', compact('statusRefill','label_title')); 
     }
 
     function refilltocompleted(){
         $label_title = "Completed Refill Request";
         $statusRefill = $this->constructrefillRequest->statusCompleteRefill();
-        return view('Refill-request', compact('statusRefill','label_title')); 
+        return view('Refill-Request', compact('statusRefill','label_title')); 
     }
 }
