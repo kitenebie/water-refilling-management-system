@@ -100,6 +100,10 @@ Route::post('/add-to-sale', [Reseller_Add_Sales::class, 'RessellerProductAddToSa
 
 //* refillrequest
 Route::get('/Refill-request', [dashboardController::class, 'refillrequest'])->name('refillrequest');
+//* refilltoreceive
+Route::get('/Refill-process', [AllRefillSalesController::class, 'refilltoreceive'])->name('refilltoreceive');
+//* refilltocompleted
+Route::get('/Refill-completed', [AllRefillSalesController::class, 'refilltocompleted'])->name('refilltocompleted');
 
 
 //*adminsales AddProductSales - AddRefillSalesAdmin
@@ -108,3 +112,7 @@ Route::post('/Add-Product-Sales', [AllRefillSalesController::class, 'AddProductS
 Route::post('/Add-Refill-Sales-Admin', [AllRefillSalesController::class, 'AddRefillSalesAdmin'])->name('AddRefillSalesAdmin');
 //*client AddRefillSale
 Route::post('Add-Refill-Sale', [AllRefillSalesController::class, 'AddRefillSale'])->name('AddRefillSale');
+
+//*refill status update 
+Route::get('/Refill-request/Request/Accept/{ref_ID}', [AllRefillSalesController::class, 'AcceptRequest'])->name('AcceptRequest');
+Route::post('/Refill-request/Request/complete', [AllRefillSalesController::class, 'CompleteRequest'])->name('CompleteRequest');

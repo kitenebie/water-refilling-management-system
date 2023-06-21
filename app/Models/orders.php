@@ -96,6 +96,7 @@ class orders extends Model
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             return orders::join('products', 'orders.product_id', '=', 'products.product_id')
                             ->join('log_in_models', 'orders.reseller_id', '=', 'log_in_models.reseller_id')
+                            ->where('reseller_ID', session()->get(env('USER_SESSION_KEY')))
                             ->where('orders.status', 'Pending')
                             ->orWhere('orders.status', 'Process')
                             ->where('orders.reseller_ID', session()->get(env('USER_SESSION_KEY')))

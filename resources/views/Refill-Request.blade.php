@@ -130,13 +130,13 @@
 					<h1>Refill Transactions</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a class="active order_btn" href="#">Request</a>
+							<a class="active order_btn" href="{{ route('refillrequest') }}">Request</a>
 						</li>
 						<li>
-							<a class="active order_btn" href="#">ToReceive</a>
+							<a class="active order_btn" href="{{ route('refilltoreceive') }}">ToReceive</a>
 						</li>
 						<li>
-							<a class="active order_btn" href="#">Completed</a>
+							<a class="active order_btn" href="{{ route('refilltocompleted') }}">Completed</a>
 						</li>
 						<li>
 							<a class="active order_btn" href="#">Cancelled</a>
@@ -152,7 +152,9 @@
 			<div class="table-data">
 				<div class="order">
 					<div class="head">
-                       
+                       @if(isset($label_title))
+						<h1>{{ $label_title }}</h1>
+						@endif
                     </div>
                     <div class="table-data">
                         <table>
@@ -166,12 +168,59 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+						<form action="{{ route('CompleteRequest') }}" method="post">
+							@csrf
                             <tbody>
-                                   <tr>
+                                   @if (isset($statusRefill))
+									   @foreach ($statusRefill as $refillStatus)
+										   <tr>
+												<td>
+													<input value="{{ $refillStatus->id }}" type="text" name="id" id="id" hidden>
+													{{ str::mask($refillStatus->Reseller_ID,'X',7,5) }}
+												</td>
+												<td>{{ $refillStatus->lastname }}, {{ $refillStatus->firstname }}</td>
+												<td>
+													{{ $refillStatus->NumberOfGallon }}
+													<input value="{{ $refillStatus->NumberOfGallon }}" type="text" name="Quantity" id="Quantity" hidden>
+												</td>
+												<td>
+													{{ $refillStatus->TotalCost }}
+													<input value="{{ $refillStatus->TotalCost }}" type="text" name="Amount" id="Amount" hidden>
+												</td>
+												<td>{{ $refillStatus->created_at = date("M-d-Y") }}</td>
+												<td>
+													@if ($label_title == "Pending Refill Request")
+                                                    @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                                                    <a href="/Refill-request/Request/Accept/{{ $refillStatus->id }}">
+                                                    <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
+                                                    </a>
+                                                    <a href="/Refill-request/Request/Decline/{{ $refillStatus->id }}">
+                                                        <span class="status Cancelled" style="font-size: .8em; font-weight:600">Decline</span>
+                                                    </a>
+                                                    @endif
 
-                                   </tr>
+                                                    @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+                                                        <a href="/Refill-request/Request/Decline/{{ $refillStatus->id }}">
+                                                            <span class="status Cancelled" style="font-size: .8em; font-weight:600">Cancel Order</span>
+                                                        </a>
+                                                    @endif
+                                                @endif
+
+												@if ($label_title == "Process Refill Request")
+													@if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+													<button type="submit" style="border:none; background:transparent; cursor:pointer">
+														<span class="status Completed" style="font-size: .8em; font-weight:600">Complete</span>
+													</button>
+													@endif
+												@endif
+
+												</td>
+										   </tr>
+									   @endforeach
+								   @endif
                             </tbody>
                         </table>
+					</form>
                     </div>
 				</div>
 			</div>
@@ -185,5 +234,30 @@
     <link rel="stylesheet" href="{{ env('TOASTR_URL_CSS') }}">
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
+
+	{{-- Accepted --}}
+	@if (session('Accepted'))
+    <script>
+        toastr.success('Refill Request has been accepted', "Accepted!", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
+	{{-- Completed --}}
+	@if (session('Completed'))
+    <script>
+        toastr.success('Refill Request has been Completed', "Completed!", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
 </body>
 </html>

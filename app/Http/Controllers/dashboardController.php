@@ -147,6 +147,8 @@ class dashboardController extends Controller
     }
 
     function refillrequest(){
-        return view('Refill-Request');
+        $label_title = "Pending Refill Request";
+        $statusRefill = $this->constructRefillRequest->statusPendingRefill();
+        return view('Refill-Request', compact('statusRefill','label_title'));
     }
 }

@@ -248,9 +248,7 @@
                                                             <span class="status Cancelled" style="font-size: .8em; font-weight:600">Cancel Order</span>
                                                         </a>
                                                     @endif
-
                                                 @endif
-
 
                                                 @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
                                                     @if ($label_title == "To Receive Orders")
