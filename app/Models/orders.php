@@ -110,4 +110,26 @@ class orders extends Model
         }
     }
 
+    function getTotalAmountPendingData(){
+        if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+            return $this->where('status', 'Pending')
+                        ->where('reseller_ID', session()->get(env('USER_SESSION_KEY')))
+                        ->sum('Amount');
+        }
+        if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
+            return $this->where('status', 'Pending')
+                        ->sum('Amount');
+        }
+    }
+    function getTotalAmountProccessData(){
+        if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+            return $this->where('status', 'Process')
+                        ->where('reseller_ID', session()->get(env('USER_SESSION_KEY')))
+                        ->sum('Amount');
+        }
+        if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
+            return $this->where('status', 'Process')
+                        ->sum('Amount');
+        }
+    }
 }

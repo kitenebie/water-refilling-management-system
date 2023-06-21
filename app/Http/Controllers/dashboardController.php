@@ -11,15 +11,17 @@ use App\Models\products;
 use App\Models\client_stocks;
 use App\Models\orders;
 use App\Models\ResellerProducts;
+use App\Models\refillRequest;
 use Carbon\Carbon;
 
 class dashboardController extends Controller
 {
 
     private $constructSalse, $constructRefill, $constructApplicant, $constructProduct,
-            $constructclient_stocks, $constructOrders, $constructResellerProducts;
+            $constructclient_stocks, $constructOrders, $constructResellerProducts,
+            $constructRefillRequest;
     //* for total_income
-    public $adminStocks;
+    public $adminStocks, $pendingAmount, $proccessAmount,$refillprending, $refillprocess;
 
 
 
@@ -32,6 +34,8 @@ class dashboardController extends Controller
         $this->constructclient_stocks = new client_stocks();
         $this->constructOrders = new orders();
         $this->constructResellerProducts = new ResellerProducts();
+        $this->constructRefillRequest = new refillRequest();
+        return $this;
     }
 
     function dashboard(){
@@ -133,8 +137,13 @@ class dashboardController extends Controller
 
         if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
-         }
-        return view('Sales', compact('adminStocks','Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
+        }
+
+        $pendingAmount = $this->constructOrders->getTotalAmountPendingData();
+        $proccessAmount = $this->constructOrders->getTotalAmountProccessData();
+        $refillprending = $this->constructRefillRequest->RefillPendingData();
+        $refillprocess = $this->constructRefillRequest->RefillProccessData();
+        return view('Sales', compact('refillprending','refillprocess','pendingAmount','proccessAmount','adminStocks','Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
     }
 
     function refillrequest(){

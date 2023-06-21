@@ -141,8 +141,10 @@ class OrderController extends Controller
             'NumberOfGallon' => $request->numberGalllon,
             'RefillCost' => $request->refillcost,
             'RefillShipFee' => $request->refillfee,
-            'TotalCost' => $request->refilltotal
+            'TotalCost' => $request->refilltotal,
+            'status' => 'Pending'
         ];
         $this->constructrefillRequest->SaveRefillRequest($refillrequestDATA);
+        return back()->with('clientrefilled', 'submitted request');
     }
 }

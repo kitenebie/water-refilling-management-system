@@ -428,26 +428,22 @@
         }, 5000);
     </script>
     @endif
+    @if (session('clientrefilled'))
+    <script>
+        toastr.success("Refill request has been submitted", "Request Submitted!", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
 	<script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
     
     <script src="{{ asset('js/resellerorders.js') }}"></script>
-            {{-- //$('#pymnt').on('change', ()=>{
-            //    resellerCal();
-            //});
-            //function resellerCal(){
-            //if($('#pymnt').val() == "Walk in"){
-            //    $('#sfeelbl').hide();
-            //    $('#prdfee').val(0);
-            //    $('#prdfee').hide();
-            //    calculate();
-            //}else{
-            //    $('#sfeelbl').show();
-            //    $('#prdfee').show();
-            //    $('#prdfee').val(5);
-            //    calculate();
-            //}
-            //} --}}
+
 </body>
 </html>

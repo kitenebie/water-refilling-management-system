@@ -12,6 +12,29 @@ class refillRequest extends Model
     protected $guarded = [];
 
     function SaveRefillRequest($refillrequestDATA){
-        var_dump($refillrequestDATA);
+        return $this->create($refillrequestDATA);
+    }
+
+    function RefillPendingData(){
+        if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+            return $this->where('status', 'Pending')
+                        ->where('Reseller_ID', session()->get(env('USER_SESSION_KEY')))
+                        ->sum('TotalCost');
+        }
+        if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
+            return $this->where('status', 'Pending')
+                        ->sum('TotalCost');
+        }
+    }
+    function RefillProccessData(){
+        if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+            return $this->where('status', 'Process')
+                        ->where('Reseller_ID', session()->get(env('USER_SESSION_KEY')))
+                        ->sum('TotalCost');
+        }
+        if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
+            return $this->where('status', 'Process')
+                        ->sum('TotalCost');
+        }
     }
 }

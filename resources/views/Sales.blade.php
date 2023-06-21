@@ -236,8 +236,10 @@
                             indexLabelPlacement: 'outside',
                             fillOpacity: 100,
                             dataPoints: [
-                                    { label: "Pending", y: 2565 },
-                                    { label: "Process", y: 865 },
+                                    { label: "Pending Orders", y: {{ $pendingAmount }} },
+                                    { label: "Process Orders", y: {{ $proccessAmount }} },
+                                    { label: "Pending Refill", y: {{ $refillprending }} },
+                                    { label: "Process Refill", y: {{ $refillprocess }} },
                             ]
                         }]
                     });

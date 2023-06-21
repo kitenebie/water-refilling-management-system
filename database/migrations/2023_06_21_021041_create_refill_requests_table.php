@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('RefillCost');
             $table->double('RefillShipFee');
             $table->double('TotalCost');
+            $table->text('status');
             $table->timestamps();
         });
     }
