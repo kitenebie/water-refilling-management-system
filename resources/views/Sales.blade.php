@@ -109,7 +109,6 @@
 			<i class='bx bx-menu' ></i>
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
-                <label for="switch-mode" class="switch-mode"></label>
                 <a href="#" class="notification">
                     <i class='bx bxs-bell' ></i>
                     <span class="num">8</span>

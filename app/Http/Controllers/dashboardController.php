@@ -83,6 +83,8 @@ class dashboardController extends Controller
     }
 
     function getsalesmonth(){
+        
+        if(session()->get(env('USER_SESSION_KEY'))){
         $year = Carbon::now()->year;
         $year = date('Y');
         $productMonth = [];
@@ -154,17 +156,26 @@ class dashboardController extends Controller
         $refillprending = $this->constructRefillRequest->RefillPendingData();
         $refillprocess = $this->constructRefillRequest->RefillProccessData();
          return view('Sales', compact('refillprending','refillprocess','pendingAmount','proccessAmount','adminStocks','productMonth','productMontlySales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
-        var_dump($productMontlySales);
-        var_dump($productMonth);
+        }else{
+            return view('log-in');
+        }
     }
 
     function refillrequest(){
-        $label_title = "Pending Refill Request";
-        $statusRefill = $this->constructRefillRequest->statusPendingRefill();
-        return view('Refill-Request', compact('statusRefill','label_title'));
+        if(session()->get(env('USER_SESSION_KEY'))){    
+            $label_title = "Pending Refill Request";
+            $statusRefill = $this->constructRefillRequest->statusPendingRefill();
+            return view('Refill-Request', compact('statusRefill','label_title'));
+        }else{
+            return view('log-in');
+        }
     }
 
     function Settings(){
-        return view('Settings');
+        if(session()->get(env('USER_SESSION_KEY'))){    
+            return view('Settings');
+        }else{
+            return view('log-in');
+        }
     }
 }

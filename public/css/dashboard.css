@@ -40,6 +40,11 @@ body.dark {
 	--grey: #060714;
 	--dark: #FBFBFB;
 }
+body .light {
+	--light: #F9F9F9;
+	--grey: #eee;
+	--dark: #342E37;
+}
 
 body {
 	background: var(--grey);
@@ -722,6 +727,11 @@ body .dark {
 	--grey: #060714;
 	--dark: #FBFBFB;
 }
+body .light {
+	--light: #F9F9F9;
+	--grey: #eee;
+	--dark: #342E37;
+}
 .order_btn{
     background-color: inherit;
     color: inherit !important;
@@ -736,4 +746,8 @@ body .dark {
 .order_btn:hover{
     background-color: #3C91E6;
     color: #eee !important;
+}
+.box{
+	height: 400px !important;
+	overflow-y: auto;
 }

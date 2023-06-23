@@ -19,6 +19,7 @@ use App\Http\Controllers\AllRefillSalesController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //* HOME PAGE
 Route::get('/', [LandingPage::class, 'HomePage'])->name('HomePage');
 Route::get('/About', [LandingPage::class, 'about_us'])->name('about_us');

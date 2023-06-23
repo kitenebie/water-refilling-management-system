@@ -111,7 +111,6 @@
 			<i class='bx bx-menu' ></i>
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
-                <label for="switch-mode" class="switch-mode"></label>
                 <a href="#" class="notification">
                     <i class='bx bxs-bell' ></i>
                     <span class="num">8</span>
@@ -225,6 +224,32 @@
                             @endforeach
                         @endif
 					</ul>
+                    @endif
+                    @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+                    <div class="order">
+                        <div class="head">
+                            {{-- box4 --}}
+                            <h4>Announcement</h4>
+                        </div>		
+                        <div class="todo box">
+                            <ul class="todo-list" id="#container">
+                                <li class="completed " id="req">
+                                    <div>
+                                        <p>
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus blanditiis nihil nobis quisquam. Expedita perspiciatis atque magni. Labore sequi neque reprehenderit, vitae laudantium consequatur dolorem blanditiis repellat officia aut aliquid.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="completed " id="req">
+                                    <div>
+                                        <p>
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus blanditiis nihil nobis quisquam. Expedita perspiciatis atque magni. Labore sequi neque reprehenderit, vitae laudantium consequatur dolorem blanditiis repellat officia aut aliquid.
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     @endif
 				</div>
 			</div>

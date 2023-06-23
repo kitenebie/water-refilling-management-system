@@ -26,3 +26,8 @@ $('#RecentOrders').text(formattedNumber_RecentOrders);
 
 
 
+// const checkbox = document.getElementById("darkmodeON");
+// 		if(checkbox.checked == true){
+// 			alert('ok');
+// 		}
+  

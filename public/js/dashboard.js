@@ -1,5 +1,5 @@
 const switchMode = document.getElementById('switch-mode');
-
+darkmode();
 switchMode.addEventListener('change', function () {
 	if(this.checked == true) {
 		document.body.classList.add('dark');
@@ -9,9 +9,15 @@ switchMode.addEventListener('change', function () {
 });
 function darkmode(){
     if(switchMode.checked == true) {
-		document.body.classList.add('dark');
+		localStorage.setItem("formBody", "dark");
+		localStorage.setItem("Mode", true);
+		document.body.classList.add(localStorage.getItem("formBody"));
+		switchMode.checked = localStorage.getItem("Mode");
 	} else {
-		document.body.classList.remove('dark');
+		localStorage.setItem("formBody", "dark");
+		localStorage.setItem("Mode", true);
+		document.body.classList.remove(localStorage.getItem("formBody"));
+		switchMode.checked = localStorage.getItem("Mode");
 	}
 }
 const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
