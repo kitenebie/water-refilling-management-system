@@ -115,7 +115,7 @@
                     <span class="num">8</span>
                 </a>
                 <a href="#" class="profile">
-                    <img src="{{ env('IMG_PROF') }}">
+                    <img  id="profileimg">
                 </a>
             </div>
 		</nav>
@@ -147,7 +147,7 @@
                     <i class='bx bxs-calendar-check' ></i>
                     <span class="text">
                         @if (isset($RecentOrders))
-                            <h3>{{ $RecentOrders }}</h3>
+                            <h3><span id="RecentOrders">{{ $RecentOrders }}</span></h3>
                         @endif
                             <p>Orders</p>
                     </span>
@@ -156,7 +156,7 @@
                     <i class='bx bxs-box' ></i>
                     <span class="text">
                         @if (isset($adminStocks))
-                            <h3>{{ $adminStocks }}</h3>
+                            <h3><span id="adminStocks">{{ $adminStocks }}</span></h3>
                         @endif
                         <p>Stocks</p>
                     </span>
@@ -228,7 +228,7 @@
                 labels: ProductMonthlySaleslabels,
                 
             datasets: [{
-                label: 'COD & Walk In Monthly Sales Report (₱) - 2023',
+                label: 'COD & Walk In Monthly Sales Report {{ date("Y") }}-₱',
                 data: {{ json_encode($productMontlySales) }},
                 backgroundColor: [
                 'rgba(255, 99, 132)',
@@ -267,7 +267,7 @@
                 labels: RefillMonthlySaleslabels,
                 
             datasets: [{
-                label: 'Refill Monthly Sales Report (₱) - 2023',
+                label: 'Refill Monthly Sales Report {{ date("Y") }}-₱',
                 data: {{ json_encode($refillTotalSales) }},
                 backgroundColor: [
                 'rgba(255, 99, 132)',
@@ -306,7 +306,7 @@
                 labels: GeneralMonthlySaleslabels,
                 
             datasets: [{
-                label: 'General Monthly Sales Report (₱) - 2023',
+                label: 'General Monthly Sales Report {{ date("Y") }}-₱',
                 data: {{ json_encode($GenTotalSales) }},
                 backgroundColor: [
                 'rgba(255, 99, 132)',
@@ -348,7 +348,7 @@
                     labels: Unpayablelabels,
                     
                 datasets: [{
-                    label: 'Pending And Process Report (₱) - 2023',
+                    label: 'Pending And Process Report {{ date("Y") }}-₱',
                     data: [
                         {{ @$pendingAmount }},
                         {{ @$proccessAmount }},
@@ -379,5 +379,7 @@
                 }
             });
     </script>
+    {{-- amounts.js --}}
+	<script src="{{ asset('js/amounts.js') }}"></script>
 </body>
 </html>

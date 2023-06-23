@@ -117,7 +117,7 @@
                     <span class="num">8</span>
                 </a>
                 <a href="#" class="profile">
-                    <img src="{{ env('IMG_PROF') }}">
+                    <img  id="profileimg">
                  </a>
             </div>
 		</nav>

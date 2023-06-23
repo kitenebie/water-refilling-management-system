@@ -113,7 +113,7 @@
                     <span class="num">8</span>
                 </a>
                 <a href="#" class="profile">
-                    <img src="{{ env('IMG_PROF') }}">
+                    <img  id="profileimg">
                 </a>
             </div>
 		</nav>
@@ -142,20 +142,20 @@
 
 
 			<ul class="box-info">
-                    <li>
-                        <i class='bx bxs-calendar-check' ></i>
-                        <span class="text">
-                            @if (isset($RecentOrders))
-                                <h3>{{ $RecentOrders }}</h3>
-                            @endif
-                                <p>Orders</p>
-                        </span>
-                    </li>
+                <li>
+                    <i class='bx bxs-calendar-check' ></i>
+                    <span class="text">
+                        @if (isset($RecentOrders))
+                            <h3><span id="RecentOrders">{{ $RecentOrders }}</span></h3>
+                        @endif
+                            <p>Orders</p>
+                    </span>
+                </li>
                 <li>
                     <i class='bx bxs-box' ></i>
                     <span class="text">
                         @if (isset($adminStocks))
-                            <h3>{{ $adminStocks }}</h3>
+                            <h3><span id="adminStocks">{{ $adminStocks }}</span></h3>
                         @endif
                         <p>Stocks</p>
                     </span>
@@ -163,7 +163,7 @@
                 <li>
                     <i class='bx bxs-coin-stack' ></i>
                     <span class="text">
-                        <h3>PHP {{ $TOTALAMOUNTSALE }}</h3>
+                        <h3>PHP <span id="yearlySales">{{ $TOTALAMOUNTSALE }}</span></h3>
                         <p>Total Sales</p>
                     </span>
                 </li>
@@ -500,5 +500,6 @@
             });
 
         </script>
+	<script src="{{ asset('js/amounts.js') }}"></script>
 </body>
 </html>
