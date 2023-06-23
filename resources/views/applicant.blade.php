@@ -241,5 +241,6 @@
             });
         });
     </script>
+	<script src="{{ asset('js/localStorage.js') }}"></script>
 </body>
 </html>

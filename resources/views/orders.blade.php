@@ -442,6 +442,8 @@
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
     
     <script src="{{ asset('js/resellerorders.js') }}"></script>
+	<script src="{{ asset('js/localStorage.js') }}"></script>
+    <script src="{{ asset('js/adminorders.js') }}"></script>
 
 </body>
 </html>

@@ -263,5 +263,6 @@
         </script>
         @endif
         <script src="{{ asset('js/amounts.js') }}"></script>
+        <script src="{{ asset('js/localStorage.js') }}"></script>
 </body>
 </html>

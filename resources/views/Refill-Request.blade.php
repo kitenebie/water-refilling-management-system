@@ -259,5 +259,6 @@
         }, 5000);
     </script>
     @endif
+	<script src="{{ asset('js/localStorage.js') }}"></script>
 </body>
 </html>
