@@ -10,7 +10,12 @@ class LandingPage extends Controller
     //* create a contructior
     private $construct;
     function __contructor(){
-        return $this->construct = new LogInModel();
+        if(session()->get(env('USER_SESSION_KEY'))){   
+            $this->construct = new LogInModel();
+            return $this;
+        }else{ 
+            return view('log-in');
+        }
     }
     //* Home Page redirect
     function HomePage(){

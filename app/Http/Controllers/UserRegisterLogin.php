@@ -12,8 +12,13 @@ class UserRegisterLogin extends Controller
     private $constructReseller;
     function __construct()
     {
-        $this->construct = new LogInModel();
-        $this->constructReseller = new reseller_request();
+        if(session()->get(env('USER_SESSION_KEY'))){  
+            $this->construct = new LogInModel();
+            $this->constructReseller = new reseller_request();
+            return $this;
+        }else{ 
+            return view('log-in');
+        }
     }
 
     //* Save new user

@@ -22,14 +22,18 @@ class OrderController extends Controller
              $constructResellerProduct, $constructrefillRequest;
 
     function __construct(){
-        $this->constructOrder = new orders();
-        $this->constructresseller = new LogInModel();
-        $this->constructProduct = new Products();
-        $this->constructClientStocks = new client_stocks();
-        $this->constructAllSales = new AllSales();
-        $this->constructResellerProduct = new ResellerProducts();
-        $this->constructrefillRequest = new refillRequest();
-        return $this;
+        if(session()->get(env('USER_SESSION_KEY'))){  
+            $this->constructOrder = new orders();
+            $this->constructresseller = new LogInModel();
+            $this->constructProduct = new Products();
+            $this->constructClientStocks = new client_stocks();
+            $this->constructAllSales = new AllSales();
+            $this->constructResellerProduct = new ResellerProducts();
+            $this->constructrefillRequest = new refillRequest();
+            return $this;
+        }else{ 
+            return view('log-in');
+        }
     }
 
     function orders(){

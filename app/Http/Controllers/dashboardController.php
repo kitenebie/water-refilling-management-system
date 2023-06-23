@@ -27,15 +27,19 @@ class dashboardController extends Controller
 
     function __construct()
     {
-        $this->constructApplicant = new LogInModel();
-        $this->constructSalse = new AllSales();
-        $this->constructRefill = new RefillSales();
-        $this->constructProduct = new products();
-        $this->constructclient_stocks = new client_stocks();
-        $this->constructOrders = new orders();
-        $this->constructResellerProducts = new ResellerProducts();
-        $this->constructRefillRequest = new refillRequest();
-        return $this;
+        if(session()->get(env('USER_SESSION_KEY'))){   
+            $this->constructApplicant = new LogInModel();
+            $this->constructSalse = new AllSales();
+            $this->constructRefill = new RefillSales();
+            $this->constructProduct = new products();
+            $this->constructclient_stocks = new client_stocks();
+            $this->constructOrders = new orders();
+            $this->constructResellerProducts = new ResellerProducts();
+            $this->constructRefillRequest = new refillRequest();
+            return $this;
+        }else{ 
+            return view('log-in');
+        }
     }
 
     function dashboard(){

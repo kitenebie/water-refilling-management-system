@@ -13,8 +13,13 @@ class ApplicantController extends Controller
     private $constructreseller_request;
     function __construct()
     {
-        $this->constructApplicant = new LogInModel();
-        $this->constructreseller_request = new reseller_request();
+        if(session()->get(env('USER_SESSION_KEY'))){   
+            $this->constructApplicant = new LogInModel();
+            $this->constructreseller_request = new reseller_request();
+            return $this;
+        }else{ 
+            return view('log-in');
+        }
     }
 
     function applicantRequest(){

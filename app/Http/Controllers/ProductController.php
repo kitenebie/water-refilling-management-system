@@ -11,8 +11,13 @@ class ProductController extends Controller
     private $constructProduct, $comstructorResellerProducts;
     function __construct()
     {
-        $this->constructProduct = new products();
-        $this->comstructorResellerProducts = new ResellerProducts();
+        if(session()->get(env('USER_SESSION_KEY'))){  
+            $this->constructProduct = new products();
+            $this->comstructorResellerProducts = new ResellerProducts();
+            return $this;
+        }else{ 
+            return view('log-in');
+        }
     }
 
     function saving_product(Request $request){
