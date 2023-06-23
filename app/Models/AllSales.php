@@ -16,13 +16,14 @@ class AllSales extends Model
     function getMonthlySales()
     {
         $sales = DB::table('all_sales')
-            ->select(DB::raw('YEAR(created_at) AS Year, MONTH(created_at) AS Month, SUM(Amount) AS TotalSales'))
+            ->select(DB::raw('YEAR(created_at) AS Year, MONTH(created_at) AS Month, SUM(Amount) AS Amount'))
             ->whereYear('created_at', '=',  date('Y'))
             ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->get();
 
+        // var_dump($sales->toArray());
         return $sales->toArray();
     }
     function getALLSales()
@@ -37,12 +38,7 @@ class AllSales extends Model
 
         return $Allsales->toArray();
     }
-    // protected $fillable = [
-    //     'Account_SaleID',
-    //     'ProductID',
-    //     'Quantity',
-    //     'Amount'
-    // ];
+
     function AddtoAdminSale($AddSale){
         return $this->create($AddSale);
     }

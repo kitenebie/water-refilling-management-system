@@ -8,6 +8,7 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
 	<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 	<title>Sales</title>
 </head>
@@ -135,7 +136,7 @@
 					</ul>
 				</div>
 				<a href="#" class="btn-download">
-					<i class='bx bxs-cloud-download' ></i>
+					<i class='bx bxs-file-pdf' ></i>
 					<span class="text">Download PDF</span>
 				</a>
 			</div>
@@ -167,7 +168,7 @@
                     </span>
                 </li>
             </ul>
-                <script type="text/javascript">
+                {{-- <script type="text/javascript">
                     window.onload = function () {
                     //************
                     var chart1 = new CanvasJS.Chart("chartContainer1", {
@@ -245,25 +246,221 @@
                     });
                     chart4.render();
             }
-                </script>
+                </script> --}}
                 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
-
+                <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
 
 			<div class="table-data">
                 <div class="order">
-
                     <div class="head">
-                        <h3>COD & Walk In Monthly Sales Report (₱) - {{ date('Y') }}</h3>
+                        <canvas id="ProductMonthlySales"></canvas>
                     </div>
-                    <div id="chartContainer1" style="height: 370px; width: 100%; "></div>
-                    <style>
-                        canvas{border-radius: 10px; background: transparent}
-                        .canvasjs-chart-credit{display: none}
-                        .canvasjs-chart-tooltip{display: none}
-                    </style>
                 </div>
-
                 <div class="order">
+                    <div class="head">
+                        <canvas id="RefillMonthlySales"></canvas>
+                    </div>
+                    <?php
+                        $refillsaleMonth = [];
+                        $refillTotalSales = [];
+                        foreach($refillSALES as $refillsale){
+                            $refillsaleMonth[] = DateTime::createFromFormat('!m', $refillsale->Month)->format('F');
+                            $refillTotalSales[]= floatval($refillsale->TotalSales);
+                        }
+                    ?>
+                </div>
+                <div class="order">
+                    <div class="head">
+                        <canvas id="GeneralMonthlySales"></canvas>
+                    </div>
+                    <?php
+                        $GensaleMonth = [];
+                        $GenTotalSales = [];
+                        foreach($Generalsales as $Generalsale){
+                            $GensaleMonth[] = DateTime::createFromFormat('!m', $Generalsale['month'])->format('F');
+                            $GenTotalSales[]= floatval($Generalsale['totalAmount']);
+                        }
+                    ?>
+                </div>
+                <div class="order">
+                    <div class="head">
+                        <canvas id="Unpayable"></canvas>
+                    </div>
+                </div>
+                <script>
+                    const ProductMonthlySales = document.getElementById('ProductMonthlySales');
+                    Chart.defaults.font.size = 16;
+                    const ProductMonthlySaleslabels = <?php echo json_encode($productMonth) ?>;
+                    new Chart(ProductMonthlySales, {
+                        type: 'bar',
+                        data: {
+                            labels: ProductMonthlySaleslabels,
+                            
+                        datasets: [{
+                            label: 'COD & Walk In Monthly Sales Report (₱) - 2023',
+                            data: {{ json_encode($productMontlySales) }},
+                            backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 159, 64)',
+                            'rgba(255, 205, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(54, 162, 235)',
+                            'rgba(153, 102, 255)',
+                            'rgba(201, 203, 207)'
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)'
+                            ],
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                            scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                            }
+                        }
+                    });
+                    const RefillMonthlySales = document.getElementById('RefillMonthlySales');
+                    const RefillMonthlySaleslabels = <?php echo json_encode($refillsaleMonth) ?>;
+                    new Chart(RefillMonthlySales, {
+                        type: 'bar',
+                        data: {
+                            labels: RefillMonthlySaleslabels,
+                            
+                        datasets: [{
+                            label: 'Refill Monthly Sales Report (₱) - 2023',
+                            data: {{ json_encode($refillTotalSales) }},
+                            backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 159, 64)',
+                            'rgba(255, 205, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(54, 162, 235)',
+                            'rgba(153, 102, 255)',
+                            'rgba(201, 203, 207)'
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)'
+                            ],
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                            scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                            }
+                        }
+                    });
+                    const GeneralMonthlySales = document.getElementById('GeneralMonthlySales');
+                    const GeneralMonthlySaleslabels = <?php echo json_encode($GensaleMonth) ?>;
+                    new Chart(GeneralMonthlySales, {
+                        type: 'bar',
+                        data: {
+                            labels: GeneralMonthlySaleslabels,
+                            
+                        datasets: [{
+                            label: 'General Monthly Sales Report (₱) - 2023',
+                            data: {{ json_encode($GenTotalSales) }},
+                            backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(255, 159, 64)',
+                            'rgba(255, 205, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(54, 162, 235)',
+                            'rgba(153, 102, 255)',
+                            'rgba(201, 203, 207)'
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)',
+                            'rgb(201, 203, 207)'
+                            ],
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                            scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                            }
+                        }
+                    });
+                    const Unpayable = document.getElementById('Unpayable');
+                    const Unpayablelabels = ["Pending Orders",
+                                            "Process Orders",
+                                            "Pending Refill",
+                                            "Process Refill"];
+                    new Chart(Unpayable, {
+                        type: 'doughnut',
+                        data: {
+                            labels: Unpayablelabels,
+                            
+                        datasets: [{
+                            label: 'Pending And Process Report (₱) - 2023',
+                            data: [
+                                {{ @$pendingAmount }},
+                                {{ @$proccessAmount }},
+                                {{ @$refillprending }},
+                                {{ @$refillprocess }}
+                            ],
+                            backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(75, 192, 192)',
+                            'rgba(54, 162, 235)',
+                            'rgba(153, 102, 255)'
+                            ],
+                            borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(75, 192, 192)',
+                            'rgb(54, 162, 235)',
+                            'rgb(153, 102, 255)'
+                            ],
+                            borderWidth: 1
+                        }]
+                        },
+                        options: {
+                            scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                            },
+                        }
+                    });
+                </script>
+                {{-- <div class="order">
+                    <div class="head">
+                            <h3>COD & Walk In Monthly Sales Report (₱) - {{ date('Y') }}</h3>
+                    </div>
+                        <div id="chartContainer1" style="height: 370px; width: 100%; "></div>
+                        <style>
+                            canvas{border-radius: 10px; background: transparent}
+                            .canvasjs-chart-credit{display: none}
+                            .canvasjs-chart-tooltip{display: none}
+                        </style>
+                </div> --}}
+
+                {{-- <div class="order">
                     <div class="head">
                         <h3>Refill Monthly Sales Report (₱) - {{ date('Y') }}</h3>
                     </div>
@@ -296,13 +493,12 @@
                         .canvasjs-chart-credit{display: none}
                         .canvasjs-chart-tooltip{display: none}
                     </style>
-                </div>
+                </div> --}}
 			</div>
 		</main>
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->
-
 
 	<script src="{{ asset('js/dashboard.js') }}"></script>
 </body>

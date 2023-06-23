@@ -85,7 +85,16 @@ class dashboardController extends Controller
     function getsalesmonth(){
         $year = Carbon::now()->year;
         $year = date('Y');
+        $productMonth = [];
+        $productMontlySales = [];
         $Currentsales = $this->constructSalse->getMonthlySales();
+        foreach($Currentsales as $productSales)
+        {
+            $month = \DateTime::createFromFormat('!m', $productSales->Month)->format('F');
+            $productMonth[] = strval($month);
+            $productMontlySales[] = floatval($productSales->Amount);
+            
+        }
         $AllSale = $this->constructSalse->getALLSales();
         $Salesyearly = 0;
         foreach($AllSale as $YEARsALE){
@@ -117,10 +126,11 @@ class dashboardController extends Controller
 
         //Combine the sums from both tables
         $Generalsales = collect([]);
+        if(!$refillSales == null){
             foreach ($refillSales as $refill) {
             $month = $refill->month;
             $refillAmount = $refill->refillAmount;
-            $allAmount = $allSales->where('month', $month)->first()->allAmount;
+            @$allAmount = $allSales->where('month', $month)->first()->allAmount;
             $totalAmount = $refillAmount + $allAmount;
 
             $Generalsales->push([
@@ -128,7 +138,7 @@ class dashboardController extends Controller
                 'totalAmount' => $totalAmount
             ]);
         }
-
+    }
         $RecentOrders = $this->constructOrders->getAllpendingOrders();
         $TOTALAMOUNTSALE = $this->constructSalse->GetAllUserCurrentYearlySALE($year);
         if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
@@ -143,7 +153,9 @@ class dashboardController extends Controller
         $proccessAmount = $this->constructOrders->getTotalAmountProccessData();
         $refillprending = $this->constructRefillRequest->RefillPendingData();
         $refillprocess = $this->constructRefillRequest->RefillProccessData();
-        return view('Sales', compact('refillprending','refillprocess','pendingAmount','proccessAmount','adminStocks','Currentsales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
+         return view('Sales', compact('refillprending','refillprocess','pendingAmount','proccessAmount','adminStocks','productMonth','productMontlySales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
+        var_dump($productMontlySales);
+        var_dump($productMonth);
     }
 
     function refillrequest(){
