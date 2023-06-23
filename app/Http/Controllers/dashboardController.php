@@ -163,4 +163,8 @@ class dashboardController extends Controller
         $statusRefill = $this->constructRefillRequest->statusPendingRefill();
         return view('Refill-Request', compact('statusRefill','label_title'));
     }
+
+    function Settings(){
+        return view('Settings');
+    }
 }

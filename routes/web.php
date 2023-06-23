@@ -116,3 +116,6 @@ Route::post('Add-Refill-Sale', [AllRefillSalesController::class, 'AddRefillSale'
 //*refill status update 
 Route::get('/Refill-request/Request/Accept/{ref_ID}', [AllRefillSalesController::class, 'AcceptRequest'])->name('AcceptRequest');
 Route::post('/Refill-request/Request/complete', [AllRefillSalesController::class, 'CompleteRequest'])->name('CompleteRequest');
+
+// *settings
+Route::get('/Settings', [dashboardController::class, 'Settings'])->name('Settings');

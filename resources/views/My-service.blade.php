@@ -85,7 +85,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="{{ route('Settings') }}">
 					<i class='bx bxs-cog' ></i>
 					<span class="text">Settings</span>
 				</a>
