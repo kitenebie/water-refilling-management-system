@@ -12,13 +12,9 @@ class AllRefillSalesController extends Controller
     private $constructRefill, $constructrefillRequest;
     function __construct()
     {
-        if(session()->get(env('USER_SESSION_KEY'))){   
             $this->constructRefill = new RefillSales();
             $this->constructrefillRequest = new refillRequest();
             return $this;
-        }else{ 
-            return view('log-in');
-        }
     }
     function AddProductSales(Request $request){
         echo "<center><h1>ONGOING PROGRAM</h1></center>";

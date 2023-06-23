@@ -10,13 +10,9 @@ class Reseller_Add_Sales extends Controller
     //
     private $Contruct_AllSales;
 
-    function __construct(){
-        if(session()->get(env('USER_SESSION_KEY'))){  
+    function __construct(){ 
             $this->Contruct_AllSales = new AllSales();
             return $this;
-        }else{ 
-            return view('log-in');
-        }
     }
 
     function RessellerProductAddToSales(Request $request){

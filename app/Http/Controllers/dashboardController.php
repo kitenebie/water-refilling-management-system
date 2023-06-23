@@ -26,8 +26,7 @@ class dashboardController extends Controller
 
 
     function __construct()
-    {
-        if(session()->get(env('USER_SESSION_KEY'))){   
+    { 
             $this->constructApplicant = new LogInModel();
             $this->constructSalse = new AllSales();
             $this->constructRefill = new RefillSales();
@@ -36,10 +35,6 @@ class dashboardController extends Controller
             $this->constructOrders = new orders();
             $this->constructResellerProducts = new ResellerProducts();
             $this->constructRefillRequest = new refillRequest();
-            return $this;
-        }else{ 
-            return view('log-in');
-        }
     }
 
     function dashboard(){

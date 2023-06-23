@@ -22,7 +22,6 @@ class OrderController extends Controller
              $constructResellerProduct, $constructrefillRequest;
 
     function __construct(){
-        if(session()->get(env('USER_SESSION_KEY'))){  
             $this->constructOrder = new orders();
             $this->constructresseller = new LogInModel();
             $this->constructProduct = new Products();
@@ -31,9 +30,6 @@ class OrderController extends Controller
             $this->constructResellerProduct = new ResellerProducts();
             $this->constructrefillRequest = new refillRequest();
             return $this;
-        }else{ 
-            return view('log-in');
-        }
     }
 
     function orders(){
