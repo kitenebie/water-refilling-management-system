@@ -38,5 +38,5 @@
 </body>
 </html>
 @else
- {{ return view('logout') }}
+ {{ header(route('logout')) }}
 @endif
