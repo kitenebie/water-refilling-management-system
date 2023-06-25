@@ -9,6 +9,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\Reseller_Add_Sales;
 use App\Http\Controllers\AllRefillSalesController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SettingsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -120,3 +122,17 @@ Route::post('/Refill-request/Request/complete', [AllRefillSalesController::class
 
 // *settings
 Route::get('/Settings', [dashboardController::class, 'Settings'])->name('Settings');
+
+
+//*notification getNotificationByUser
+Route::get('/Save_Reseller_Stocks', [NotificationController::class, 'Save_Reseller_Stocks'])->name('Save_Reseller_Stocks');
+Route::get('/getNotificationByUser', [NotificationController::class, 'getNotificationByUser'])->name('getNotificationByUser');
+Route::get('/test', [NotificationController::class, 'test'])->name('test');
+
+//*settings getloginInfo
+Route::post('/update-Profile', [SettingsController::class, 'updateProfile'])->name('updateProfile');
+Route::get('/getloginInfo-Profile', [SettingsController::class, 'getloginInfo'])->name('getloginInfo');
+
+// UpdatePrice updateLimitStocks
+Route::post('/Update-Price', [SettingsController::class, 'UpdatePrice'])->name('UpdatePrice');
+Route::post('/update-Limit-Stocks', [SettingsController::class, 'updateLimitStocks'])->name('updateLimitStocks');

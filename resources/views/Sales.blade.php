@@ -11,15 +11,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
     <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<title>Sales</title>
 </head>
-<body onload="darkmode()">
+<body>
 
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('storage/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Sales</span>
 		</a>
 		<ul class="side-menu top">
@@ -110,11 +111,12 @@
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
                 <a href="#" class="notification">
+					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num">8</span>
                 </a>
                 <a href="#" class="profile">
-                    <img  id="profileimg">
+                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
                 </a>
             </div>
 		</nav>

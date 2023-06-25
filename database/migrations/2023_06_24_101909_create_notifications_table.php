@@ -13,19 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('log_in_models', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->text('reseller_id');
-            $table->text('firstname');
-            $table->text('lastname');
-            $table->text('Birthday');
-            $table->text('address');
-            $table->text('contact');
+            $table->text('title');
+            $table->text('message');
+            $table->dateTime('ntime');
+            $table->integer('repeat');
+            $table->integer('nloop');
             $table->text('username');
-            $table->text('password');
-            $table->text('user_authe');
-            $table->text('Status');
-            $table->text('profile_pic');
+            $table->dateTime('publish_date');
             $table->timestamps();
         });
     }
@@ -37,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_in_models');
+        Schema::dropIfExists('notifications');
     }
 };

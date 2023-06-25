@@ -1,5 +1,4 @@
 const switchMode = document.getElementById('switch-mode');
-darkmode();
 switchMode.addEventListener('change', function () {
 	if(this.checked == true) {
 		document.body.classList.add('dark');
@@ -7,19 +6,6 @@ switchMode.addEventListener('change', function () {
 		document.body.classList.remove('dark');
 	}
 });
-function darkmode(){
-    if(switchMode.checked == true) {
-		localStorage.setItem("formBody", "dark");
-		localStorage.setItem("Mode", true);
-		document.body.classList.add(localStorage.getItem("formBody"));
-		switchMode.checked = localStorage.getItem("Mode");
-	} else {
-		localStorage.setItem("formBody", "dark");
-		localStorage.setItem("Mode", true);
-		document.body.classList.remove(localStorage.getItem("formBody"));
-		switchMode.checked = localStorage.getItem("Mode");
-	}
-}
 const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
 
 allSideMenu.forEach(item=> {
@@ -44,6 +30,19 @@ menuBar.addEventListener('click', function () {
 })
 
 
+// function darkmode(){
+//     if(switchMode.checked == true) {
+// 		localStorage.setItem("formBody", "dark");
+// 		localStorage.setItem("Mode", true);
+// 		document.body.classList.add(localStorage.getItem("formBody"));
+// 		switchMode.checked = localStorage.getItem("Mode");
+// 	} else {
+// 		localStorage.setItem("formBody", "dark");
+// 		localStorage.setItem("Mode", true);
+// 		document.body.classList.remove(localStorage.getItem("formBody"));
+// 		switchMode.checked = localStorage.getItem("Mode");
+// 	}
+// }
 
 
 

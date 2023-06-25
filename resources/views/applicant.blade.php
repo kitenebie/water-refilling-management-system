@@ -12,7 +12,7 @@
 
 	<title>Applicants</title>
 </head>
-<body onload="darkmode()">
+<body>
 
 
 	<!-- SIDEBAR -->
@@ -110,11 +110,12 @@
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
                 <a href="#" class="notification">
+					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num">8</span>
                 </a>
                 <a href="#" class="profile">
-                    <img  id="profileimg">
+                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
                 </a>
             </div>
 		</nav>

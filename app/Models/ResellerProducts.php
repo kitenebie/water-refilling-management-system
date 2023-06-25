@@ -37,11 +37,23 @@ class ResellerProducts extends Model
     }
 
     function GetProductPrice(){
-
         return DB::table('reseller_products')
         ->select('reseller_products.User_ID', 'reseller_products.product_ID','products.product_Name', 'reseller_products.Price', 'reseller_products.Quantity', 'products.product_Name')
         ->join('products', 'reseller_products.product_ID', '=', 'products.product_id')
         ->get();
     }
 
+    function getproductDetails(){
+        return DB::table('reseller_products')
+                ->join('products', 'reseller_products.product_ID', '=', 'products.product_id')
+                ->select('reseller_products.Price', 'products.product_Name', 'reseller_products.id')
+                ->where('reseller_products.User_ID','=',session()->get(env('USER_SESSION_KEY')))
+                ->get();
+    }
+
+    function updatePriceData($up_data, $info){
+        return $this->where('reseller_products.User_ID','=',session()->get(env('USER_SESSION_KEY')))
+                    ->where('reseller_products.id','=',$info)
+                    ->update($up_data);
+    }
 }

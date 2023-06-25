@@ -91,7 +91,7 @@
                 <label for="">Contact Number</label>
                 <input name="contact" type="number" placeholder="Contact Number" value="09" required>
                 <label for="">Email Address</label>
-                <input name="email" type="email" placeholder="e.g., myemail@gmail.com" required>
+                <input name="username" type="email" placeholder="e.g., myemail@gmail.com" required>
                 <label for="">Password</label>
                 <input name="password" type="password" required>
                 <label for="">Confirm Password</label>

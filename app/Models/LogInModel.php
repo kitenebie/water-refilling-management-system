@@ -14,15 +14,15 @@ class LogInModel extends Model
 
     //* User Authentication Login
     function login($data){
-        return $this->where('email', $data['email'])->where('password', $data['password'])->where('status', 'Active')->get();
+        return $this->where('username', $data['username'])->where('password', $data['password'])->where('status', 'Active')->get();
     }
 
     function loginPending($data){
-        return $this->where('email', $data['email'])->where('password', $data['password'])->where('status', 'Pending')->get();
+        return $this->where('username', $data['username'])->where('password', $data['password'])->where('status', 'Pending')->get();
     }
     //* User Authentication Register
-    function find_username($email){
-        return $this->where('email', $email)->get();
+    function find_username($username){
+        return $this->where('username', $username)->get();
     }
     //* save account
     function save_account($data){
@@ -48,5 +48,14 @@ class LogInModel extends Model
 
     function DeclineRequest($ID){
         return $this->where('id', $ID)->delete();
+    }
+
+    function storeNewUpdateProfile($data){
+        return $this->where('reseller_id', session()->get(env('USER_SESSION_KEY')))
+             ->update($data);
+    }
+
+    function getDetails(){
+        return $this->where('reseller_id', session()->get(env('USER_SESSION_KEY')))->get();
     }
 }

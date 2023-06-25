@@ -12,6 +12,7 @@ use App\Models\client_stocks;
 use App\Models\orders;
 use App\Models\ResellerProducts;
 use App\Models\refillRequest;
+use App\Http\Controllers\NotificationController;
 use Carbon\Carbon;
 
 class dashboardController extends Controller
@@ -19,7 +20,7 @@ class dashboardController extends Controller
 
     private $constructSalse, $constructRefill, $constructApplicant, $constructProduct,
             $constructclient_stocks, $constructOrders, $constructResellerProducts,
-            $constructRefillRequest;
+            $constructRefillRequest, $NotificationController;
     //* for total_income
     public $adminStocks, $pendingAmount, $proccessAmount,$refillprending, $refillprocess;
 
@@ -35,6 +36,8 @@ class dashboardController extends Controller
             $this->constructOrders = new orders();
             $this->constructResellerProducts = new ResellerProducts();
             $this->constructRefillRequest = new refillRequest();
+            $this->NotificationController = new NotificationController();
+            return $this;
     }
 
     function dashboard(){
@@ -47,6 +50,7 @@ class dashboardController extends Controller
                $adminStocks = $this->constructProduct->getALLAdminStocks();
             }
             if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+                $this->NotificationController->getNotificationByUser();
                $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
             }
             $this->constructSalse->GetAllUserCurrentYearlySALE(date('Y'));
@@ -172,9 +176,13 @@ class dashboardController extends Controller
 
     function Settings(){
         if(session()->get(env('USER_SESSION_KEY'))){    
-            return view('Settings');
+            $details = $this->constructApplicant->getDetails();
+            $ProductPrice = $this->constructResellerProducts->getproductDetails();
+            $StockDetails = $this->constructclient_stocks->stock_details();
+            return view('Settings', compact('ProductPrice','details','StockDetails'));
         }else{
             return view('log-in');
         }
     }
+
 }

@@ -10,15 +10,53 @@
 	<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
 	<title>Dashboard</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
+    
 </head>
-<body onload="darkmode()">
-
+<body>
+    <script>
+    $(document).ready(function() {		
+	if (!Notification) {
+		$('body').append('<h4 style="color:red">*Browser does not support Web Notification</h4>');
+		return;
+	}
+	if (Notification.permission !== "granted") {		
+		Notification.requestPermission();
+	} else {		
+		$.ajax({
+			url : "{{ route('getNotificationByUser') }}",
+			type: "get",
+			success: function(response, textStatus, jqXHR) {
+				var response = jQuery.parseJSON(response);
+				if(response.result == true) {
+					var notificationDetails = response.notif;
+					for (var i = notificationDetails.length - 1; i >= 0; i--) {
+						var notificationUrl = notificationDetails[i]['url'];
+						var notificationObj = new Notification(notificationDetails[i]['title'], {
+							icon: notificationDetails[i]['icon'],
+							body: notificationDetails[i]['message'],
+						});
+						notificationObj.onclick = function () {
+							window.open(notificationUrl); 
+							// notificationObj.close();     
+						};
+						// setTimeout(function(){
+						// 	notificationObj.close();
+						// });
+					};
+				} else {
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown)	{}
+		}); 
+	}
+});
+    </script>
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('storage/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
@@ -112,11 +150,12 @@
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
                 <a href="#" class="notification">
+					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num">8</span>
                 </a>
                 <a href="#" class="profile">
-                    <img  id="profileimg">
+                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
                 </a>
             </div>
 		</nav>

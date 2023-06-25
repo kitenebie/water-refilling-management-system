@@ -9,16 +9,16 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
 	<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-
+    <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
 	<title>Orders & Transactions</title>
 </head>
-<body onload="darkmode()">
+<body>
 
 
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('storage/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Order & Transaction</span>
 		</a>
 		<ul class="side-menu top">
@@ -115,11 +115,12 @@
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
                 <a href="#" class="notification">
+					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num">8</span>
                 </a>
                 <a href="#" class="profile">
-                    <img  id="profileimg">
+                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
                  </a>
             </div>
 		</nav>
