@@ -108,7 +108,7 @@
                 <a href="#" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
-                    <span class="num">8</span>
+                    <span class="num"></span>
                 </a>
                 <a href="#" class="profile">
                     <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
@@ -153,13 +153,15 @@
 							@endif
 							<label for="">Profile</label><br>
 							<input name="image" type="file" class="inputs-products">
-							<button type="submit" 
-							style="
-							width: max-content; padding:8px 12px; margin-left:.8rem;
-							cursor: pointer; border:none; background-color:#3c94e6;
-							border-radius:2px; color:#F9F9F9;
-							"
-							>Save</button>
+							<div width="100" style="margin-top: 5px">
+							<li>
+								<button type="submit" id="editBTN" style="display: block; margin-left:5px; margin-right: 10px;
+								padding: 4px 8px; background: #3C91E6; border:none; color:#F9F9F9; cursor: pointer;
+								border-radius: 2px;">
+									<h1><i class='bx bxs-save' ></i></h1>Save Changes
+								</button>
+							</li>
+							</div>
 						</form>
 						<img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image"
 						style="position: absolute; left:auto; width:120px; height:120px;
@@ -264,7 +266,7 @@
 						<form action="{{ route('Announcement_Post') }}" method="post">
 							@csrf
 							<label for="">Caption</label><br>
-							<textarea name="annoucements_content" id="" cols="50" rows="10" class="inputs-products"></textarea>
+							<textarea name="annoucements_content" id="annoucements_content" cols="50" rows="10" class="inputs-products"></textarea>
 							<button type="submit" class="save-btn" style="margin-left: 1.2rem">Post</button>
 						</form>
                     </div>
@@ -275,25 +277,11 @@
 						<h4>Announcement</h4>
                     </div>		
                     <div class="todo box">
-						<ul class="todo-list" id="#container">
-							<li class="completed " id="req">
-								<div>
-									<p>
-									Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus blanditiis nihil nobis quisquam. Expedita perspiciatis atque magni. Labore sequi neque reprehenderit, vitae laudantium consequatur dolorem blanditiis repellat officia aut aliquid.
-									</p>
-								</div>
-							</li>
-							<li class="completed " id="req">
-								<div>
-									<p>
-									Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus blanditiis nihil nobis quisquam. Expedita perspiciatis atque magni. Labore sequi neque reprehenderit, vitae laudantium consequatur dolorem blanditiis repellat officia aut aliquid.
-									</p>
-								</div>
-							</li>
+						<ul class="todo-list" id="anncontainer">
 						</ul>
                     </div>
                 </div>
-                <div class="order">
+                <div hidden class="order">
                     <div class="head">
                         {{-- box4 --}}
 						<h4>Dark Mode</h4>
@@ -332,5 +320,71 @@
 		}, 5000);
 	</script>
 	@endif
+	@if (session('posted'))
+	<script>
+		toastr.info('Successfully Posted!', "Announcement Posted", {
+			closeButton: true,
+			tapToDismiss: true, // prevent the toast from disappearing when clicked
+			newestOnTop: true,
+			positionClass: 'toast-top-right', // set the position of the toast
+			preventDuplicates: true,
+		}, 5000);
+	</script>
+	@endif
+	@if (session('removePost'))
+	<script>
+		toastr.warning('Successfully Removed!', "Announcement Removed", {
+			closeButton: true,
+			tapToDismiss: true, // prevent the toast from disappearing when clicked
+			newestOnTop: true,
+			positionClass: 'toast-top-right', // set the position of the toast
+			preventDuplicates: true,
+		}, 5000);
+	</script>
+	@endif
+	<script>
+		$(document).ready(function(){
+			$.ajax({
+				url: "{{ route('get_annoucement') }}",
+				success: function(data) {
+					// Get the response data
+					var response = data;
+
+					// Do something with the response data
+					// console.log(response);
+					// console.log(response.length);
+					for(var i = 0; i < response.length; i++){
+						// console.log(response[i].announce_Code);
+						$('#anncontainer').append('<li class="completed"><div><strong><span> '+response[i].created_at.slice(0,10)+' </span></strong><p style="text-align:justify">'+response[i].annoucements_content+'</p> <hr><a href="/remove-announcement/'+response[i].announce_Code+'">remove</a></div></li>')
+					}
+				}
+				});
+		})
+	</script>
+	 @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+	 <script>
+		 $(document).ready(function(){
+			 $.ajax({
+				 url: "{{ route('get_annoucement') }}",
+				 success: function(data) {
+					 var response = data;
+					 $('.num').text(response.length);
+				 }
+				 });
+		 });
+	 </script>
+ @endif
+ @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+	 <script>
+		 $(document).ready(function(){
+			 $.ajax({
+				 url: "{{ route('count_applicants') }}",
+				 success: function(Appdata) {
+					 $('.num').text(Appdata);
+				 }
+				 });
+		 });
+	 </script>
+ @endif
 </body>
 </html>

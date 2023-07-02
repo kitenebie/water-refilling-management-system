@@ -16,7 +16,7 @@ class announcementController extends Controller
 
     function Announcement_Post(Request $req){
         $req_data = [
-            'announce_Code' => Str::random(20),
+            'announce_Code' => Str::random(10),
             'annoucements_content' => $req->annoucements_content
         ];
         $this->constructAnnoucement->Posting_announcement($req_data);

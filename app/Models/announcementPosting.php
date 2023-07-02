@@ -11,7 +11,7 @@ class announcementPosting extends Model
     protected $guarded = [];
     
     function Posting_announcement($req_data){
-        return $this->create();
+        return $this->create($req_data);
     }
 
     function removing_announcement($announce_Code){
@@ -19,6 +19,6 @@ class announcementPosting extends Model
     }
 
     function get_announcement(){
-        return $this->get();
+        return $this->orderBy('id', 'desc')->get();
     }
 }

@@ -119,7 +119,7 @@
 		<ul class="side-menu">
 			<li>
 				<a href="#">
-					<i class='bx bxs-bell' ></i>
+					<i class='bx bxs-bell'></i>
 					<span class="text">Notification</span>
 				</a>
 			</li>
@@ -152,7 +152,7 @@
                 <a href="#" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
-                    <span class="num">8</span>
+                    <span class="num" id="NuM"></span>
                 </a>
                 <a href="#" class="profile">
                     <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
@@ -211,12 +211,12 @@
 				<div class="order">
 					<div class="head">
 						<h3>Recent Orders</h3>
-                        <form action="#">
+                        {{-- <form action="#">
                             <div class="form-input2">
                                 <input type="search" placeholder="Search..." class="recent-search">
                                 <button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
                             </div>
-                        </form>
+                        </form> --}}
 					</div>
                     <table>
                         <thead>
@@ -271,21 +271,7 @@
                             <h4>Announcement</h4>
                         </div>		
                         <div class="todo box">
-                            <ul class="todo-list" id="#container">
-                                <li class="completed " id="req">
-                                    <div>
-                                        <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus blanditiis nihil nobis quisquam. Expedita perspiciatis atque magni. Labore sequi neque reprehenderit, vitae laudantium consequatur dolorem blanditiis repellat officia aut aliquid.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="completed " id="req">
-                                    <div>
-                                        <p>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus blanditiis nihil nobis quisquam. Expedita perspiciatis atque magni. Labore sequi neque reprehenderit, vitae laudantium consequatur dolorem blanditiis repellat officia aut aliquid.
-                                        </p>
-                                    </div>
-                                </li>
+                            <ul class="todo-list" id="anncontainer">
                             </ul>
                         </div>
                     </div>
@@ -326,6 +312,34 @@
             }, 5000);
         </script>
         @endif
+
+@if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+	<script>
+		$(document).ready(function(){
+			$.ajax({
+				url: "{{ route('get_annoucement') }}",
+				success: function(data) {
+					// Get the response data
+					var response = data;
+
+					// Do something with the response data
+					// console.log(response);
+					// console.log(response.length);
+                        $('.num').text(response.length);
+					for(var i = 0; i < response.length; i++){
+						// console.log(response[i].announce_Code)
+						$('#anncontainer').append('<li class="completed"><div><strong><span> '+response[i].created_at.slice(0,10)+' </span></strong><p style="text-align:justify">'+response[i].annoucements_content+'</p></div></li>')
+					}
+				}
+				});
+		});
+	</script>
+@endif
+@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+    <script>
+        $('.num').text($("ul #req").length);
+    </script>
+@endif
         <script src="{{ asset('js/amounts.js') }}"></script>
         <script src="{{ asset('js/localStorage.js') }}"></script>
 </body>

@@ -117,7 +117,7 @@
                 <a href="#" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
-                    <span class="num">8</span>
+                    <span class="num"></span>
                 </a>
                 <a href="#" class="profile">
                     <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
@@ -437,6 +437,31 @@
         }, 5000);
     </script>
     @endif
+    @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+	<script>
+		$(document).ready(function(){
+			$.ajax({
+				url: "{{ route('get_annoucement') }}",
+				success: function(data) {
+					var response = data;
+                    $('.num').text(response.length);
+				}
+				});
+		});
+	</script>
+@endif
+@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+    <script>
+        $(document).ready(function(){
+			$.ajax({
+				url: "{{ route('count_applicants') }}",
+				success: function(Appdata) {
+                    $('.num').text(Appdata);
+				}
+				});
+		});
+    </script>
+@endif
 	<script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
