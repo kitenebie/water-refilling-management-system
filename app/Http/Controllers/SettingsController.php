@@ -6,17 +6,20 @@ use Illuminate\Http\Request;
 use App\Models\LogInModel;
 use App\Models\ResellerProducts;
 use App\Models\client_stocks;
+use App\Models\Notifications;
+
 use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
-    private $constructLoginUser, $constructResellerProducts, $constructclient_stocks;
+    private $constructLoginUser, $constructResellerProducts, $constructclient_stocks, $NotificationController;
     
     function __construct()
     { 
         $this->constructLoginUser = new LogInModel();
         $this->constructResellerProducts = new ResellerProducts();
         $this->constructclient_stocks = new client_stocks();
+        $this->NotificationController = new Notifications();
         return $this;
     }
     function updateProfile(Request $request)
@@ -37,8 +40,15 @@ class SettingsController extends Controller
             ];
             $this->constructLoginUser->storeNewUpdateProfile($data);
             session()->put('profile',  basename($filename));
+            return back()->with('imgsuccess', 'Image uploaded successfully!');
+        }else{
+            $data = [
+                'firstname' => $request->fname,
+                'lastname' => $request->lname
+            ];
+            $this->constructLoginUser->storeNewUpdateProfile($data);
+
         }
-        return back()->with('imgsuccess', 'Image uploaded successfully!');
     }
 
     function UpdatePrice(Request $data){
@@ -63,6 +73,7 @@ class SettingsController extends Controller
             $this->constructclient_stocks->updateStocklimitID($up_limit, $limit_id);
             $setNum++;
         }
+        $this->NotificationController->deleteNotification();
         return back()->with('imgsuccess', 'Image uploaded successfully!');
 
     }

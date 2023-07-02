@@ -25,7 +25,7 @@ class Notifications extends Model
 
     function getNotificationUser(){
         $notifications = $this->where('username', session()->get('username'))
-            ->where('nloop', '>', 1)
+            ->where('nloop', '>', 0)
             ->where('ntime', '<=', now())
             ->get();
         return $notifications;
