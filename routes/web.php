@@ -11,6 +11,7 @@ use App\Http\Controllers\Reseller_Add_Sales;
 use App\Http\Controllers\AllRefillSalesController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\announcementController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -136,3 +137,8 @@ Route::get('/getloginInfo-Profile', [SettingsController::class, 'getloginInfo'])
 // UpdatePrice updateLimitStocks
 Route::post('/Update-Price', [SettingsController::class, 'UpdatePrice'])->name('UpdatePrice');
 Route::post('/update-Limit-Stocks', [SettingsController::class, 'updateLimitStocks'])->name('updateLimitStocks');
+
+//* announcement Announcement_remove
+Route::post('/post-announcement', [announcementController::class, 'Announcement_Post'])->name('Announcement_Post');
+Route::get('/remove-announcement/{announce_Code}', [announcementController::class, 'Announcement_remove'])->name('Announcement_remove');
+Route::get('/get-announcement', [announcementController::class, 'get_annoucement'])->name('get_annoucement');

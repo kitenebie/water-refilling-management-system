@@ -261,10 +261,10 @@
 						<h4>Post Announcement</h4>
                     </div>		
                     <div class="head">
-						<form action="" method="post">
+						<form action="{{ route('Announcement_Post') }}" method="post">
 							@csrf
 							<label for="">Caption</label><br>
-							<textarea name="" id="" cols="50" rows="10" class="inputs-products"></textarea>
+							<textarea name="annoucements_content" id="" cols="50" rows="10" class="inputs-products"></textarea>
 							<button type="submit" class="save-btn" style="margin-left: 1.2rem">Post</button>
 						</form>
                     </div>
