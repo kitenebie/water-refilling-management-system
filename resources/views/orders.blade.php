@@ -1,4 +1,6 @@
-<?php use Illuminate\Support\Str; ?>
+@php
+    use Illuminate\Support\Str;
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -163,19 +165,19 @@
                         @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
                             @if($label_title == "To Receive Orders")
                             <li>
-                                <button class="save-btn status Pending" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
+                                <a href="{{ route('get_toReceive_orders') }}" class="save-btn status Pending" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
                                     <i class='bx bxs-download' ></i>
-                                    <span class="text">Export Process Report</span>
-                                </button>
+                                    <span class="text"> Process Report</span>
+                                </a>
                             </li>
                             @endif
 
                             @if($label_title == "Completed Orders")
                             <li>
-                                <button class="save-btn" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
+                                <a  href="{{ route('get_completed_orders') }}" class="save-btn" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
                                     <i class='bx bxs-download' ></i>
-                                    <span class="text">Export Completed Report</span>
-                                </button>
+                                    <span class="text"> Completed Report {{ date('F-Y') }}</span>
+                                </a>
                             </li>
                             @endif
                         @endif
@@ -231,7 +233,7 @@
                                                 PHP {{ number_format($resellerData->Amount, 2) }}
                                                 <input type="text" hidden name="Amount" value="{{ $resellerData->Amount }}">
                                             </td>
-                                            <td>{{ $resellerData->created_at = date("M-d-Y") }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($resellerData->updated_at)->format('F j, Y') }}</td>
                                             <td>
                                                 @if ($label_title == "Request Orders")
                                                     @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))

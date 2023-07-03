@@ -15,8 +15,27 @@
 	<title>Sales</title>
 </head>
 <body>
-
-
+    <style>
+        #searchMonth{
+            padding: 4px 6px;
+            outline: none;
+            font-family: inherit;
+        }
+        #btnshowsales{
+            padding: 6px 6px;
+            outline: none;
+            font-family: inherit;
+            font-weight: 700;
+            background: rgb(41, 140, 233);
+            border: .5px;
+            border-radius: 4px;
+            color: azure;
+            cursor: pointer;
+        }        
+        #btnshowsales:hover{
+            background: rgb(84, 164, 238);
+        }
+    </style>
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
@@ -170,7 +189,16 @@
                     </span>
                 </li>
             </ul>
-            
+            <div class="table-data">
+                <div class="order">
+                    <form action="{{ route('selectedMonthYearSale') }}" method="post"></form>
+                    <div>
+                        <label for="">Select Year</label>
+                        <input type="month" name="searchMonth" id="searchMonth">
+                        <button type="submit" id="btnshowsales">Show Slaes</button>
+                    </div>
+                </div>
+            </div>
 
 			<div class="table-data">
                 <div class="order">

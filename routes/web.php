@@ -12,6 +12,7 @@ use App\Http\Controllers\AllRefillSalesController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\announcementController;
+use App\Http\Controllers\PDFController;
 use App\Models\reseller_request;
 
 /*
@@ -147,3 +148,13 @@ Route::get('/get-announcement', [announcementController::class, 'get_annoucement
 
 //count_applicants
 Route::get('/count_applicants', [reseller_request::class, 'count_applicants'])->name('count_applicants');
+
+//selectedMonthYearSale
+Route::post('/selectedMonthYearSale', [AllRefillSalesController::class, 'selectedMonthYearSale'])->name('selectedMonthYearSale');
+//get_toReceive_orders : get_completed_orders
+Route::get('/get-orders-report', [PDFController::class,'get_toReceive_orders'])->name('get_toReceive_orders');
+Route::get('/get-completed-report', [PDFController::class,'get_completed_orders'])->name('get_completed_orders');
+
+//refill : get_toReceive_refill : get_complete_refill
+Route::get('/get-refill-report', [PDFController::class,'get_toReceive_refill'])->name('get_toReceive_refill');
+Route::get('/get-complete-refill-report', [PDFController::class,'get_complete_refill'])->name('get_complete_refill');

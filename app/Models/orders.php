@@ -13,7 +13,7 @@ class orders extends Model
 
     function get_orders(){
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'pending')->get();
+            return $this->where('status', 'pending')->orderByDesc('updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             return $this->where('reseller_ID', session()->get('key'))->where('status', 'pending')->get();
@@ -23,7 +23,7 @@ class orders extends Model
     function get_orders_Request(){
 
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Pending')->get();
+            return $this->where('status', 'Pending')->orderByDesc('updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             return $this->where('reseller_ID', session()->get('key'))->where('status', 'Pending')->get();
@@ -33,7 +33,7 @@ class orders extends Model
 
     function get_orders_ToReceive(){
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Process')->get();
+            return $this->where('status', 'Process')->orderByDesc('updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             return $this->where('reseller_ID', session()->get('key'))->where('status', 'Process')->get();
@@ -42,7 +42,7 @@ class orders extends Model
 
     function get_orders_Completed(){
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Completed')->get();
+            return $this->where('status', 'Completed')->orderByDesc('updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             return $this->where('reseller_ID', session()->get('key'))->where('status', 'Completed')->get();
@@ -52,7 +52,7 @@ class orders extends Model
 
     function get_orders_Cancelled(){
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Cancelled')->get();
+            return $this->where('status', 'Cancelled')->orderByDesc('updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             return $this->where('reseller_ID', session()->get('key'))->where('status', 'Cancelled')->get();

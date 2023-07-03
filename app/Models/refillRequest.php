@@ -45,15 +45,15 @@ class refillRequest extends Model
                         ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
                         ->where('refill_requests.Reseller_ID', session()->get(env('USER_SESSION_KEY')))
                         ->where('refill_requests.status', 'Pending')
-                        ->select('refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
-                        ->get();
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
             return DB::table('refill_requests')
                         ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
                         ->where('refill_requests.status', 'Pending')
-                        ->select('refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
-                        ->get();
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
         }
     }
 
@@ -63,15 +63,15 @@ class refillRequest extends Model
                         ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
                         ->where('refill_requests.Reseller_ID', session()->get(env('USER_SESSION_KEY')))
                         ->where('refill_requests.status', 'Process')
-                        ->select('refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
-                        ->get();
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
             return DB::table('refill_requests')
                         ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
                         ->where('refill_requests.status', 'Process')
-                        ->select('refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
-                        ->get();
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
         }
     }
     
@@ -81,15 +81,15 @@ class refillRequest extends Model
                         ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
                         ->where('refill_requests.Reseller_ID', session()->get(env('USER_SESSION_KEY')))
                         ->where('refill_requests.status', 'Completed')
-                        ->select('refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
-                        ->get();
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
             return DB::table('refill_requests')
                         ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
                         ->where('refill_requests.status', 'Completed')
-                        ->select('refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
-                        ->get();
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
         }
     }
 

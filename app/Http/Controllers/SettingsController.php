@@ -25,41 +25,6 @@ class SettingsController extends Controller
     {
         // Check if the user has uploaded an image.
         if (!empty($request->image)) {
-            // // Save the image to the file system.// Get the file system disk.
-            // $disk = Storage::disk('public');
-
-            // // Delete the file.
-            // $disk->delete(basename(session()->get('profile')));
-            // $image = $request->file('image');
-            // $filename = $image->store('public');
-            // $data = [
-            //     'firstname' => $request->fname,
-            //     'lastname' => $request->lname,
-            //     'profile_pic' => basename($filename)
-            // ];
-            // $this->constructLoginUser->storeNewUpdateProfile($data);
-            // session()->put('profile',  basename($filename));
-            // return back()->with('imgsuccess', 'Image uploaded successfully!');
-           // Get the image file from the POST request
-           $image = $request->file('image');
-        
-           // Validate the image file
-           $request->validate([
-               'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-           ]);
-           
-           // Generate a unique file name for the image
-           $fileName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-           
-           // Move the uploaded file to a public directory
-           $image->move(public_path('uploads'), $fileName);
-           
-           // Optionally, you can save the file path to your database
-           // $filePath = '/uploads/' . $fileName;
-           // Save the file path to the database
-           
-           return 'Image uploaded successfully!';
-       
 
         }else{
             $data = [
@@ -67,7 +32,7 @@ class SettingsController extends Controller
                 'lastname' => $request->lname
             ];
             $this->constructLoginUser->storeNewUpdateProfile($data);
-
+            return back()->with('imgsuccess', 'Image uploaded successfully!');
         }
     }
 

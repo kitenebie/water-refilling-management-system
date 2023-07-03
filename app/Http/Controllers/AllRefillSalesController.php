@@ -71,4 +71,8 @@ class AllRefillSalesController extends Controller
         $statusRefill = $this->constructrefillRequest->statusCompleteRefill();
         return view('Refill-Request', compact('statusRefill','label_title')); 
     }
+
+    function selectedMonthYearSale(Request $mothyear){
+        echo $mothyear->year;
+    }
 }

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->text('password');
             $table->text('user_authe');
             $table->text('Status');
-            $table->text('profile_pic');
+            $table->longText('profile_pic');
             $table->timestamps();
         });
     }

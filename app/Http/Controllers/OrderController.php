@@ -114,7 +114,8 @@ class OrderController extends Controller
         $client_stock_data = [
             'reseller_id' => $success_req->resellerID,
             'product_id' => $success_req->product_ID,
-            'quantity' => $success_req->order
+            'quantity' => $success_req->order,
+            'prdt_limit' => 0
         ];
         $this->constructClientStocks->Save_Stocks($client_stock_data);
         $AddSale = [

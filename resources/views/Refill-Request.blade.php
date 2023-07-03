@@ -1,4 +1,8 @@
-<?php use Illuminate\Support\Str; ?>
+@php
+	use Illuminate\Support\Str;
+    use Illuminate\Support\Carbon;
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -146,6 +150,25 @@
 					<i class='bx bxs-cloud-download' ></i>
 					<span class="text">Download PDF</span>
 				</a>  --}}
+			@if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))	
+				@if ($label_title == "Process Refill Request")
+				<li>
+					<a  href="{{ route('get_toReceive_refill') }}" class="save-btn" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
+						<i class='bx bxs-download' ></i>
+						<span class="text"> Process Report</span>
+					</a>
+				</li>
+				@endif
+
+				@if ($label_title == "Completed Refill Request")
+				<li>
+					<a  href="{{ route('get_complete_refill') }}" class="save-btn" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
+						<i class='bx bxs-download' ></i>
+						<span class="text"> Complete Report {{ date('F-Y') }}</span>
+					</a>
+				</li>
+				@endif
+			@endif
 			</div>
 
 			<div class="table-data">
@@ -186,7 +209,10 @@
 													{{ $refillStatus->TotalCost }}
 													<input value="{{ $refillStatus->TotalCost }}" type="text" name="Amount" id="Amount" hidden>
 												</td>
-												<td>{{ $refillStatus->created_at = date("M-d-Y") }}</td>
+												<td>
+												{{ \Carbon\Carbon::parse($refillStatus->updated_at)->format('F j, Y') }}
+
+												</td>
 												<td>
 													@if ($label_title == "Pending Refill Request")
                                                     @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
