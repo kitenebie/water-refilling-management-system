@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\orders as order;
 use App\Models\LogInModel;
-use App\Models\products;
+use App\Models\RefillSales;
+use App\Models\AllSales;
 use Carbon\Carbon;
 // use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\refillRequest as refill;
@@ -43,7 +44,7 @@ class PDFController extends Controller
                         'products.product_Name', 'orders.order', 'orders.Amount', 'products.updated_at')
                     ->orderByDesc('products.updated_at')
                     ->get();
-        
+
         $totalAmount = order::where('orders.status', 'Completed')
                     ->whereMonth('orders.updated_at', $currentMonth)
                     ->selectRaw('SUM(orders.Amount) as TheAmount')->get();
@@ -71,7 +72,7 @@ class PDFController extends Controller
         $pdfName = "Refill Trasaction-".date('m/d/y').".pdf";
         return PDF::loadView('refill-process', ['refills' => $refillsData, 'NewtotalAmount' => $NewtotalAmount,
                             'caption' => $caption])->download($pdfName);
-    } 
+    }
 
     function get_complete_refill(){
         $caption = "Completed Refill Report";
@@ -92,5 +93,32 @@ class PDFController extends Controller
         $pdfName = "Completed-refill-Report-".date('m/d/y').".pdf";
         return PDF::loadView('refill-process', ['refills' => $refillsData, 'NewtotalAmount' => $NewtotalAmount,
                             'caption' => $caption, 'currentDate' => date('F-Y')])->download($pdfName);
+    }
+
+    function getyearlyReport($year){
+        //Sales-yearly-report.blade.php
+        $caption1 = "Product Sales Report " . $year;
+        $caption2 = "Refill Sales Report " . $year;
+        $allProductSalesRecords = AllSales::join('products', 'products.product_id', '=', 'all_sales.ProductID')
+                    ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+                    ->select('products.product_id', 'products.product_Name', 'all_sales.Quantity', 'all_sales.Amount', 'all_sales.created_at')
+                    ->orderByDesc('all_sales.created_at')->get();
+
+        $sumOfallproductsales = AllSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+                                ->selectRaw('SUM(all_sales.Quantity) as AllTotalProductQty')
+                                ->selectRaw('SUM(all_sales.Amount) as AllTotalProductSale')->get();
+
+        $refillAllSalesRecords = RefillSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))->get();
+        $refillAllSales = RefillSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+                    ->selectRaw('SUM(Quantity) as refilltotalQty')
+                    ->selectRaw('SUM(Amount) as refilltotalAmount')
+                    ->get();
+
+        $pdfName1 = "Refill-Sales-Report-".date('m/d/y').".pdf";
+        $pdfName2 = "Product-Sales-Report-".date('m/d/y').".pdf";
+        PDF::loadView('refill-yearly-report', ['refillAllSalesRecords' => $refillAllSalesRecords, 'refillAllSales' => $refillAllSales,
+                        'caption' => $caption1, 'currentDate' => date('F-Y')])->download($pdfName1);
+        PDF::loadView('Sales-yearly-report', ['allProductSalesRecords' => $allProductSalesRecords, 'sumOfallproductsales' => $sumOfallproductsales,
+                        'caption' => $caption2, 'currentDate' => date('F-Y')])->download($pdfName2);
     }
 }

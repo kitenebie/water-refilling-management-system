@@ -20,7 +20,7 @@
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('storage/header-dashboard.png') }}" alt="" srcset="">
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Order & Transaction</span>
 		</a>
 		<ul class="side-menu top">
@@ -283,16 +283,16 @@
 			<div class="table-data">
 				<div class="order" style="display: flex; flex-direction:column">
                             <h1>Refill and Purchase Request</h1><br>
-                        
- 
+
+
                            <form style="display: flex; flex-direction:column; width:100%;">
                                 <label  class="input_margin" for="">Select Category</label>
                                 <select style="font-weight:700" id="category" class="inputs-products">
                                     <option value="0">Refill</option>
                                     <option selected value="1">Purchase</option>
                                 </select>
-                            </form>       
-                            <form id="PurchaseRequest" style="display: flex; flex-direction:column" 
+                            </form>
+                            <form id="PurchaseRequest" style="display: flex; flex-direction:column"
                             @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
                                 action="{{ route('SubmitProductRequest') }}"
                             @endif
@@ -327,15 +327,15 @@
                                     <button id="reset" type="button" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
                                     <button type="submit" class="save-btn"><i class='bx bx-save' ></i> Submit</button>
                                 </div>
-                            </form>       
-                            <form id="RefillRequest" style="display: flex; flex-direction:column" 
+                            </form>
+                            <form id="RefillRequest" style="display: flex; flex-direction:column"
                                 @if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
                                     action="{{ route('SubmitRefillRequest') }}"
                                 @endif
                                 @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
                                     action="{{ route('AddRefillSalesAdmin') }}"
                                 @endif
-                            
+
                                 method="post">
                                 @csrf
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Number of Gallon</label>
@@ -439,7 +439,7 @@
         }, 5000);
     </script>
     @endif
-    @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+    @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	<script>
 		$(document).ready(function(){
 			$.ajax({
@@ -467,7 +467,7 @@
 	<script src="{{ asset('js/dashboard.js') }}"></script>
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
-    
+
     <script src="{{ asset('js/resellerorders.js') }}"></script>
 	<script src="{{ asset('js/localStorage.js') }}"></script>
     <script src="{{ asset('js/adminorders.js') }}"></script>

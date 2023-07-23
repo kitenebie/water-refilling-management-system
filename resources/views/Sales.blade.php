@@ -39,7 +39,7 @@
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('storage/header-dashboard.png') }}" alt="" srcset="">
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Sales</span>
 		</a>
 		<ul class="side-menu top">
@@ -156,7 +156,7 @@
 						</li>
 					</ul>
 				</div>
-				<a href="#" class="btn-download">
+				<a href="/getyearlyReport/@if(isset($thisyear)){{ $thisyear }}@else{{ date('Y') }}@endif" class="btn-download">
 					<i class='bx bxs-file-pdf' ></i>
 					<span class="text">Download PDF
                         @if(isset($thisyear))

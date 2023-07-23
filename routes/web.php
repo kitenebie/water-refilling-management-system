@@ -160,3 +160,4 @@ Route::get('/get-refill-report', [PDFController::class,'get_toReceive_refill'])-
 Route::get('/get-complete-refill-report', [PDFController::class,'get_complete_refill'])->name('get_complete_refill');
 
 Route::post('/submitFindSaleyear', [AllRefillSalesController::class, 'submitFindSaleyear'])->name('submitFindSaleyear');
+Route::get('/getyearlyReport/{year}', [PDFController::class, 'getyearlyReport'])->name('getyearlyReport');

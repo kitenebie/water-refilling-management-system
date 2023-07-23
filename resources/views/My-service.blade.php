@@ -18,7 +18,7 @@
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('storage/header-dashboard.png') }}" alt="" srcset="">
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
@@ -475,7 +475,7 @@
                 if($('#refilltotal_amount').val() == 0.00 || $('#refilltotal_amount').val() == 0){
                     $('#Refillsubmitbtn').prop('disabled', true);
                 }else{
-                    
+
                     $('#Refillsubmitbtn').prop('disabled', false);
                 }
             }
@@ -501,7 +501,7 @@
             });
 
         </script>
- @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+ @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	<script>
 		$(document).ready(function(){
 			$.ajax({

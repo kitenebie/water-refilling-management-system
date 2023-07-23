@@ -11,18 +11,18 @@
 
 	<title>Dashboard</title>
     <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
-    
+
 </head>
 <body>
     <script>
-    $(document).ready(function() {		
+    $(document).ready(function() {
 	if (!Notification) {
 		$('body').append('<h4 style="color:red">*Browser does not support Web Notification</h4>');
 		return;
 	}
-	if (Notification.permission !== "granted") {		
+	if (Notification.permission !== "granted") {
 		Notification.requestPermission();
-	} else {		
+	} else {
 		$.ajax({
 			url : "{{ route('getNotificationByUser') }}",
 			type: "get",
@@ -37,8 +37,8 @@
 							body: notificationDetails[i]['message'],
 						});
 						notificationObj.onclick = function () {
-							window.open(notificationUrl); 
-							// notificationObj.close();     
+							window.open(notificationUrl);
+							// notificationObj.close();
 						};
 						// setTimeout(function(){
 						// 	notificationObj.close();
@@ -48,7 +48,7 @@
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown)	{}
-		}); 
+		});
 	}
 });
     </script>
@@ -56,7 +56,7 @@
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('storage/header-dashboard.png') }}" alt="" srcset="">
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
@@ -269,7 +269,7 @@
                         <div class="head">
                             {{-- box4 --}}
                             <h4>Announcement</h4>
-                        </div>		
+                        </div>
                         <div class="todo box">
                             <ul class="todo-list" id="anncontainer">
                             </ul>
@@ -313,7 +313,7 @@
         </script>
         @endif
 
-@if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+@if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	<script>
 		$(document).ready(function(){
 			$.ajax({

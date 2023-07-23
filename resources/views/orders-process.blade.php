@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Jonel's Water Refilling Station</h1>
-    <p><strong>{{ $caption }}</strong> 
+    <p><strong>{{ $caption }}</strong>
         @if (isset($currentDate))
         | {{ $currentDate }}
         @endif

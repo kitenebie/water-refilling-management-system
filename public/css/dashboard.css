@@ -19,7 +19,7 @@ li {
 	--lato: 'Lato', sans-serif;
 
 	--light: #F9F9F9;
-	--blue: #3C91E6;
+	--blue:rgba(54, 162, 235);
 	--light-blue: #CFE8FF;
 	--grey: #eee;
 	--dark-grey: #AAAAAA;
@@ -551,7 +551,7 @@ border-radius: 3px;
     border-radius: 3px;
 	color: var(--light);
 	font-weight: 700;
-	background: rgb(211, 79, 55);
+	background: rgb(238, 66, 104);
 }
 #content main .table-data .order table tr td .status {
 	font-size: 10px;
