@@ -12,12 +12,12 @@ class RefillSales extends Model
 
     protected $guarded = [];
 
-    function RefillgetMonthlySales()
+    function RefillgetMonthlySales($searchyear)
     {
         $refillsales = DB::table('refill_sales')
                         ->select(DB::raw('YEAR(created_at) AS Year, MONTH(created_at) AS Month, SUM(Amount) AS TotalSales'))
                         ->where('Account_SaleID', session()->get('key'))
-                        ->whereYear('created_at', '=',  date('Y'))
+                        ->WhereYear('created_at', '=', date($searchyear))
                         ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
                         ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
                         ->get();
@@ -25,20 +25,20 @@ class RefillSales extends Model
 
     }
 
-    function getRefillALLSales()
+    function getRefillALLSales($searchyear)
     {
         $refillAllsales = DB::table('refill_sales')
             ->select(DB::raw('YEAR(created_at) AS Year, SUM(Amount) AS TotalSales'))
             ->where('Account_SaleID', session()->get('key'))
-            ->whereYear('created_at', '=',  date('Y'))
+            ->WhereYear('created_at', '=', date($searchyear))
             ->groupBy(DB::raw('YEAR(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at)'))
             ->get();
 
-       return $refillAllsales->toArray();
+        return $refillAllsales->toArray();
 
     }
-    
+
     function SaveRefillSales($refillData){
         return $this->create($refillData);
     }

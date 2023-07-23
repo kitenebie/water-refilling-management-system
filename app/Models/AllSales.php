@@ -12,12 +12,27 @@ class AllSales extends Model
 
     protected $guarded = [];
 
+    function availableYear(){
+        $allSales = DB::table('all_sales')
+            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+            ->select('created_at')
+            ->get();
 
-    function getMonthlySales()
+            $uniqueSales = [];
+            foreach ($allSales as $sale) {
+            $year = $sale->created_at;
+            if (!in_array($year, $uniqueSales)) {
+                $uniqueSales[] = date('Y', strtotime($year));
+            }
+            }
+
+            return array_unique($uniqueSales);
+    }
+    function getMonthlySales($yearlySALE)
     {
         $sales = DB::table('all_sales')
             ->select(DB::raw('YEAR(created_at) AS Year, MONTH(created_at) AS Month, SUM(Amount) AS Amount'))
-            ->whereYear('created_at', '=',  date('Y'))
+            ->whereYear('created_at', '=',  date($yearlySALE))
             ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
             ->groupBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at), MONTH(created_at)'))
@@ -26,11 +41,11 @@ class AllSales extends Model
         // var_dump($sales->toArray());
         return $sales->toArray();
     }
-    function getALLSales()
+    function getALLSales($yearlySALE)
     {
         $Allsales = DB::table('all_sales')
             ->select(DB::raw('YEAR(created_at) AS Year, SUM(Amount) AS TotalSales'))
-            ->whereYear('created_at', '=',  date('Y'))
+            ->whereYear('created_at', '=',  date($yearlySALE))
             ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
             ->groupBy(DB::raw('YEAR(created_at)'))
             ->orderBy(DB::raw('YEAR(created_at)'))

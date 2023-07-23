@@ -27,7 +27,7 @@ class dashboardController extends Controller
 
 
     function __construct()
-    { 
+    {
             $this->constructApplicant = new LogInModel();
             $this->constructSalse = new AllSales();
             $this->constructRefill = new RefillSales();
@@ -86,28 +86,29 @@ class dashboardController extends Controller
     }
 
     function getsalesmonth(){
-        
+
         if(session()->get(env('USER_SESSION_KEY'))){
         $year = Carbon::now()->year;
         $year = date('Y');
         $productMonth = [];
         $productMontlySales = [];
-        $Currentsales = $this->constructSalse->getMonthlySales();
+        $Currentsales = $this->constructSalse->getMonthlySales(date('Y'));
+        $existingYears = $this->constructSalse->availableYear();
         foreach($Currentsales as $productSales)
         {
             $month = \DateTime::createFromFormat('!m', $productSales->Month)->format('F');
             $productMonth[] = strval($month);
             $productMontlySales[] = floatval($productSales->Amount);
-            
+
         }
-        $AllSale = $this->constructSalse->getALLSales();
+        $AllSale = $this->constructSalse->getALLSales(date('Y'));
         $Salesyearly = 0;
         foreach($AllSale as $YEARsALE){
             $Salesyearly = $YEARsALE->TotalSales;
         }
 
-        $refillSALES = $this->constructRefill->RefillgetMonthlySales();
-        $AllRefillSale = $this->constructRefill->getRefillALLSales();
+        $refillSALES = $this->constructRefill->RefillgetMonthlySales(date('Y'));
+        $AllRefillSale = $this->constructRefill->getRefillALLSales(date('Y'));
         $yearlyrefilSale = 0;
         foreach($AllRefillSale as $refillSALE){
             $yearlyrefilSale = $refillSALE->TotalSales;
@@ -158,14 +159,14 @@ class dashboardController extends Controller
         $proccessAmount = $this->constructOrders->getTotalAmountProccessData();
         $refillprending = $this->constructRefillRequest->RefillPendingData();
         $refillprocess = $this->constructRefillRequest->RefillProccessData();
-         return view('Sales', compact('refillprending','refillprocess','pendingAmount','proccessAmount','adminStocks','productMonth','productMontlySales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
+        return view('Sales', compact('existingYears','refillprending','refillprocess','pendingAmount','proccessAmount','adminStocks','productMonth','productMontlySales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
         }else{
             return view('log-in');
         }
     }
 
     function refillrequest(){
-        if(session()->get(env('USER_SESSION_KEY'))){    
+        if(session()->get(env('USER_SESSION_KEY'))){
             $label_title = "Pending Refill Request";
             $statusRefill = $this->constructRefillRequest->statusPendingRefill();
             return view('Refill-Request', compact('statusRefill','label_title'));
@@ -175,7 +176,7 @@ class dashboardController extends Controller
     }
 
     function Settings(){
-        if(session()->get(env('USER_SESSION_KEY'))){    
+        if(session()->get(env('USER_SESSION_KEY'))){
             $details = $this->constructApplicant->getDetails();
             $ProductPrice = $this->constructResellerProducts->getproductDetails();
             $StockDetails = $this->constructclient_stocks->stock_details();

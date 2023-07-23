@@ -31,7 +31,7 @@
             border-radius: 4px;
             color: azure;
             cursor: pointer;
-        }        
+        }
         #btnshowsales:hover{
             background: rgb(84, 164, 238);
         }
@@ -158,7 +158,13 @@
 				</div>
 				<a href="#" class="btn-download">
 					<i class='bx bxs-file-pdf' ></i>
-					<span class="text">Download PDF</span>
+					<span class="text">Download PDF
+                        @if(isset($thisyear))
+                            {{ $thisyear }}
+                        @else
+                            {{ date('Y') }}
+                        @endif
+                    </span>
 				</a>
 			</div>
 
@@ -191,12 +197,22 @@
             </ul>
             <div class="table-data">
                 <div class="order">
-                    <form action="{{ route('selectedMonthYearSale') }}" method="post"></form>
-                    <div>
-                        <label for="">Select Year</label>
-                        <input type="month" name="searchMonth" id="searchMonth">
+                    <form action="{{ route('submitFindSaleyear') }}" method="post">
+                        @csrf
+                        <div>
+                        @if(isset($existingYears))
+                        <Select id="yearSale" name="yearSale" class="inputs-products" style="border-radius: 2px !important">
+                            @foreach ($existingYears as $exestYEAR)
+                                <option value="{{ $exestYEAR }}">Sales Report of Year <b>{{ $exestYEAR }}</b></option>
+                            @endforeach
+                            @if(isset($thisyear))
+                                <option disabled style="color:grey" selected value="{{ $thisyear }}">Sales Report of Year <b>{{ $thisyear }}</b></option>
+                            @endif
+                        </Select>
                         <button type="submit" id="btnshowsales">Show Slaes</button>
-                    </div>
+                        @endif
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -238,7 +254,7 @@
                     </div>
                 </div>
                 <script>
- 
+
                 </script>
 			</div>
 		</main>
@@ -255,9 +271,9 @@
             type: 'bar',
             data: {
                 labels: ProductMonthlySaleslabels,
-                
+
             datasets: [{
-                label: 'COD & Walk In Monthly Sales Report {{ date("Y") }}-₱',
+                label: 'COD & Walk In Monthly Sales Report -₱',
                 data: {{ json_encode($productMontlySales) }},
                 backgroundColor: [
                 'rgba(255, 99, 132)',
@@ -294,9 +310,9 @@
             type: 'bar',
             data: {
                 labels: RefillMonthlySaleslabels,
-                
+
             datasets: [{
-                label: 'Refill Monthly Sales Report {{ date("Y") }}-₱',
+                label: 'Refill Monthly Sales Report -₱',
                 data: {{ json_encode($refillTotalSales) }},
                 backgroundColor: [
                 'rgba(255, 99, 132)',
@@ -333,9 +349,9 @@
             type: 'bar',
             data: {
                 labels: GeneralMonthlySaleslabels,
-                
+
             datasets: [{
-                label: 'General Monthly Sales Report {{ date("Y") }}-₱',
+                label: 'General Monthly Sales Report -₱',
                 data: {{ json_encode($GenTotalSales) }},
                 backgroundColor: [
                 'rgba(255, 99, 132)',
@@ -375,9 +391,9 @@
                 type: 'doughnut',
                 data: {
                     labels: Unpayablelabels,
-                    
+
                 datasets: [{
-                    label: 'Pending And Process Report {{ date("Y") }}-₱',
+                    label: 'Pending And Process Report -₱',
                     data: [
                         {{ @$pendingAmount }},
                         {{ @$proccessAmount }},
@@ -408,7 +424,7 @@
                 }
             });
     </script>
-@if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+@if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	<script>
 		$(document).ready(function(){
 			$.ajax({

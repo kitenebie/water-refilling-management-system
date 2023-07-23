@@ -120,7 +120,7 @@ Route::post('/Add-Refill-Sales-Admin', [AllRefillSalesController::class, 'AddRef
 //*client AddRefillSale
 Route::post('Add-Refill-Sale', [AllRefillSalesController::class, 'AddRefillSale'])->name('AddRefillSale');
 
-//*refill status update 
+//*refill status update
 Route::get('/Refill-request/Request/Accept/{ref_ID}', [AllRefillSalesController::class, 'AcceptRequest'])->name('AcceptRequest');
 Route::post('/Refill-request/Request/complete', [AllRefillSalesController::class, 'CompleteRequest'])->name('CompleteRequest');
 
@@ -141,7 +141,7 @@ Route::get('/getloginInfo-Profile', [SettingsController::class, 'getloginInfo'])
 Route::post('/Update-Price', [SettingsController::class, 'UpdatePrice'])->name('UpdatePrice');
 Route::post('/update-Limit-Stocks', [SettingsController::class, 'updateLimitStocks'])->name('updateLimitStocks');
 
-//* announcement Announcement_remove 
+//* announcement Announcement_remove
 Route::post('/post-announcement', [announcementController::class, 'Announcement_Post'])->name('Announcement_Post');
 Route::get('/remove-announcement/{announce_Code}', [announcementController::class, 'Announcement_remove'])->name('Announcement_remove');
 Route::get('/get-announcement', [announcementController::class, 'get_annoucement'])->name('get_annoucement');
@@ -150,7 +150,7 @@ Route::get('/get-announcement', [announcementController::class, 'get_annoucement
 Route::get('/count_applicants', [reseller_request::class, 'count_applicants'])->name('count_applicants');
 
 //selectedMonthYearSale
-Route::post('/selectedMonthYearSale', [AllRefillSalesController::class, 'selectedMonthYearSale'])->name('selectedMonthYearSale');
+// Route::post('/submitFindSaleyear', [AllRefillSalesController::class, 'submitFindSaleyear'])->name('submitFindSaleyear');
 //get_toReceive_orders : get_completed_orders
 Route::get('/get-orders-report', [PDFController::class,'get_toReceive_orders'])->name('get_toReceive_orders');
 Route::get('/get-completed-report', [PDFController::class,'get_completed_orders'])->name('get_completed_orders');
@@ -158,3 +158,5 @@ Route::get('/get-completed-report', [PDFController::class,'get_completed_orders'
 //refill : get_toReceive_refill : get_complete_refill
 Route::get('/get-refill-report', [PDFController::class,'get_toReceive_refill'])->name('get_toReceive_refill');
 Route::get('/get-complete-refill-report', [PDFController::class,'get_complete_refill'])->name('get_complete_refill');
+
+Route::post('/submitFindSaleyear', [AllRefillSalesController::class, 'submitFindSaleyear'])->name('submitFindSaleyear');
