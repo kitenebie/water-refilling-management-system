@@ -14,6 +14,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\announcementController;
 use App\Http\Controllers\PDFController;
 use App\Models\reseller_request;
+use Illuminate\Notifications\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -161,3 +162,5 @@ Route::get('/get-complete-refill-report', [PDFController::class,'get_complete_re
 
 Route::post('/submitFindSaleyear', [AllRefillSalesController::class, 'submitFindSaleyear'])->name('submitFindSaleyear');
 Route::get('/getyearlyReport/{year}', [PDFController::class, 'getyearlyReport'])->name('getyearlyReport');
+
+Route::get('/notify',[NotificationController::class, 'ShowPostNotification'])->name('ShowPostNotification');

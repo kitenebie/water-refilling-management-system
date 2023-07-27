@@ -5,24 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Notifications;
 use App\Models\client_stocks;
+use App\Models\announcementPosting;
 use DateTime;
 
 class NotificationController extends Controller
 {
-    private $constructNotify, $constructclientStocks;
-    private $notificationTable = "notifications";     	
+    private $constructNotify, $constructclientStocks, $announcementPost;
+    private $notificationTable = "notifications";
     public $id;
     public $title;
     public $message;
     public $ntime;
     public $repeat;
     public $nloop;
-    public $publish_date; 
-	public $username; 
+    public $publish_date;
+	public $username;
     function __construct()
-    { 
+    {
         $this->constructNotify = new Notifications();
         $this->constructclientStocks = new client_stocks();
+        $this->announcementPost = new announcementPosting();
         return $this;
     }
     function test(){
@@ -52,8 +54,8 @@ class NotificationController extends Controller
 
     function getNotificationByUser(){
         $result = $this->constructNotify->getNotificationUser();
-        $array=array(); 
-        $rows=array(); 
+        $array=array();
+        $rows=array();
         $totalNotification = 0;
         $user = '';
         foreach($result as $userNotification){
@@ -73,5 +75,10 @@ class NotificationController extends Controller
         $array['username'] = $user;
         $array['result'] = true;
         return json_encode($array);
+    }
+
+    function ShowPostNotification(){
+        $dataAnnouncements = $this->announcementPost->get_announcement();
+        return view('Notification', compact('dataAnnouncements'));
     }
 }

@@ -551,7 +551,7 @@ border-radius: 3px;
     border-radius: 3px;
 	color: var(--light);
 	font-weight: 700;
-	background: rgb(238, 66, 104);
+	background: var(--orange);
 }
 #content main .table-data .order table tr td .status {
 	font-size: 10px;

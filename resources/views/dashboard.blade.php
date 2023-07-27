@@ -118,7 +118,7 @@
 		</ul>
 		<ul class="side-menu">
 			<li>
-				<a href="#">
+				<a href="{{ route('ShowPostNotification') }}">
 					<i class='bx bxs-bell'></i>
 					<span class="text">Notification</span>
 				</a>
@@ -268,7 +268,7 @@
                     <div class="order">
                         <div class="head">
                             {{-- box4 --}}
-                            <h4>Announcement</h4>
+                            <h4>Notifications</h4>
                         </div>
                         <div class="todo box">
                             <ul class="todo-list" id="anncontainer">

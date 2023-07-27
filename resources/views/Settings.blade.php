@@ -78,8 +78,8 @@
 		</ul>
 		<ul class="side-menu">
 			<li>
-				<a href="#">
-					<i class='bx bxs-bell' ></i>
+				<a href="{{ route('ShowPostNotification') }}">
+					<i class='bx bxs-bell'></i>
 					<span class="text">Notification</span>
 				</a>
 			</li>
@@ -227,20 +227,20 @@
 							</tr>
 						</thead>
 						<tbody>
-							@if (isset($StockDetails))
-								@foreach ($StockDetails as $StockDetail)
+							@if (isset($StockDetails['Name']) && isset($StockDetails['limit']))
+                                @for($countPrdct = 0; $countPrdct < count($StockDetails['Name']); $countPrdct++)
 									<tr>
-										<td>{{ $StockDetail->product_Name }}</td>
+										<td>{{ $StockDetails['Name'][$countPrdct] }}</td>
 										<td>
-											<input type="text" name="prdt_limit[]" value="{{ $StockDetail->prdt_limit }}"
+											<input type="text" name="prdt_limit[]" value="{{ $StockDetails['limit'][$countPrdct] }}"
 										style="border: .5px solid #333;
 										outline:none; padding: 2px 8px; font-size: inherit; margin-left: 10px">
 										</td>
 										<td hidden>
-											<input type="text" name="myID[]" value="{{ $StockDetail->id }}">
+											<input type="text" name="myID[]" value="{{ $StockDetails['P_ID'][$countPrdct] }}"/>
 										</td>
 									</tr>
-								@endforeach								
+								@endfor
 							@endif
 						</tbody>
 					</table>
@@ -261,7 +261,7 @@
                     <div class="head">
                         {{-- box4 --}}
 						<h4>Post Announcement</h4>
-                    </div>		
+                    </div>
                     <div class="head">
 						<form action="{{ route('Announcement_Post') }}" method="post">
 							@csrf
@@ -275,7 +275,7 @@
                     <div class="head">
                         {{-- box4 --}}
 						<h4>Announcement</h4>
-                    </div>		
+                    </div>
                     <div class="todo box">
 						<ul class="todo-list" id="anncontainer">
 						</ul>
@@ -285,7 +285,7 @@
                     <div class="head">
                         {{-- box4 --}}
 						<h4>Dark Mode</h4>
-                    </div>		
+                    </div>
                     <div class="head">
 						<nav>
 							<div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
@@ -361,7 +361,7 @@
 				});
 		})
 	</script>
-	 @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+	 @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	 <script>
 		 $(document).ready(function(){
 			 $.ajax({

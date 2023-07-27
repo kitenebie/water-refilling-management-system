@@ -80,8 +80,8 @@
 		</ul>
 		<ul class="side-menu">
 			<li>
-				<a href="#">
-					<i class='bx bxs-bell' ></i>
+				<a href="{{ route('ShowPostNotification') }}">
+					<i class='bx bxs-bell'></i>
 					<span class="text">Notification</span>
 				</a>
 			</li>
@@ -241,7 +241,7 @@
             });
         });
     </script>
-	 @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+	 @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	 <script>
 		 $(document).ready(function(){
 			 $.ajax({

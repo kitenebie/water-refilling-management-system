@@ -86,8 +86,8 @@
 		</ul>
 		<ul class="side-menu">
 			<li>
-				<a href="#">
-					<i class='bx bxs-bell' ></i>
+				<a href="{{ route('ShowPostNotification') }}">
+					<i class='bx bxs-bell'></i>
 					<span class="text">Notification</span>
 				</a>
 			</li>
@@ -150,7 +150,7 @@
 					<i class='bx bxs-cloud-download' ></i>
 					<span class="text">Download PDF</span>
 				</a>  --}}
-			@if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))	
+			@if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
 				@if ($label_title == "Process Refill Request")
 				<li>
 					<a  href="{{ route('get_toReceive_refill') }}" class="save-btn" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
@@ -249,7 +249,7 @@
                     </div>
 				</div>
 			</div>
-            
+
 		</main>
 		<!-- MAIN -->
 	</section>
@@ -284,7 +284,7 @@
         }, 5000);
     </script>
     @endif
-	@if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))        
+	@if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	<script>
 		$(document).ready(function(){
 			$.ajax({

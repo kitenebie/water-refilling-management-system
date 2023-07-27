@@ -37,17 +37,37 @@ class client_stocks extends Model
         return DB::select('SELECT * FROM client_stocks WHERE reseller_id="'.session()->get(env('USER_SESSION_KEY')).'" AND quantity <= prdt_limit');
     }
 
-    function stock_details(){        
-        return DB::table('client_stocks')
+    function stock_details(){
+        $stocks_details = DB::table('client_stocks')
         ->join('products', 'client_stocks.product_id', '=', 'products.product_id')
-        ->select('client_stocks.prdt_limit', 'products.product_Name', 'client_stocks.id')
+        ->select('client_stocks.prdt_limit', 'products.product_Name', 'client_stocks.product_id')
         ->where('client_stocks.reseller_id','=',session()->get(env('USER_SESSION_KEY')))
         ->get();
+
+        $uniquestocks_details = [];
+        $uniquestocks_limit = [];
+        $uniquestocks_product_id = [];
+        foreach ($stocks_details as $stocks_detail) {
+        $prdctName = $stocks_detail->product_Name;
+        $prdctprdt_limit = $stocks_detail->prdt_limit;
+        $prdct_prdctID =  $stocks_detail->product_id;
+        if (!in_array($prdctName, $uniquestocks_details)) {
+            $uniquestocks_details[] = $prdctName;
+            $uniquestocks_limit[] = $prdctprdt_limit;
+            $uniquestocks_product_id[] = $prdct_prdctID;
+        }
+        }
+        $storeData = [
+            'P_ID' => $uniquestocks_product_id,
+            'Name' => array_unique($uniquestocks_details),
+            'limit' => $uniquestocks_limit
+        ];
+        return $storeData;
     }
 
     function updateStocklimitID($up_limit, $limit_id){
         return $this->where('reseller_id','=',session()->get(env('USER_SESSION_KEY')))
-                    ->where('id','=',$limit_id)
+                    ->where('product_id','=',$limit_id)
                     ->update($up_limit);
     }
 }
