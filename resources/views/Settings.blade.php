@@ -280,7 +280,7 @@
                                 <label for="">Address: </label>
                                 <input id="" class="inputs-products2" type="text" name="" value=""><br><br>
                                 <label for="">Ship Fee: </label>
-                                <input id="" class="inputs-products2" type="text" name="" value=""><br><br>
+                                <input id="" class="inputs-products2" type="text" name="" value="">
                                 <button type="submit" class="save-btn" style="margin-left: 1.2rem">Save</button>
                             </div>
                         </form>
