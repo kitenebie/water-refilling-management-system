@@ -276,7 +276,7 @@
                     <div class="head">
                         <form action="" method="post">
                             @csrf
-                            <div style="width:100%">
+                            <div>
                                 <label for="">Address: </label>
                                 <input id="" class="inputs-products2" type="text" name="" value=""><br><br>
                                 <label for="">Ship Fee: </label>
