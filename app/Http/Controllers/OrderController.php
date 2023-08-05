@@ -109,30 +109,28 @@ class OrderController extends Controller
     }
 
     //* add to sale(admin) and complete reseller order
-    function CompleteAddSale(Request $success_req){
-
-        $client_stock_data = [
-            'reseller_id' => $success_req->resellerID,
-            'product_id' => $success_req->product_ID,
-            'quantity' => $success_req->order,
-            'prdt_limit' => 0
-        ];
-        $this->constructClientStocks->Save_Stocks($client_stock_data);
-        $AddSale = [
-            'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
-            'ProductID' => $success_req->product_ID,
-            'Quantity' => $success_req->order,
-            'Amount' => $success_req->Amount
-        ];
-        $Reseller_AddToNewPRoduct = [
-            'User_ID' => $success_req->resellerID,
-            'product_ID' => $success_req->product_ID,
-            'Price' => 0.00,
-            'Quantity' => $success_req->order
-        ];
+    function CompleteAddSale($success_req){
+        $AddSale = [];
+        $Reseller_AddToNewPRoduct = [];
+        $orderInfo = $this->constructOrder->getAllData($success_req);
+        foreach($orderInfo as $info){
+            $AddSale = [
+                'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
+                'ProductID' => $info->product_ID,
+                'Quantity' => $info->order,
+                'Amount' => $info->Amount
+            ];
+            $Reseller_AddToNewPRoduct = [
+                'User_ID' => $info->reseller_ID,
+                'product_ID' => $info->product_ID,
+                'Price' => 0.00,
+                'Quantity' => $info->order,
+                'limit_stock' => 0
+            ];
+        }
         $this->constructAllSales->AddtoAdminSale($AddSale);
         $this->constructResellerProduct->ProductSave($Reseller_AddToNewPRoduct);
-        $this->constructOrder->updateStateComplete($success_req->orderid);
+        $this->constructOrder->updateStateComplete($success_req);
         return redirect('/orders/ToReceive')->with('success', 'Order has been Completed!');
     }
 

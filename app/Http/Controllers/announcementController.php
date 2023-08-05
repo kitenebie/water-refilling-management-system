@@ -31,4 +31,9 @@ class announcementController extends Controller
     function get_annoucement(){
         return $this->constructAnnoucement->get_announcement();
     }
+
+
+    function count_notif(){
+        return $this->constructAnnoucement->constructAnnoucementcount();
+    }
 }

@@ -78,7 +78,7 @@ Route::get('/orders/cancelled', [OrderController::class, 'cancelled'])->name('ca
 Route::get('/orders/Request/Accept/{id}/quantity/{qty}/productID/{pdtID}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
 
 //*CompleteAddSale
-Route::get('/CompleteAddSale', [OrderController::class, 'CompleteAddSale'])->name('CompleteAddSale');
+Route::get('/Complete/{id}', [OrderController::class, 'CompleteAddSale'])->name('CompleteAddSale');
 
 
 
@@ -147,8 +147,8 @@ Route::post('/post-announcement', [announcementController::class, 'Announcement_
 Route::get('/remove-announcement/{announce_Code}', [announcementController::class, 'Announcement_remove'])->name('Announcement_remove');
 Route::get('/get-announcement', [announcementController::class, 'get_annoucement'])->name('get_annoucement');
 
-//count_applicants
-Route::get('/count_applicants', [reseller_request::class, 'count_applicants'])->name('count_applicants');
+//count_notif
+Route::get('/count_notif', [announcementController::class, 'count_notif'])->name('count_notif');
 
 //selectedMonthYearSale
 // Route::post('/submitFindSaleyear', [AllRefillSalesController::class, 'submitFindSaleyear'])->name('submitFindSaleyear');
@@ -164,3 +164,4 @@ Route::post('/submitFindSaleyear', [AllRefillSalesController::class, 'submitFind
 Route::get('/getyearlyReport/{year}', [PDFController::class, 'getyearlyReport'])->name('getyearlyReport');
 
 Route::get('/notify',[NotificationController::class, 'ShowPostNotification'])->name('ShowPostNotification');
+Route::get("/productPrices/{data}", [ProductController::class, 'productPrices'])->name('productPrices');

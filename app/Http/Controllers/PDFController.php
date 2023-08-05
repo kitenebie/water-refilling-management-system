@@ -97,28 +97,46 @@ class PDFController extends Controller
 
     function getyearlyReport($year){
         //Sales-yearly-report.blade.php
+    //!ERROR
         $caption1 = "Product Sales Report " . $year;
         $caption2 = "Refill Sales Report " . $year;
+
         $allProductSalesRecords = AllSales::join('products', 'products.product_id', '=', 'all_sales.ProductID')
-                    ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
-                    ->select('products.product_id', 'products.product_Name', 'all_sales.Quantity', 'all_sales.Amount', 'all_sales.created_at')
-                    ->orderByDesc('all_sales.created_at')->get();
+            ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+            ->select('products.product_id', 'products.product_Name', 'all_sales.Quantity', 'all_sales.Amount', 'all_sales.created_at')
+            ->orderByDesc('all_sales.created_at')
+            ->get();
 
         $sumOfallproductsales = AllSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
-                                ->selectRaw('SUM(all_sales.Quantity) as AllTotalProductQty')
-                                ->selectRaw('SUM(all_sales.Amount) as AllTotalProductSale')->get();
+            ->selectRaw('SUM(all_sales.Quantity) as AllTotalProductQty, SUM(all_sales.Amount) as AllTotalProductSale')
+            ->first(); // Use first() instead of get() to retrieve a single row with the aggregated values.
 
-        $refillAllSalesRecords = RefillSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))->get();
+        $refillAllSalesRecords = RefillSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+            ->get();
+
         $refillAllSales = RefillSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
-                    ->selectRaw('SUM(Quantity) as refilltotalQty')
-                    ->selectRaw('SUM(Amount) as refilltotalAmount')
-                    ->get();
+            ->selectRaw('SUM(Quantity) as refilltotalQty, SUM(Amount) as refilltotalAmount')
+            ->first(); // Use first() instead of get() to retrieve a single row with the aggregated values.
 
-        $pdfName1 = "Refill-Sales-Report-".date('m/d/y').".pdf";
-        $pdfName2 = "Product-Sales-Report-".date('m/d/y').".pdf";
-        PDF::loadView('refill-yearly-report', ['refillAllSalesRecords' => $refillAllSalesRecords, 'refillAllSales' => $refillAllSales,
-                        'caption' => $caption1, 'currentDate' => date('F-Y')])->download($pdfName1);
-        PDF::loadView('Sales-yearly-report', ['allProductSalesRecords' => $allProductSalesRecords, 'sumOfallproductsales' => $sumOfallproductsales,
-                        'caption' => $caption2, 'currentDate' => date('F-Y')])->download($pdfName2);
+        $pdfName1 = "Refill-Sales-Report-" . date('m-d-y') . ".pdf"; // Use '-' instead of '/' in the date format to avoid file name issues.
+        $pdfName2 = "Product-Sales-Report-" . date('m-d-y') . ".pdf"; // Use '-' instead of '/' in the date format to avoid file name issues.
+
+        // Assuming you have imported the PDF facade, if not, add the following line at the top:
+        // use PDF;
+
+        // Load the views and generate the PDFs
+        PDF::loadView('refill-yearly-report', [
+            'refillAllSalesRecords' => $refillAllSalesRecords,
+            'refillAllSales' => $refillAllSales,
+            'caption' => $caption1,
+            'currentDate' => date('F Y'), // Change 'F-Y' to 'F Y' to have a space between the month and year.
+        ])->save(public_path('pdf/' . $pdfName1)); // Save the PDF instead of downloading it directly.
+
+        PDF::loadView('Sales-yearly-report', [
+            'allProductSalesRecords' => $allProductSalesRecords,
+            'sumOfallproductsales' => $sumOfallproductsales,
+            'caption' => $caption2,
+            'currentDate' => date('F Y'), // Change 'F-Y' to 'F Y' to have a space between the month and year.
+        ])->save(public_path('pdf/' . $pdfName2)); // Save the PDF instead of downloading it directly.
     }
 }

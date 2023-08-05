@@ -9,7 +9,7 @@
 	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
 	<!-- My CSS -->
 	<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-	<title>Settings</title>
+	<title>Notification</title>
     <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
 </head>
 <body>
@@ -105,13 +105,11 @@
 		<nav>
 			<i class='bx bx-menu' ></i>
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
-                <a href="#" class="notification">
+                <input type="checkbox" id="switch-mode" hidden>
+                <a href="{{ route('ShowPostNotification') }}" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num"></span>
-                </a>
-                <a href="#" class="profile">
-                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
                 </a>
             </div>
 		</nav>
@@ -159,5 +157,16 @@
 		</main>
 		<!-- MAIN -->
 	</section>
+    <script>
+        $(document).ready(function(){
+            $.ajax({
+                url: "{{ route('count_notif') }}",
+                success: function(Appdata) {
+                    $('.num').text(Appdata);
+                }
+                });
+        });
+    </script>
+
 </body>
 </html>

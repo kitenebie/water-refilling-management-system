@@ -53,7 +53,8 @@ class AllRefillSalesController extends Controller
             'Amount' => $request->refilltotal
         ];
         $this->constructRefill->SaveRefillSales($refillData);
-        return back()->with('refilled', 'Successfully Purchased!');
+        var_dump($refillData);
+       return back()->with('refilled', 'Successfully Purchased!');
     }
 
     function AddRefillSale(Request $request){

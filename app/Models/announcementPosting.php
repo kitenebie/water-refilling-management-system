@@ -9,7 +9,7 @@ class announcementPosting extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    
+
     function Posting_announcement($req_data){
         return $this->create($req_data);
     }
@@ -20,5 +20,10 @@ class announcementPosting extends Model
 
     function get_announcement(){
         return $this->orderBy('id', 'desc')->get();
+    }
+
+    function constructAnnoucementcount()
+    {
+        return $this->count();
     }
 }

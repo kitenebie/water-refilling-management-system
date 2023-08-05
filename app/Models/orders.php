@@ -84,7 +84,7 @@ class orders extends Model
                             ->orwhere('status', 'Process')
                             ->get();
             $filtered_orders = $orders->where('reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
-                                      ->count();
+                                    ->count();
             return  $filtered_orders;
 
         }
@@ -104,7 +104,7 @@ class orders extends Model
             $filtered_orders = $orders->filter(function ($order) {
                 return $order->status === 'Pending' || $order->status === 'Process';
             });
-                        
+
             return  $filtered_orders;
 
         }
@@ -138,5 +138,9 @@ class orders extends Model
             return $this->where('status', 'Process')
                         ->sum('Amount');
         }
+    }
+
+    function getAllData($ID){
+        return $this->where('id','=', $ID)->get();
     }
 }

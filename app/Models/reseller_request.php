@@ -22,7 +22,4 @@ class reseller_request extends Model
         return $this->where('id', $ID)->delete();
     }
 
-    function count_applicants(){
-        return $this->count();
-    }
 }

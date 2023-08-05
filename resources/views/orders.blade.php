@@ -116,17 +116,18 @@
 			<i class='bx bx-menu' ></i>
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
-                <a href="#" class="notification">
+                <a href="{{ route('ShowPostNotification') }}" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num"></span>
                 </a>
-                <a href="#" class="profile">
-                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
-                 </a>
             </div>
 		</nav>
 		<!-- NAVBAR -->
+
+        @php
+        $count = 0;
+        @endphp
 
 		<!-- MAIN -->
 		<main>
@@ -134,21 +135,39 @@
 				<div class="left">
 					<h1>Orders and Transactions</h1>
 					<ul class="breadcrumb">
+                        @if(isset($label_title))
 						<li>
-							<a class="active order_btn" href="{{ route('orders') }}"><strong>Orders</strong></a>
+							<a class="active order_btn"  href="{{ route('orders') }}"><strong>Orders</strong></a>
 						</li>
+                        <li>
+                            <a class="active order_btn @if($label_title == "Request Orders") activebtn @endif"  href="{{ route('Request') }}">Request</a>
+                        </li>
+                        <li>
+                            <a class="active order_btn @if($label_title == "To Receive Orders") activebtn @endif"  href="{{ route('ToReceive') }}">ToReceive</a>
+                        </li>
+                        <li>
+                            <a class="active order_btn @if($label_title == "Completed Orders") activebtn @endif"  href="{{ route('Completed') }}">Completed</a>
+                        </li>
+                        <li>
+                            <a class="active order_btn @if($label_title == "Cancelled Orders") activebtn @endif"  href="{{ route('cancelled') }}">Cancelled</a>
+                        </li>
+                        @else
 						<li>
-							<a class="active order_btn" href="{{ route('Request') }}">Request</a>
+							<a class="active order_btn activebtn"  href="{{ route('orders') }}"><strong>Orders</strong></a>
 						</li>
-						<li>
-							<a class="active order_btn" href="{{ route('ToReceive') }}">ToReceive</a>
-						</li>
-						<li>
-							<a class="active order_btn" href="{{ route('Completed') }}">Completed</a>
-						</li>
-						<li>
-							<a class="active order_btn" href="{{ route('cancelled') }}">Cancelled</a>
-						</li>
+                        <li>
+                            <a class="active order_btn" href="{{ route('Request') }}">Request</a>
+                        </li>
+                        <li>
+                            <a class="active order_btn"  href="{{ route('ToReceive') }}">ToReceive</a>
+                        </li>
+                        <li>
+                            <a class="active order_btn"  href="{{ route('Completed') }}">Completed</a>
+                        </li>
+                        <li>
+                            <a class="active order_btn"  href="{{ route('cancelled') }}">Cancelled</a>
+                        </li>
+                        @endif
 					</ul>
 				</div>
 				{{--  <a href="#" class="btn-download">
@@ -199,12 +218,7 @@
                             </thead>
                             <tbody>
                                 @if(isset($resellerReqData) && isset($N3wData))
-                                @php
-                                $count = 0;
-                                @endphp
                                     @foreach($resellerReqData as $resellerData)
-                                    <form action="{{ route('CompleteAddSale') }}" method="get">
-                                        @csrf
                                     <tr>
                                         @php
                                         $data = json_decode($N3wData[$count], true);
@@ -254,9 +268,9 @@
 
                                                 @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
                                                     @if ($label_title == "To Receive Orders")
-                                                        <button type="submit" style="border:none; background:transparent; cursor:pointer">
+                                                        <a href="/Complete/{{ $resellerData->id }}" style="border:none; background:transparent; cursor:pointer">
                                                             <span class="status Completed" style="font-size: .8em; font-weight:600">Complete</span>
-                                                        </button>
+                                                        </a>
                                                     @endif
                                                     @if ($label_title == "Cancelled Orders")
                                                         <a href="/orders/Request/Received/{{ $resellerData->id }}">
@@ -270,7 +284,6 @@
                                         @endphp
                                         @endforeach
                                         </tr>
-                                    </form>
                                 </a>
                                 @endif
                             </tbody>
@@ -304,8 +317,13 @@
                                 <input hidden type="text" name="product_ID" id="product_ID">
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Select Product</label>
                                 <select readonly name="productname" id="productname" class="inputs-products">
+                                    @if(isset($productData))
+                                        @foreach ($productData as $product)
+                                            <option value="{{ $product->id }}">{{ $product->product_Name }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
-                               <label class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span>Quantity</label>
+                                <label class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span>Quantity</label>
                                 <input type="text" name="order" id="prdqty" class="inputs-products" placeholder="e.g., 10"/>
                                 <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
                                 <input readonly type="text" name="" id="prdcost" class="inputs-products" placeholder=""/>
@@ -399,6 +417,8 @@
 	</section>
 	<!-- CONTENT -->
     <!-- Scripts -->
+    <script src="{{ asset('js/numberonly.js') }}"></script>
+    <script src="{{ asset('js/textonly.js') }}"></script>
     <script src="js/scripts.js"></script> <!-- Custom scripts -->
     <link rel="stylesheet" href="{{ env('TOASTR_URL_CSS') }}">
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
@@ -452,25 +472,88 @@
 		});
 	</script>
 @endif
-@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+        <script>
+            $(document).ready(function() {
+                $("#productname").change(function() {
+                var data = $(this).val();
+                $.ajax({
+                    url: "/productPrices/" + data,
+                    success: function(res) {
+                        $("#prdcost").val(res);
+                    }
+                });
+                });
+            });
+        </script>
+	<script src="{{ asset('js/dashboard.js') }}"></script>
+    <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
+    <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
+    <script>
+    $('#RefillRequest').hide()
+    $('#category').on('change',()=>{
+        if($('#category').val()==0){
+            $('#PurchaseRequest').hide()
+            $('#RefillRequest').show()
+        }
+        if($('#category').val()==1){
+            $('#PurchaseRequest').show()
+            $('#RefillRequest').hide()
+        }
+    });
+    $('#numberGalllon').on('input', ()=>{
+        ResellerRefilCaculate();
+    });
+    $('#refillcost').on('input', ()=>{
+        ResellerRefilCaculate();
+    });
+    $('#refillfee').on('input', ()=>{
+        ResellerRefilCaculate();
+    });
+    function ResellerRefilCaculate(){
+        const numberGalllon = $('#numberGalllon').val();
+        const refillcost = $('#refillcost').val();
+        const refillfee = $('#refillfee').val();
+        const refilltotal = $('#refilltotal');
+        const refilltotalamount = parseInt(numberGalllon)*(parseFloat(refillcost)+parseFloat(refillfee));
+        if(refilltotalamount !== refilltotalamount){
+            return refilltotal.val(parseFloat(0.00));
+        }
+        refilltotal.val(refilltotalamount.toFixed(2));
+    }
+    $('#table tr').click(function() {
+        var productNAme = $(this).find('td:first').text();
+        var productCost = $(this).find('td:nth-child(3)').text();
+        var productID = $(this).find('td:last').text();
+        $('#prdcost').val(productCost);
+        $('#productname').html('<option selected value="' + productNAme + '">' + productNAme + '</option>');
+        $('#product_ID').val(productID);
+    });
+
+    $('#prdqty').on('input', ()=>{
+        calculate();
+    });
+
+    $('#prdcost').on('input', ()=>{
+        calculate();
+    });
+    function calculate(){
+        let calFee = $('#prdfee').val() * $('#prdqty').val();
+        let totalCost =$('#prdqty').val() * $('#prdcost').val() + calFee;
+        $('#prdtotal').val(totalCost.toFixed(2));
+    }
+    </script>
+	<script src="{{ asset('js/localStorage.js') }}"></script>
+    <script src="{{ asset('js/adminorders.js') }}"></script>
+
     <script>
         $(document).ready(function(){
 			$.ajax({
-				url: "{{ route('count_applicants') }}",
+				url: "{{ route('count_notif') }}",
 				success: function(Appdata) {
                     $('.num').text(Appdata);
 				}
 				});
 		});
     </script>
-@endif
-	<script src="{{ asset('js/dashboard.js') }}"></script>
-    <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
-    <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
-
-    <script src="{{ asset('js/resellerorders.js') }}"></script>
-	<script src="{{ asset('js/localStorage.js') }}"></script>
-    <script src="{{ asset('js/adminorders.js') }}"></script>
-
 </body>
 </html>

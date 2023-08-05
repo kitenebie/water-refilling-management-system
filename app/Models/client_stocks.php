@@ -11,16 +11,14 @@ class client_stocks extends Model
     use HasFactory;
 
     protected $guarded = [];
+    //!ERROR
 
-    function Save_Stocks($client_stock_data){
-        return $this->create($client_stock_data);
-    }
 
-    function GetTotalSumOfAllUserStocks(){
-        return DB::table('client_stocks')
-                    ->where('reseller_id', session()->get(env('USER_SESSION_KEY')))
-                    ->sum('quantity');
-    }
+    // function GetTotalSumOfAllUserStocks(){
+    //     return DB::table('client_stocks')
+    //                 ->where('reseller_id', session()->get(env('USER_SESSION_KEY')))
+    //                 ->sum('quantity');
+    // }
         /**
         *SELECT * FROM client_stocks INNER JOIN products ON client_stocks.product_id = products.product_id;
      */
@@ -38,10 +36,10 @@ class client_stocks extends Model
     }
 
     function stock_details(){
-        $stocks_details = DB::table('client_stocks')
-        ->join('products', 'client_stocks.product_id', '=', 'products.product_id')
-        ->select('client_stocks.prdt_limit', 'products.product_Name', 'client_stocks.product_id')
-        ->where('client_stocks.reseller_id','=',session()->get(env('USER_SESSION_KEY')))
+        $stocks_details = DB::table('reseller_products')
+        ->join('products', 'reseller_products.product_ID', '=', 'products.product_id')
+        ->select('reseller_products.User_ID', 'reseller_products.limit_stock', 'products.product_Name', 'reseller_products.product_ID')
+        ->where('reseller_products.User_ID','=',session()->get(env('USER_SESSION_KEY')))
         ->get();
 
         $uniquestocks_details = [];
@@ -49,8 +47,8 @@ class client_stocks extends Model
         $uniquestocks_product_id = [];
         foreach ($stocks_details as $stocks_detail) {
         $prdctName = $stocks_detail->product_Name;
-        $prdctprdt_limit = $stocks_detail->prdt_limit;
-        $prdct_prdctID =  $stocks_detail->product_id;
+        $prdctprdt_limit = $stocks_detail->limit_stock;
+        $prdct_prdctID =  $stocks_detail->product_ID;
         if (!in_array($prdctName, $uniquestocks_details)) {
             $uniquestocks_details[] = $prdctName;
             $uniquestocks_limit[] = $prdctprdt_limit;
@@ -65,9 +63,5 @@ class client_stocks extends Model
         return $storeData;
     }
 
-    function updateStocklimitID($up_limit, $limit_id){
-        return $this->where('reseller_id','=',session()->get(env('USER_SESSION_KEY')))
-                    ->where('product_id','=',$limit_id)
-                    ->update($up_limit);
-    }
+
 }

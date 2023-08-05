@@ -27,7 +27,7 @@ $(document).ready(()=>{
         const refilltotal = $('#refilltotal');
         const refilltotalamount = parseInt(numberGalllon)*(parseFloat(refillcost)+parseFloat(refillfee));
         if(refilltotalamount !== refilltotalamount){
-            return refilltotal.val(parseFloat(0.00));  
+            return refilltotal.val(parseFloat(0.00));
         }
         refilltotal.val(refilltotalamount.toFixed(2));
     }
@@ -52,6 +52,4 @@ $(document).ready(()=>{
         let totalCost =$('#prdqty').val() * $('#prdcost').val() + calFee;
         $('#prdtotal').val(totalCost.toFixed(2));
     }
-//</script>addmin
-   
 });

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AllSales extends Model
 {
@@ -13,21 +14,22 @@ class AllSales extends Model
     protected $guarded = [];
 
     function availableYear(){
-        $allSales = DB::table('all_sales')
-            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
-            ->select('created_at')
-            ->get();
+        $allSales = DB::table('all_sales')->select('created_at')->get()->toArray();
+        $refillSales = DB::table('refill_sales')->select('created_at')->get()->toArray();
 
-            $uniqueSales = [];
-            foreach ($allSales as $sale) {
-            $year = $sale->created_at;
-            if (!in_array($year, $uniqueSales)) {
-                $uniqueSales[] = date('Y', strtotime($year));
-            }
-            }
+        $combinedSales = array_merge($allSales, $refillSales);
 
-            return array_unique($uniqueSales);
+        $years = [];
+        foreach ($combinedSales as $sale) {
+        $year = date('Y', strtotime($sale->created_at));
+        $years[] = $year;
+        }
+
+        $uniqueYears = array_unique($years);
+
+        return $uniqueYears;
     }
+
     function getMonthlySales($yearlySALE)
     {
         $sales = DB::table('all_sales')
@@ -60,12 +62,12 @@ class AllSales extends Model
 
     function GetAllUserCurrentYearlySALE($year){
         $productSales =  DB::table('all_sales')
-                            ->whereYear('created_at', $year)
                             ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                            ->whereYear('created_at', $year)
                             ->sum('Amount');
         $refillSales = DB::table('refill_sales')
-                        ->whereYear('created_at', $year)
                         ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                        ->whereYear('created_at', $year)
                         ->sum('Amount');
         return $productSales + $refillSales;
     }
@@ -75,10 +77,6 @@ class AllSales extends Model
             ->where('user_id', $Items_data['Account_SaleID'])
             ->where('product_id', $Items_data['ProductID'])
             ->update(['quantity' => DB::raw('quantity - '.$Items_data['Quantity'].'')]);
-        DB::table('client_stocks')
-        ->where('reseller_id', $Items_data['Account_SaleID'])
-        ->where('product_id',  $Items_data['ProductID'])
-        ->update(['quantity' => DB::raw('quantity - '.$Items_data['Quantity'].'')]);
         return $this->create($Items_data);
     }
 }

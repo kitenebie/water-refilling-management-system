@@ -51,7 +51,7 @@ class dashboardController extends Controller
             }
             if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
                 $this->NotificationController->getNotificationByUser();
-               $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
+               $adminStocks = $this->constructResellerProducts->GetTotalSumOfAllUserStocks();
             }
             $this->constructSalse->GetAllUserCurrentYearlySALE(date('Y'));
             //*
@@ -69,12 +69,12 @@ class dashboardController extends Controller
            $adminStocks = $this->constructProduct->getALLAdminStocks();
         }
         if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-           $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
+           $adminStocks = $this->constructResellerProducts->GetTotalSumOfAllUserStocks();
         }
         if(session()->get(env('USER_SESSION_KEY'))){
             $year = Carbon::now()->year;
             $year = date('Y');
-            $Client_Stocks = $this->constructclient_stocks->ClientStocks();
+            $Client_Stocks = $this->constructResellerProducts->ClientStocks();
             $productData = $this->constructProduct->get_products();
             $RecentOrders = $this->constructOrders->getAllpendingOrders();
             $TOTALAMOUNTSALE = $this->constructSalse->GetAllUserCurrentYearlySALE($year);
@@ -152,7 +152,7 @@ class dashboardController extends Controller
         }
 
         if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
+            $adminStocks = $this->constructResellerProducts->GetTotalSumOfAllUserStocks();
         }
 
         $pendingAmount = $this->constructOrders->getTotalAmountPendingData();

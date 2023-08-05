@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Storage;
 class SettingsController extends Controller
 {
     private $constructLoginUser, $constructResellerProducts, $constructclient_stocks, $NotificationController;
-    
+
     function __construct()
-    { 
+    {
         $this->constructLoginUser = new LogInModel();
         $this->constructResellerProducts = new ResellerProducts();
         $this->constructclient_stocks = new client_stocks();
@@ -51,11 +51,10 @@ class SettingsController extends Controller
     function updateLimitStocks(Request $limitID){
         $setNum = 0;
         foreach($limitID->myID as $limit_id){
-            // echo  "ID: ".$limit_id . " | Price: ". $limitID->prdt_limit[$setNum]. '<hr>';
-            $up_limit = [
-                'prdt_limit' => $limitID->prdt_limit[$setNum],
-            ];
-            $this->constructclient_stocks->updateStocklimitID($up_limit, $limit_id);
+            //echo  "ID: ".$limit_id . " | Price: ". $limitID->prdt_limit[$setNum]. '<hr>';
+            $up_limit = $limitID->prdt_limit[$setNum];
+
+            $this->constructResellerProducts->updateStocklimitID($up_limit, $limit_id);
             $setNum++;
         }
         $this->NotificationController->deleteNotification();

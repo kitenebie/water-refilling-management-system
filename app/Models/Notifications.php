@@ -30,6 +30,6 @@ class Notifications extends Model
             ->get();
         return $notifications;
 
-	}	
+	}
 
 }

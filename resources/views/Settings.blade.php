@@ -105,13 +105,11 @@
 		<nav>
 			<i class='bx bx-menu' ></i>
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
-                <a href="#" class="notification">
+                <input type="checkbox" id="switch-mode" hidden>
+                <a href="{{ route('ShowPostNotification') }}" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num"></span>
-                </a>
-                <a href="#" class="profile">
-                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
                 </a>
             </div>
 		</nav>
@@ -146,14 +144,12 @@
 							@if (isset($details))
 								@foreach ($details as $details_details)
 									<label for="">First Name</label><br>
-									<input value="{{ $details_details->firstname }}" id="fname" name="fname" type="text" class="inputs-products"><br>
+									<input value="{{ $details_details->firstname }}" id="userPname" name="fname" type="text" class="inputs-products"><br>
 									<label for="">Last Name</label><br>
-									<input value="{{ $details_details->lastname }}" id="lname" name="lname" type="text" class="inputs-products"><br>
+									<input value="{{ $details_details->lastname }}" id="userPname" name="lname" type="text" class="inputs-products"><br>
 								@endforeach
 							@endif
-							<label for="">Profile</label><br>
-							<input name="image" type="file" class="inputs-products">
-							<div width="100" style="margin-top: 5px">
+							<div width="300" style="margin-top: 8px">
 							<li>
 								<button type="submit" id="editBTN" style="display: block; margin-left:5px; margin-right: 10px;
 								padding: 4px 8px; background: #3C91E6; border:none; color:#F9F9F9; cursor: pointer;
@@ -163,11 +159,6 @@
 							</li>
 							</div>
 						</form>
-						<img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image"
-						style="position: absolute; left:auto; width:120px; height:120px;
-						top:0; display:block; right:20px; border-radius:1px;
-						"
-						>
                     </div>
                 </div>
                 <div class="order">
@@ -189,9 +180,7 @@
 								@foreach ($ProductPrice as $ProductPrice_detaile)
 								<tr>
 									<td>{{ $ProductPrice_detaile->product_Name }}</td>
-									<td><input type="text" name="price[]" value="{{ $ProductPrice_detaile->Price }}"
-										style="border: .5px solid #333;
-										outline:none; padding: 2px 8px; font-size: inherit; margin-left: 10px">
+									<td><input id="priceNum" class="inputs-products1" type="text" name="price[]" value="{{ $ProductPrice_detaile->Price }}">
 									</td>
 									<td hidden>
 										<input type="text" name="ID[]" value="{{ $ProductPrice_detaile->id }}">
@@ -232,9 +221,7 @@
 									<tr>
 										<td>{{ $StockDetails['Name'][$countPrdct] }}</td>
 										<td>
-											<input type="text" name="prdt_limit[]" value="{{ $StockDetails['limit'][$countPrdct] }}"
-										style="border: .5px solid #333;
-										outline:none; padding: 2px 8px; font-size: inherit; margin-left: 10px">
+											<input id="minstock" class="inputs-products1" type="text" name="prdt_limit[]" value="{{ $StockDetails['limit'][$countPrdct] }}">
 										</td>
 										<td hidden>
 											<input type="text" name="myID[]" value="{{ $StockDetails['P_ID'][$countPrdct] }}"/>
@@ -266,7 +253,7 @@
 						<form action="{{ route('Announcement_Post') }}" method="post">
 							@csrf
 							<label for="">Caption</label><br>
-							<textarea name="annoucements_content" id="annoucements_content" cols="50" rows="10" class="inputs-products"></textarea>
+							<textarea name="annoucements_content" id="annoucements_content" style="width:450px; height: 350px" class="inputs-products"></textarea>
 							<button type="submit" class="save-btn" style="margin-left: 1.2rem">Post</button>
 						</form>
                     </div>
@@ -281,19 +268,25 @@
 						</ul>
                     </div>
                 </div>
-                <div hidden class="order">
+                <div class="order">
                     <div class="head">
                         {{-- box4 --}}
-						<h4>Dark Mode</h4>
+						<h4>Shipping Fee</h4>
                     </div>
                     <div class="head">
-						<nav>
-							<div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
-								<h3>State: </h3>
-								<input type="checkbox" id="switch-mode" hidden>
-								<label for="switch-mode" class="switch-mode"></label>
-							</div>
-						</nav>
+                        <form action="" method="post">
+                            @csrf
+                            <div>
+                                <label for="">Address: </label>
+                                <input id="" class="inputs-products2" type="text" name="" value=""><br><br>
+                                <label for="">Ship Fee: </label>
+                                <input id="" class="inputs-products2" type="text" name="" value=""><br><br>
+                                <button type="submit" class="save-btn" style="margin-left: 1.2rem">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="head">
+
                     </div>
                 </div>
 				@endif
@@ -302,6 +295,8 @@
 		<!-- MAIN -->
 	</section>
 	<!-- CONTENT -->
+    <script src="{{ asset('js/numberonly.js') }}"></script>
+    <script src="{{ asset('js/textonly.js') }}"></script>
 	<script src="{{ asset('js/dashboard.js') }}"></script>
 	<script src="{{ asset('js/localStorage.js') }}"></script>
 	{{-- imgsuccess --}}
@@ -374,17 +369,15 @@
 		 });
 	 </script>
  @endif
- @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-	 <script>
-		 $(document).ready(function(){
-			 $.ajax({
-				 url: "{{ route('count_applicants') }}",
-				 success: function(Appdata) {
-					 $('.num').text(Appdata);
-				 }
-				 });
-		 });
-	 </script>
- @endif
+ <script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "{{ route('count_notif') }}",
+            success: function(Appdata) {
+                $('.num').text(Appdata);
+            }
+            });
+    });
+</script>
 </body>
 </html>

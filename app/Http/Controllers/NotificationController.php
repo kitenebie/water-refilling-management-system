@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Notifications;
-use App\Models\client_stocks;
+use App\Models\ResellerProducts;
 use App\Models\announcementPosting;
 use DateTime;
 
 class NotificationController extends Controller
 {
-    private $constructNotify, $constructclientStocks, $announcementPost;
+    private $constructNotify, $constructResellerProducts, $announcementPost;
     private $notificationTable = "notifications";
     public $id;
     public $title;
@@ -23,7 +23,7 @@ class NotificationController extends Controller
     function __construct()
     {
         $this->constructNotify = new Notifications();
-        $this->constructclientStocks = new client_stocks();
+        $this->constructResellerProducts = new ResellerProducts();
         $this->announcementPost = new announcementPosting();
         return $this;
     }
@@ -33,16 +33,17 @@ class NotificationController extends Controller
 
     function Save_Reseller_Stocks()
     {
-        $remainigStocks = $this->constructclientStocks->getUserCurrentStocks();
+        $remainigStocks = $this->constructResellerProducts->getUserCurrentStocks();
         $date = new DateTime();
         foreach($remainigStocks as $remainigStock){
             $data = [
                 'title' => "Jonel's Refilling Station",//$notify->title,
-                'message' => $remainigStock->product_id." is out of Stocks, Remaining Stocks: ". $remainigStock->quantity,//$notify->message,
+                'message' => $remainigStock->product_ID." is out of Stocks, Remaining Stocks: ". $remainigStock->Quantity,//$notify->message,
                 'ntime' =>  $date,//$notify->ntime,
                 'repeat' => 1,//$notify->repeat,
                 'nloop' => 1,//$notify->nloop,
                 'username' => session()->get('username'),//$notify->username,
+                'publish_date' => $date
             ];
             $this->constructNotify->saveNotification($data);
         }

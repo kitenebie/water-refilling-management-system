@@ -10,7 +10,7 @@ class ProductController extends Controller
 {
     private $constructProduct, $comstructorResellerProducts;
     function __construct()
-    { 
+    {
             $this->constructProduct = new products();
             $this->comstructorResellerProducts = new ResellerProducts();
             return $this;
@@ -50,6 +50,14 @@ class ProductController extends Controller
 
     function ResellerProductPrice(){
         return $this->comstructorResellerProducts->GetProductPrice();
+    }
+
+    function productPrices($data) {
+        // Get the price of the product associated with the field1 parameter.
+        $price = $this->constructProduct->getprice($data);
+
+        // Return the price.
+        return $price;
     }
 
 }

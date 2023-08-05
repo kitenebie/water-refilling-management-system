@@ -45,8 +45,7 @@ class products extends Model
     }
 
     function getALLAdminStocks(){
-        return DB::table('products')
-                    ->sum('stocks');
+        return $this->sum('stocks');
     }
 
     function decreaseStockUpdate($qty, $pdtID){
@@ -56,5 +55,12 @@ class products extends Model
                         ->update([
                         'stocks' => DB::raw('stocks - '.$qty.''),
                         ]);
+    }
+
+    function getprice($ID){
+        $dataPrice = $this->where('id', '=', $ID)->get();
+        foreach($dataPrice as $price){
+            return $price->price;
+        }
     }
 }

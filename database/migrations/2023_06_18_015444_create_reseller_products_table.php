@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('product_ID');
             $table->double('Price');
             $table->integer('Quantity');
+            $table->integer('limit_stock');
             $table->timestamps();
         });
     }

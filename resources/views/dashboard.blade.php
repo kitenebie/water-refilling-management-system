@@ -149,13 +149,10 @@
 			<i class='bx bx-menu' ></i>
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
-                <a href="#" class="notification">
+                <a href="{{ route('ShowPostNotification') }}" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
-                    <span class="num" id="NuM"></span>
-                </a>
-                <a href="#" class="profile">
-                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
+                    <span class="num"></span>
                 </a>
             </div>
 		</nav>
@@ -335,11 +332,17 @@
 		});
 	</script>
 @endif
-@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-    <script>
-        $('.num').text($("ul #req").length);
-    </script>
-@endif
+
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "{{ route('count_notif') }}",
+            success: function(Appdata) {
+                $('.num').text(Appdata);
+            }
+            });
+    });
+</script>
         <script src="{{ asset('js/amounts.js') }}"></script>
         <script src="{{ asset('js/localStorage.js') }}"></script>
 </body>

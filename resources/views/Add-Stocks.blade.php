@@ -24,16 +24,20 @@
                 </div>
                 <div>
                     <label for="password" class="block text-gray-700 font-bold mb-2">Add New Stocks (QTY): </label>
-                    <input name="qtyStocks" id="text" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="e.g., 100">
+                    <input name="qtyStocks" id="addqtyStocks" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="e.g., 100">
                 </div>
                 <div>
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Update Stocks
                     </button>
+                    <a href="{{ route('MyService') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Close
+                    </a>
                 </div>
                 </form>
             </div>
             @endforeach
       @endif
+      <script src="{{ asset('js/numberonly.js') }}"></script>
 </body>
 </html>

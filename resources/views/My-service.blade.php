@@ -108,13 +108,10 @@
 			<i class='bx bx-menu' ></i>
             <div style="width: 100%; display: flex; align-items:center; gap: 10px; justify-content: end">
                 <input type="checkbox" id="switch-mode" hidden>
-                <a href="#" class="notification">
+                <a href="{{ route('ShowPostNotification') }}" class="notification">
 					<input type="checkbox" id="switch-mode" hidden>
                     <i class='bx bxs-bell' ></i>
                     <span class="num"></span>
-                </a>
-                <a href="#" class="profile">
-                    <img src="{{ asset('storage/'.session()->get('profile')) }}" alt="Image">
                 </a>
             </div>
 		</nav>
@@ -250,9 +247,9 @@
                                 <label for="">Product Name</label>
                                 <input style="color: inherit !important;" required type="text" name="product_Name" id="" class="inputs-products">
                                 <label for="">Product Price (php)</label>
-                                <input style="color: inherit !important;" required type="text" name="product_Price" id="" class="inputs-products">
+                                <input style="color: inherit !important;" required type="text" name="product_Price" id="pdprice" class="inputs-products">
                                 <label for="">Product Quatity Stocks</label>
-                                <input style="color: inherit !important;" required type="text" name="product_qty" id="" class="inputs-products">
+                                <input style="color: inherit !important;" required type="text" name="product_qty" id="pqtystock" class="inputs-products">
                                 <br><div style="width:100%">
                                     <button type="reset" class="save-btn clear"><i class='bx bx-x' ></i> Clear</button>
                                     <button type="submit" class="save-btn"><i class='bx bx-save' ></i> Save</button>
@@ -322,6 +319,8 @@
 	<!-- CONTENT -->
 
 
+    <script src="{{ asset('js/numberonly.js') }}"></script>
+    <script src="{{ asset('js/textonly.js') }}"></script>
 	<script src="{{ asset('js/dashboard.js') }}"></script>
     {{--  <script src="{{ env('JQUERY_AJAX_URL') }}"></script>  --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -514,18 +513,16 @@
 		});
 	</script>
 @endif
-@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
     <script>
         $(document).ready(function(){
 			$.ajax({
-				url: "{{ route('count_applicants') }}",
+				url: "{{ route('count_notif') }}",
 				success: function(Appdata) {
                     $('.num').text(Appdata);
 				}
 				});
 		});
     </script>
-@endif
 	<script src="{{ asset('js/amounts.js') }}"></script>
 	<script src="{{ asset('js/localStorage.js') }}"></script>
 
