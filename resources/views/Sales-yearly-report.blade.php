@@ -19,38 +19,32 @@
                 <tr>
                     <th style="font-size: 14px !important" scope="col"></th>
                     <th style="font-size: 14px !important" scope="col">Product ID</th>
-                    <th style="font-size: 14px !important" scope="col">Product Name</th>
                     <th style="font-size: 14px !important" scope="col">Quantity</th>
                     <th style="font-size: 14px !important" scope="col">Amount</th>
                     <th style="font-size: 14px !important" scope="col">Date</th>
                 </tr>
         </thead>
             <tbody>
-                @if ($allProductSalesRecords->isEmpty())
+                @if ($SalesData->isEmpty())
                     <tr>
                         <td colspan="7">No Data</td>
                     </tr>
                 @else
-                    @foreach($allProductSalesRecords as $allProductSalesRecord)
+                    @foreach($SalesData as $allProductSalesRecord)
                     <tr>
                         <td style="font-size: 12px !important" class="text-small">{{ $countNUm++ }}</td>
-                        <td style="font-size: 12px !important" class="text-small">{{ $allProductSalesRecord->product_id }}</td>
-                        <td style="font-size: 12px !important" class="text-small">{{ $allProductSalesRecord->product_Name }}</td>
+                        <td style="font-size: 12px !important" class="text-small">{{ $allProductSalesRecord->ProductID }}</td>
                         <td style="font-size: 12px !important" class="text-center text-small" scope="row">{{ number_format($allProductSalesRecord->Quantity) }}</td>
                         <td style="font-size: 12px !important" class="text-small" scope="row"><span style="font-family: DejaVu Sans; sans-serif;">₱</span><span id="Amount">{{ number_format($allProductSalesRecord->Amount,2) }}</span></td>
                         <td style="font-size: 12px !important" class="text-center">{{ date('m/d/y', strtotime($allProductSalesRecord->created_at)) }}</td>
                     </tr>
                     @endforeach
-                    @foreach ($sumOfallproductsales as $sumOfallproductsale)
                     <tr>
-                        <td class="text-right" colspan="5"><strong>Total Quantity: </strong></td>
-                        <td class="text-left" colspan="2" scope="row"><span style="font-family: DejaVu Sans; sans-serif;"></span><span id="totalAmount">{{ number_format($sumOfallproductsale->AllTotalProductQty) }}</span></td>
+                        <td style="font-size: 14px !important" class="text-right" colspan="5"><strong>Total Quantity: </strong> {{ number_format($Qty) }}</td>
                     </tr>
                     <tr>
-                        <td class="text-right" colspan="5"><strong>Total Amount: </strong></td>
-                        <td class="text-left" colspan="2" scope="row"><span style="font-family: DejaVu Sans; sans-serif;">₱</span><span id="totalAmount">{{ number_format($sumOfallproductsale->AllTotalProductSale,2) }}</span></td>
+                        <td style="font-size: 14px !important"  class="text-right" colspan="5"><strong>Total Amount: </strong> <span style="font-family: DejaVu Sans; sans-serif;">₱</span>{{ number_format($NewtotalAmount,2) }}</td>
                     </tr>
-                    @endforeach
                 @endif
             </tbody>
         </table>

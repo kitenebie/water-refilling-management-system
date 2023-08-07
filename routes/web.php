@@ -13,8 +13,9 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\announcementController;
 use App\Http\Controllers\PDFController;
-use App\Models\reseller_request;
+use App\Models\AddressFee;
 use Illuminate\Notifications\Notification;
+use Sabberworm\CSS\Settings;
 
 /*
 |--------------------------------------------------------------------------
@@ -165,3 +166,8 @@ Route::get('/getyearlyReport/{year}', [PDFController::class, 'getyearlyReport'])
 
 Route::get('/notify',[NotificationController::class, 'ShowPostNotification'])->name('ShowPostNotification');
 Route::get("/productPrices/{data}", [ProductController::class, 'productPrices'])->name('productPrices');
+
+//saveAddressFee
+Route::post('/save-Address-Fee', [AddressFee::class,'saveAddressFee'])->name('saveAddressFee');
+Route::get('/download-Sales/{year}', [PDFController::class, 'downloadSales'])->name('downloadSales');
+Route::get('/download-refill/{year}', [PDFController::class, 'downloadRefill'])->name('downloadRefill');

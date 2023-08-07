@@ -25,30 +25,26 @@
                 </tr>
         </thead>
             <tbody>
-                @if ($refillAllSalesRecords->isEmpty())
+                @if ($refills->isEmpty())
                     <tr>
                         <td colspan="7">No Data</td>
                     </tr>
                 @else
-                    @foreach($refillAllSalesRecords as $refillAllSalesRecord)
+                    @foreach($refills as $refill)
                     <tr>
                         <td style="font-size: 12px !important" class="text-small">{{ $countNUm++ }}</td>
-                        <td style="font-size: 12px !important" class="text-small">{{ $refillAllSalesRecord->Refill_ID }}</td>
-                        <td style="font-size: 12px !important" class="text-center text-small" scope="row">{{ number_format($refillAllSalesRecord->Quantity) }}</td>
-                        <td style="font-size: 12px !important" class="text-small" scope="row"><span style="font-family: DejaVu Sans; sans-serif;">₱</span><span id="Amount">{{ number_format($refillAllSalesRecord->Amount,2) }}</span></td>
-                        <td style="font-size: 12px !important" class="text-center">{{ date('m/d/y', strtotime($refillAllSalesRecord->created_at)) }}</td>
+                        <td style="font-size: 12px !important" class="text-small">{{ $refill->Refill_ID }}</td>
+                        <td style="font-size: 12px !important" class="text-center text-small" scope="row">{{ number_format($refill->Quantity) }}</td>
+                        <td style="font-size: 12px !important" class="text-small" scope="row"><span style="font-family: DejaVu Sans; sans-serif;">₱</span><span id="Amount">{{ number_format($refill->Amount,2) }}</span></td>
+                        <td style="font-size: 12px !important" class="text-center">{{ date('m/d/y', strtotime($refill->created_at)) }}</td>
                     </tr>
                     @endforeach
-                    @foreach ($refillAllSales as $refillAllSale)
                     <tr>
-                        <td class="text-right" colspan="5"><strong>Total Quantity: </strong></td>
-                        <td class="text-left" colspan="2" scope="row"><span style="font-family: DejaVu Sans; sans-serif;"></span><span id="totalAmount">{{ number_format($refillAllSale->refilltotalQty) }}</span></td>
+                        <td style="font-size: 14px !important" class="text-right" colspan="5"><strong>Total Quantity: </strong> {{ number_format($Qty) }}</td>
                     </tr>
                     <tr>
-                        <td class="text-right" colspan="5"><strong>Total Amount: </strong></td>
-                        <td class="text-left" colspan="2" scope="row"><span style="font-family: DejaVu Sans; sans-serif;">₱</span><span id="totalAmount">{{ number_format($refillAllSale->refilltotalAmount,2) }}</span></td>
+                        <td style="font-size: 14px !important"  class="text-right" colspan="5"><strong>Total Amount: </strong> <span style="font-family: DejaVu Sans; sans-serif;">₱</span>{{ number_format($NewtotalAmount,2) }}</td>
                     </tr>
-                    @endforeach
                 @endif
             </tbody>
         </table>

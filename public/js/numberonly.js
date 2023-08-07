@@ -7,6 +7,7 @@ var numberGalllonInputs = document.querySelectorAll('#numberGalllon');
 var pdpriceInputs = document.querySelectorAll('#pdprice');
 var pqtystockInputs = document.querySelectorAll('#pqtystock');
 var addqtyStocksInputs = document.querySelectorAll('#addqtyStocks');
+var feeInputs = document.querySelectorAll('#fee');
 
 function validateNumberOnly(inputField) {
     var regex = /^[0-9]+$/;
@@ -32,14 +33,21 @@ var minNumInput = minNumInputs[i];
       });
 }
 
-for (var i = 0; i < priceNumInputs.length; i++) {
-    var priceNumInput = priceNumInputs[i];
-        priceNumInput.addEventListener("input", function(event) {
+for (var i = 0; i < feeInputs.length; i++) {
+    var feeInput = feeInputs[i];
+        feeInput.addEventListener("input", function(event) {
             var inputField = event.target;
             validateNumberWithPoint(inputField);
           });
     }
 
+for (var i = 0; i < priceNumInputs.length; i++) {
+    var priceNumInput = priceNumInputs[i];
+        priceNumInput.addEventListener("input", function(event) {
+            var inputField = event.target;
+            validateNumberWithPoint(inputField);
+        });
+    }
 for (var i = 0; i < pdpriceInputs.length; i++) {
     var pdpriceInput = pdpriceInputs[i];
         pdpriceInput.addEventListener("input", function(event) {

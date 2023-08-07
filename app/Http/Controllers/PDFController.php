@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\Models\orders as order;
-use App\Models\LogInModel;
-use App\Models\RefillSales;
-use App\Models\AllSales;
 use Carbon\Carbon;
 // use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\refillRequest as refill;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class PDFController extends Controller
@@ -95,48 +93,97 @@ class PDFController extends Controller
                             'caption' => $caption, 'currentDate' => date('F-Y')])->download($pdfName);
     }
 
-    function getyearlyReport($year){
-        //Sales-yearly-report.blade.php
-    //!ERROR
-        $caption1 = "Product Sales Report " . $year;
-        $caption2 = "Refill Sales Report " . $year;
+    function downloadRefill($datayear){
+        $caption = "Jonel's WRS Product Sales Report" . $datayear;
+        $refillsData = DB::table('refill_sales')
+                        ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                        ->whereYear('created_at', $datayear)
+                        ->orderBy(DB::raw('MONTH(created_at)'))
+                        ->get();
 
-        $allProductSalesRecords = AllSales::join('products', 'products.product_id', '=', 'all_sales.ProductID')
-            ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
-            ->select('products.product_id', 'products.product_Name', 'all_sales.Quantity', 'all_sales.Amount', 'all_sales.created_at')
-            ->orderByDesc('all_sales.created_at')
-            ->get();
+        $totalAmount = DB::table('refill_sales')
+                    ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                    ->whereYear('created_at', $datayear)
+                    ->selectRaw('SUM(Amount) as TheAmount')->get();
 
-        $sumOfallproductsales = AllSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
-            ->selectRaw('SUM(all_sales.Quantity) as AllTotalProductQty, SUM(all_sales.Amount) as AllTotalProductSale')
-            ->first(); // Use first() instead of get() to retrieve a single row with the aggregated values.
 
-        $refillAllSalesRecords = RefillSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
-            ->get();
-
-        $refillAllSales = RefillSales::where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
-            ->selectRaw('SUM(Quantity) as refilltotalQty, SUM(Amount) as refilltotalAmount')
-            ->first(); // Use first() instead of get() to retrieve a single row with the aggregated values.
-
-        $pdfName1 = "Refill-Sales-Report-" . date('m-d-y') . ".pdf"; // Use '-' instead of '/' in the date format to avoid file name issues.
-        $pdfName2 = "Product-Sales-Report-" . date('m-d-y') . ".pdf"; // Use '-' instead of '/' in the date format to avoid file name issues.
-
-        // Assuming you have imported the PDF facade, if not, add the following line at the top:
-        // use PDF;
-
-        // Load the views and generate the PDFs
-        PDF::loadView('refill-yearly-report', [
-            'refillAllSalesRecords' => $refillAllSalesRecords,
-            'refillAllSales' => $refillAllSales,
-            'caption' => $caption1,
-            'currentDate' => date('F Y'), // Change 'F-Y' to 'F Y' to have a space between the month and year.
-        ])->save(public_path('pdf/' . $pdfName1)); // Save the PDF instead of downloading it directly.
-
-        PDF::loadView('Sales-yearly-report', [
-            'allProductSalesRecords' => $allProductSalesRecords,
-            'sumOfallproductsales' => $sumOfallproductsales,
-            'caption' => $caption2,
-            'currentDate' => date('F Y'), // Change 'F-Y' to 'F Y' to have a space between the month and year.
-        ])->save(public_path('pdf/' . $pdfName2)); // Save the PDF instead of downloading it directly.
+        $totalQuantity = DB::table('refill_sales')
+                    ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                    ->whereYear('created_at', $datayear)
+                    ->selectRaw('SUM(Quantity) as Qty')->get();
+        $NewtotalAmount = $totalAmount[0]->TheAmount;
+        $totalQty = $totalQuantity[0]->Qty;
+        $pdfName = $datayear."-refill-Report-".date('m/d/y').".pdf";
+        return PDF::loadView('refill-yearly-report', ['refills' => $refillsData, 'NewtotalAmount' => $NewtotalAmount,
+                            'caption' => $caption, 'Qty' => $totalQty, 'currentDate' => date('F-Y')])->download($pdfName);
     }
+
+    function downloadSales($datayear){
+        $caption = "Jonel's WRS Product Sales Report" . $datayear;
+        $SalesData = DB::table('all_sales')
+                        ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                        ->whereYear('created_at', $datayear)
+                        ->orderBy(DB::raw('MONTH(created_at)'))
+                        ->get();
+
+        $totalAmount = DB::table('all_sales')
+                    ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                    ->whereYear('created_at', $datayear)
+                    ->selectRaw('SUM(Amount) as TheAmount')->get();
+
+
+        $totalQuantity = DB::table('all_sales')
+                    ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
+                    ->whereYear('created_at', $datayear)
+                    ->selectRaw('SUM(Quantity) as Qty')->get();
+        $NewtotalAmount = $totalAmount[0]->TheAmount;
+        $totalQty = $totalQuantity[0]->Qty;
+        $pdfName = $datayear."-Sales-Report-".date('m/d/y').".pdf";
+        return PDF::loadView('Sales-yearly-report', ['SalesData' => $SalesData, 'NewtotalAmount' => $NewtotalAmount,
+                            'caption' => $caption, 'Qty' => $totalQty, 'currentDate' => date('F-Y')])->download($pdfName);
+    }
+
+    function getyearlyReport($year){ ?>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body onload="loadthis()">
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose Report Type</h5>
+            </div>
+            <div class="modal-body d-flex flex-column justify-center gap-2">
+                <a href="/download-Sales/<?= $year ?>" type="button" style="background-color: rgba(54, 162, 235);" class="btn text-white"><i class='bx bxs-file-pdf' ></i>Download Product Sales PDF Report <?= $year ?> <i class='bx bxs-download'></i></a>
+                <a href="/download-refill/<?= $year ?>" type="button" style="background-color: #FD7238;" class="btn text-white"><i class='bx bxs-file-pdf' ></i>Download Refill Sales PDF Report <?= $year ?> <i class='bx bxs-download'></i></a>
+            </div>
+            <div class="modal-footer">
+                <a href="<?= route('getsalesmonth') ?>" type="button" class="btn text-white" style="background-color: #DB504A;">Close</a>
+            </div>
+            </div>
+        </div>
+        </div>
+        <script>
+           var myModal = new bootstrap.Modal(document.getElementById('exampleModal'), focus);
+           function loadthis(){
+            myModal.show();
+           }
+        </script>
+    </body>
+    </html>
+<?php
 }
+}
+?>

@@ -274,19 +274,45 @@
 						<h4>Shipping Fee</h4>
                     </div>
                     <div class="head">
-                        <form action="" method="post">
+                        <form action="{{ route('saveAddressFee') }}" method="post">
                             @csrf
                             <div>
                                 <label for="">Address: </label>
-                                <input id="" class="inputs-products2" type="text" name="" value=""><br><br>
+                                <input id="address" class="inputs-products2" type="text" name="address" value=""><br><br>
                                 <label for="">Ship Fee: </label>
-                                <input id="" class="inputs-products2" type="text" name="" value=""><br><br>
+                                <input id="fee" class="inputs-products2" type="text" name="fee" value=""><br><br>
                                 <button type="submit" class="save-btn" style="margin-left: 5.2rem">Save</button>
                             </div>
                         </form>
                     </div>
                     <div class="head">
-
+                        <table>
+                            <thead>
+                                <tr>
+                                <th>Address</th>
+                                <th>Ship Fee</th>
+                                <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(isset($AddressFees))
+                                    @foreach ($AddressFees as $AddressFee)
+                                    <tr>
+                                        <td>{{ $AddressFee->Address }}</td>
+                                        <td>{{ $AddressFee->Fee }}</td>
+                                        <td>
+                                            <a href="/Address-Edit/{{ $AddressFee->id }}">
+                                            <span class="status Completed" style="font-size: .8em; font-weight:600">Edit</span>
+                                            </a>
+                                            <a href="/Address-Delete/{{ $AddressFee->id }}">
+                                                <span class="status Cancelled" style="font-size: .8em; font-weight:600">Delete</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 				@endif
@@ -337,10 +363,33 @@
 		}, 5000);
 	</script>
 	@endif
+	@if (session('existed'))
+	<script>
+		toastr.warning('Already Registerd!', "existed", {
+			closeButton: true,
+			tapToDismiss: true, // prevent the toast from disappearing when clicked
+			newestOnTop: true,
+			positionClass: 'toast-top-right', // set the position of the toast
+			preventDuplicates: true,
+		}, 5000);
+	</script>
+	@endif
+	@if (session('success'))
+	<script>
+		toastr.success('Succesfully Registerd!', "Registerd", {
+			closeButton: true,
+			tapToDismiss: true, // prevent the toast from disappearing when clicked
+			newestOnTop: true,
+			positionClass: 'toast-top-right', // set the position of the toast
+			preventDuplicates: true,
+		}, 5000);
+	</script>
+	@endif
 	<script>
 		$(document).ready(function(){
 			$.ajax({
 				url: "{{ route('get_annoucement') }}",
+                type: "GET",
 				success: function(data) {
 					// Get the response data
 					var response = data;
@@ -354,7 +403,7 @@
 					}
 				}
 				});
-		})
+		});
 	</script>
 	 @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	 <script>

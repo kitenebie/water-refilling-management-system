@@ -12,6 +12,7 @@ use App\Models\client_stocks;
 use App\Models\orders;
 use App\Models\ResellerProducts;
 use App\Models\refillRequest;
+use App\Models\AddressFee;
 use App\Http\Controllers\NotificationController;
 use Carbon\Carbon;
 
@@ -20,7 +21,7 @@ class dashboardController extends Controller
 
     private $constructSalse, $constructRefill, $constructApplicant, $constructProduct,
             $constructclient_stocks, $constructOrders, $constructResellerProducts,
-            $constructRefillRequest, $NotificationController;
+            $constructRefillRequest, $NotificationController, $constructAddress;
     //* for total_income
     public $adminStocks, $pendingAmount, $proccessAmount,$refillprending, $refillprocess;
 
@@ -37,6 +38,7 @@ class dashboardController extends Controller
             $this->constructResellerProducts = new ResellerProducts();
             $this->constructRefillRequest = new refillRequest();
             $this->NotificationController = new NotificationController();
+            $this->constructAddress = new AddressFee();
             return $this;
     }
 
@@ -180,7 +182,8 @@ class dashboardController extends Controller
             $details = $this->constructApplicant->getDetails();
             $ProductPrice = $this->constructResellerProducts->getproductDetails();
             $StockDetails = $this->constructclient_stocks->stock_details();
-            return view('Settings', compact('ProductPrice','details','StockDetails'));
+            $AddressFees = $this->constructAddress->getAddress();
+            return view('Settings', compact('ProductPrice','details','StockDetails', 'AddressFees'));
         }else{
             return view('log-in');
         }

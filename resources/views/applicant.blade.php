@@ -166,7 +166,7 @@
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->firstname }} {{ $req->lastname }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->address }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->contact, 'X', 2,7) }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->email, 'X', 1,-4) }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->username, 'X', 1,-4) }}</td>
                                         <td style="auto">
                                             <a href="/applicant/Request/Accept/{{ $req->id }}">
                                                 <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>

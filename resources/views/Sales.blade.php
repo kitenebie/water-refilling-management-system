@@ -12,9 +12,11 @@
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
     <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 	<title>Sales</title>
 </head>
 <body>
+
     <style>
         #searchMonth{
             padding: 4px 6px;
@@ -38,6 +40,7 @@
     </style>
 	<!-- SIDEBAR -->
 	<section id="sidebar">
+
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
 			<span class="text">Sales</span>
@@ -163,7 +166,30 @@
                         @endif
                     </span>
 				</a>
+
 			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 			<ul class="box-info">
                 <li>
@@ -448,5 +474,11 @@
     {{-- amounts.js --}}
 	<script src="{{ asset('js/amounts.js') }}"></script>
 	<script src="{{ asset('js/localStorage.js') }}"></script>
+
+
+
+
+
+
 </body>
 </html>
