@@ -459,6 +459,18 @@
         }, 5000);
     </script>
     @endif
+
+    @if (session('created'))
+    <script>
+        toastr.success("Successfully Purchased", "Product Added to Sales!", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
     @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
 	<script>
 		$(document).ready(function(){

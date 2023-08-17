@@ -100,9 +100,9 @@ Route::post('/SubmitProductRequest', [OrderController::class, 'SubmitProductRequ
 Route::post('/Submit-Refill-Request', [OrderController::class, 'SubmitRefillRequest'])->name('SubmitRefillRequest');
 
 //* accept applicant request
-Route::get('/applicant/Request/Accept/{id}', [ApplicantController::class, 'AcceptApplicant'])->name('AcceptApplicant');
-Route::get('/applicant/Request/Decline/{id}', [ApplicantController::class, 'DeclineApplicant'])->name('DeclineApplicant');
-
+Route::get('/applicant/Request/Accept/{id}/email/{mail}', [ApplicantController::class, 'AcceptApplicant'])->name('AcceptApplicant');
+Route::get('/applicant/Request/Decline/{id}/email/{mail}', [ApplicantController::class, 'DeclineApplicant'])->name('DeclineApplicant');
+Route::get('/Activate-my-account-Token/{Token}', [ApplicantController::class, 'ActivateWithToken'])->name('ActivateWithToken');
 
 //***************************//
 Route::get('/GetProductPrice', [ProductController::class, 'ResellerProductPrice'])->name('ResellerProductPrice');

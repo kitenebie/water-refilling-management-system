@@ -42,8 +42,12 @@ class LogInModel extends Model
         return $this->where('Status', 'Pending')->where('reseller_id', $rsID)->get();
     }
 
-    function ApprovalRequest($ID){
-        return $this->where('id', $ID)->update(['Status' => 'Active']);
+    function ApprovalRequest($ID, $Token){
+        return $this->where('id', $ID)->update(['Status' => 'Approved', 'Token' => $Token]);
+    }
+
+    function ApprovalRequestToken($Token){
+        return $this->where('Token', $Token)->update(['Status' => 'Active', 'Token' => '']);
     }
 
     function DeclineRequest($ID){

@@ -142,6 +142,16 @@
         </script>
     @endif
 
-
+        @if(session('Can_Login'))
+        <script>
+            toastr.info('Your account has been activated!', 'LOGIN FAILED', {
+                closeButton: true,
+                tapToDismiss: true, // prevent the toast from disappearing when clicked
+                newestOnTop: true,
+                positionClass: 'toast-top-right', // set the position of the toast
+                preventDuplicates: true,
+            }, 5000);
+        </script>
+        @endif
   </body>
 </html>

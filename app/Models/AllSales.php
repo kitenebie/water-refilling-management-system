@@ -73,10 +73,14 @@ class AllSales extends Model
     }
 
     function AddResellerSales($Items_data){
-        DB::table('reseller_products')
+       DB::table('reseller_products')
             ->where('user_id', $Items_data['Account_SaleID'])
             ->where('product_id', $Items_data['ProductID'])
             ->update(['quantity' => DB::raw('quantity - '.$Items_data['Quantity'].'')]);
         return $this->create($Items_data);
+    }
+
+    function AddAdminSale($data){
+        return $this->create($data);
     }
 }

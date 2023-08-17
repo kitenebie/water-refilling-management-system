@@ -162,16 +162,16 @@
                             @if (isset($reqData))
                                 @foreach ($reqData as $req)
                                     <tr id="existingData">
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->reseller_id, 'X', 7,5) }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->firstname }} {{ $req->lastname }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->address }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->contact, 'X', 2,7) }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ str::mask($req->username, 'X', 1,-4) }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->reseller_id, '*', 2,8) }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ $req->firstname }} {{ $req->lastname }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ $req->address }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->contact, '*', 2,6) }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->username, '*', 3,-4) }}</td>
                                         <td style="auto">
-                                            <a href="/applicant/Request/Accept/{{ $req->id }}">
+                                            <a href="/applicant/Request/Accept/{{ $req->id }}/email/{{ $req->username }}">
                                                 <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
                                             </a>
-                                            <a href="/applicant/Request/Decline/{{ $req->id }}">
+                                            <a href="/applicant/Request/Decline/{{ $req->id }}/email/{{ $req->username }}">
                                                 <span class="status Pending" style="font-size: .8em; font-weight:600">Decline</span>
                                             </a>
                                         </td>
@@ -185,12 +185,12 @@
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->firstname }} {{ $req->lastname }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->address }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->contact }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->email }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->username }}</td>
                                         <td style="auto">
-                                        <a href="/applicant/Request/Accept/{{ $req->id }}">
+                                        <a href="/applicant/Request/Accept/{{ $req->id }}/email/{{ $req->username }}">
                                             <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
                                         </a>
-                                        <a href="/applicant/Request/Decline/{{ $req->id }}">
+                                        <a href="/applicant/Request/Decline/{{ $req->id }}/email/{{ $req->username }}">
                                             <span class="status Pending" style="font-size: .8em; font-weight:600">Decline</span>
                                         </a>
                                     </td>
@@ -262,5 +262,31 @@
     });
 </script>
 	<script src="{{ asset('js/localStorage.js') }}"></script>
+    <link rel="stylesheet" href="{{ env('TOASTR_URL_CSS') }}">
+    <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
+    <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
+    @if (session('success'))
+    <script>
+        toastr.info("Account Approved", "Email verification has been sent!", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
+    @if (session('Deleted'))
+    <script>
+        toastr.warning("Account Rejected", "Email for Rejection has been sent!", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
+
 </body>
 </html>

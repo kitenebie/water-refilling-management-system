@@ -42,7 +42,14 @@ class AllRefillSalesController extends Controller
     }
 
     function AddProductSales(Request $request){
-        echo "<center><h1>ONGOING PROGRAM</h1></center>";
+       $data = [
+        'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
+        'ProductID' => $request->product_ID,
+        'Quantity' => $request->order,
+        'Amount' => $request->price,
+       ];
+       $this->constructSalse->AddAdminSale($data);
+       return back()->with('created', 'done!');
     }
     function AddRefillSalesAdmin(Request $request){
         $randomNumber = Str::random(12);

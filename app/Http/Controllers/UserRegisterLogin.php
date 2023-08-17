@@ -32,7 +32,8 @@ class UserRegisterLogin extends Controller
                     'username' => $request->username,
                     'password' => hash("md5",$request->password),
                     'user_authe' => env('USER_CREDINTIAL_RESELLER'),
-                    'Status' => env('USER_STATUS_STATE_TWO'),
+                    'Token' => '',
+                    'Status' => env('USER_STATUS_STATE_TWO')
                 ];
                 $dataReq = [
                     'reseller_id' => $request->Reseller_ID,
