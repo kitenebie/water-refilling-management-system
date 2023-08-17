@@ -33,7 +33,6 @@ class UserRegisterLogin extends Controller
                     'password' => hash("md5",$request->password),
                     'user_authe' => env('USER_CREDINTIAL_RESELLER'),
                     'Status' => env('USER_STATUS_STATE_TWO'),
-                    'profile_pic' => "header-dashboard.png"
                 ];
                 $dataReq = [
                     'reseller_id' => $request->Reseller_ID,

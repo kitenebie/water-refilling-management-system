@@ -29,4 +29,8 @@ class AddressFee extends Model
     function getAddress(){
         return $this->orderBy('id', 'desc')->get();
     }
+
+    function Address(){
+        return $this->orderBy('Address', 'desc')->get();
+    }
 }

@@ -78,24 +78,29 @@
           <form action="{{ route('register') }}" method="post">
             @csrf
             <div class="form-div">
-                <label for="">Reseller ID</label>
-                <input readonly id="Reseller_ID" name="Reseller_ID" type="text" required>
+                <input hidden readonly id="Reseller_ID" name="Reseller_ID" type="text" required>
                 <label for="">First Name</label>
-                <input name="firstname" type="text" required>
+                <input name="firstname" id="firstname" type="text" required>
                 <label for="">Last Name</label>
-                <input name="lastname" type="text" required>
+                <input name="lastname" id="lastname" type="text" required>
                 <label for="">Address</label>
-                <input name="address" type="text" required>
+                <select name="address" required id="">
+                    @if(isset($addresses))
+                        @foreach($addresses as $address)
+                            <option value="{{ $address->Address }}">{{ $address->Address }}</option>
+                        @endforeach
+                    @endif
+                </select>
                 <label for="">Birthday</label>
                 <input name="Birthday" type="date" required>
                 <label for="">Contact Number</label>
-                <input name="contact" type="number" placeholder="Contact Number" value="09" required>
+                <input name="contact" id="contact" type="text" placeholder="Contact Number" value="09" required>
                 <label for="">Email Address</label>
-                <input name="username" type="email" placeholder="e.g., myemail@gmail.com" required>
-                <label for="">Password</label>
-                <input name="password" type="password" required>
-                <label for="">Confirm Password</label>
-                <input type="password" required>
+                <input name="username" id="username" type="email" placeholder="e.g., myemail@gmail.com" required>
+                <label for="">Password</label> <span style="color: red; font-size: 13px !important" id="passwordError"></span>
+                <input  type="password" id="password" required>
+                <label for="">Confirm Password</label><span style="color: red; font-size: 13px !important" id="ConfpasswordError"></span>
+                <input name="password" id="confirmPassword" type="password" required>
                 <div class="cont">
                     <input class="form-check-input" type="checkbox" value="" id="checkbox1" required>
                     <span>I agree to abide by the <a href="{{ route('terms') }}">terms and conditions</a> set forth by Jonel Refilling Station and have carefully reviewed their <a href="{{ route('privacy') }}">privacy policy</a>".</span>
@@ -195,5 +200,10 @@
         }, 5000);
     </script>
     @endif
+    <script src="{{ asset('js/emailonly.js') }}"></script>
+    <script src="{{ asset('js/textonly.js') }}"></script>
+    <script src="{{ asset('js/numberonly.js') }}"></script>
+    <script src="{{ asset('js/userpwd.js') }}"></script>
   </body>
 </html>
+

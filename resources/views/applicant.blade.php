@@ -18,8 +18,8 @@
 	<!-- SIDEBAR -->
 	<section id="sidebar">
 		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="img/header-dashboard.png" alt="" srcset="">
-			<span class="text">Dashboard</span>
+			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
+			<span class="text">Order & Transaction</span>
 		</a>
 		<ul class="side-menu top">
 			<li>

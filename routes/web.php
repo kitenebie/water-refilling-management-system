@@ -16,6 +16,7 @@ use App\Http\Controllers\PDFController;
 use App\Models\AddressFee;
 use Illuminate\Notifications\Notification;
 use Sabberworm\CSS\Settings;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ use Sabberworm\CSS\Settings;
 |
 */
 
-//* HOME PAGE
+//* HOME PAGE loader
 Route::get('/', [LandingPage::class, 'HomePage'])->name('HomePage');
 Route::get('/About', [LandingPage::class, 'about_us'])->name('about_us');
 Route::get('/features', [LandingPage::class, 'feature'])->name('feature');
@@ -37,6 +38,7 @@ Route::get('/log-in', [LandingPage::class, 'login'])->name('login');
 Route::get('/privacy', [LandingPage::class, 'privacy'])->name('privacy');
 Route::get('/terms', [LandingPage::class, 'terms'])->name('terms');
 Route::get('/contact', [LandingPage::class, 'contact'])->name('contact');
+Route::get('/loader', [LandingPage::class, 'loader'])->name('loader');
 
 //*register User
 Route::post('/Register-account', [UserRegisterLogin::class, 'register'])->name('register');
@@ -171,3 +173,6 @@ Route::get("/productPrices/{data}", [ProductController::class, 'productPrices'])
 Route::post('/save-Address-Fee', [AddressFee::class,'saveAddressFee'])->name('saveAddressFee');
 Route::get('/download-Sales/{year}', [PDFController::class, 'downloadSales'])->name('downloadSales');
 Route::get('/download-refill/{year}', [PDFController::class, 'downloadRefill'])->name('downloadRefill');
+
+
+ROute::get('/sendEmail', [Controller::class, 'index']);

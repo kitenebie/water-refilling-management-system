@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\LogInModel;
+use App\Models\AddressFee;
 
 class LandingPage extends Controller
 {
     //* create a contructior
     private $construct;
-    function __contructor(){  
-            $this->construct = new LogInModel();
+    function __construct(){
+            $this->construct = new AddressFee();
             return $this;
     }
     //* Home Page redirect
@@ -33,7 +33,8 @@ class LandingPage extends Controller
     }
 
     function sign_up(){
-        return view('sign-up');
+        $addresses = $this->construct->Address();
+        return view('sign-up', compact('addresses'));
     }
 
     function privacy(){
@@ -58,4 +59,7 @@ class LandingPage extends Controller
         }
     }
 
+    // function loader(){
+    //     return view('loading');
+    // }
 }

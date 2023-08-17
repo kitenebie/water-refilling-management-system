@@ -17,6 +17,7 @@
     <meta property="og:url" content=""> <!-- where do you want your post to link to -->
     <meta name="twitter:card" content="summary_large_image"> <!-- to have large image post format in Twitter -->
 
+    <script src="{{ asset('js/loader.js') }}"></script>
     <!-- Webpage Title -->
     <title>Home</title>
 

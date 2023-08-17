@@ -8,12 +8,14 @@ var pdpriceInputs = document.querySelectorAll('#pdprice');
 var pqtystockInputs = document.querySelectorAll('#pqtystock');
 var addqtyStocksInputs = document.querySelectorAll('#addqtyStocks');
 var feeInputs = document.querySelectorAll('#fee');
+var contactInputs = document.querySelectorAll('#contact');
 
 function validateNumberOnly(inputField) {
     var regex = /^[0-9]+$/;
     if (!regex.test(inputField.value)) {
       inputField.value = inputField.value.slice(0,-1);
       alert("Please enter only numbers in this field.");
+      inputField.focus();
     }
   }
 
@@ -22,6 +24,7 @@ function validateNumberOnly(inputField) {
     if (!regex.test(inputField.value)) {
         inputField.value = inputField.value.slice(0,-1);
       alert("Please enter a valid number with a decimal point.");
+      inputField.focus();
     }
   }
 
@@ -85,6 +88,15 @@ for (var i = 0; i < pqtystockInputs.length; i++) {
 for (var i = 0; i < addqtyStocksInputs.length; i++) {
     var addqtyStocksInput = addqtyStocksInputs[i];
         addqtyStocksInput.addEventListener("input", function(event) {
+            var inputField = event.target;
+            validateNumberOnly(inputField);
+          });
+    }
+
+
+for (var i = 0; i < contactInputs.length; i++) {
+    var contactInput = contactInputs[i];
+        contactInput.addEventListener("input", function(event) {
             var inputField = event.target;
             validateNumberOnly(inputField);
           });
