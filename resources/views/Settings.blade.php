@@ -277,10 +277,12 @@
                         <form action="{{ route('saveAddressFee') }}" method="post">
                             @csrf
                             <div>
-                                <label for="">Address: </label>
+                                <label for="">Address: </label><br>
                                 <input id="address" class="inputs-products2" type="text" name="address" value=""><br><br>
-                                <label for="">Ship Fee: </label>
+                                <label for="">Product Ship Fee: </label>
                                 <input id="fee" class="inputs-products2" type="text" name="fee" value=""><br><br>
+                                <label for="">Refill Ship Fee: </label>
+                                <input id="fee" class="inputs-products2" type="text" name="Refillfee" value=""><br><br>
                                 <button type="submit" class="save-btn" style="margin-left: 5.2rem">Save</button>
                             </div>
                         </form>
@@ -290,7 +292,8 @@
                             <thead>
                                 <tr>
                                 <th>Address</th>
-                                <th>Ship Fee</th>
+                                <th>Product Ship Fee</th>
+                                <th>Refill Ship Fee</th>
                                 <th></th>
                                 </tr>
                             </thead>
@@ -300,10 +303,11 @@
                                     <tr>
                                         <td>{{ $AddressFee->Address }}</td>
                                         <td>{{ $AddressFee->Fee }}</td>
+                                        <td>{{ $AddressFee->RefillFee }}</td>
                                         <td>
-                                            <a href="/Address-Edit/{{ $AddressFee->id }}">
+                                            {{--  <a href="/Address-Edit/{{ $AddressFee->id }}">
                                             <span class="status Completed" style="font-size: .8em; font-weight:600">Edit</span>
-                                            </a>
+                                            </a>  --}}
                                             <a href="/Address-Delete/{{ $AddressFee->id }}">
                                                 <span class="status Cancelled" style="font-size: .8em; font-weight:600">Delete</span>
                                             </a>
@@ -330,6 +334,18 @@
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
+
+	@if (session('Deleted'))
+	<script>
+		toastr.warning('Successfully Deleted!', "Adddress has been Deleted!", {
+			closeButton: true,
+			tapToDismiss: true, // prevent the toast from disappearing when clicked
+			newestOnTop: true,
+			positionClass: 'toast-top-right', // set the position of the toast
+			preventDuplicates: true,
+		}, 5000);
+	</script>
+	@endif
 	@if (session('imgsuccess'))
 	<script>
 		toastr.success('Successfully Saved!', "Changed", {
@@ -365,7 +381,7 @@
 	@endif
 	@if (session('existed'))
 	<script>
-		toastr.warning('Already Registerd!', "existed", {
+		toastr.warning('Already Registerd!', "Address already existed", {
 			closeButton: true,
 			tapToDismiss: true, // prevent the toast from disappearing when clicked
 			newestOnTop: true,
@@ -376,7 +392,7 @@
 	@endif
 	@if (session('success'))
 	<script>
-		toastr.success('Succesfully Registerd!', "Registerd", {
+		toastr.info('Succesfully Registerd!', "New Address Registered", {
 			closeButton: true,
 			tapToDismiss: true, // prevent the toast from disappearing when clicked
 			newestOnTop: true,

@@ -272,11 +272,11 @@
                                                             <span class="status Completed" style="font-size: .8em; font-weight:600">Complete</span>
                                                         </a>
                                                     @endif
-                                                    @if ($label_title == "Cancelled Orders")
+                                                    {{--  @if ($label_title == "Cancelled Orders")
                                                         <a href="/orders/Request/Received/{{ $resellerData->id }}">
                                                             <span class="status Pending" style="font-size: .8em; font-weight:600">Delete</span>
                                                         </a>
-                                                    @endif
+                                                    @endif  --}}
                                                 @endif
                                             </td>
                                         @php
@@ -424,6 +424,28 @@
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
 
+    @if (session('Cancelled'))
+    <script>
+        toastr.warning("Request has been cancelled", "Order Purchased Cancelled", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
+    @if (session('successOrder'))
+    <script>
+        toastr.success("Successfully Submitted Request", "Order Purchased", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
     @if (session('success'))
     <input hidden type="text" value="{{ session('success') }}" id="welcomeMSG">
     <script>

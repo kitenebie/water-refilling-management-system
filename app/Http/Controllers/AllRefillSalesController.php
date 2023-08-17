@@ -81,14 +81,14 @@ class AllRefillSalesController extends Controller
         return back()->with('Accepted', 'Successfull');
     }
 
-    function CompleteRequest(Request $request){
+    function CompleteRequest($ID, $Quantity, $Amount){
         $ref_DATA = [
             'Account_SaleID' =>  session()->get(env('USER_SESSION_KEY')),
             'Refill_ID' => Str::random(12),
-            'Quantity' => $request->Quantity,
-            'Amount' => $request->Amount
+            'Quantity' => $Quantity,
+            'Amount' => $Amount
         ];
-        $this->constructRefillRequest->completed_refill($request->id);
+        $this->constructRefillRequest->completed_refill($ID);
         $this->constructRefill->SaveRefillSales($ref_DATA);
         return back()->with('Completed', 'Successfull');
     }
@@ -102,6 +102,12 @@ class AllRefillSalesController extends Controller
     function refilltocompleted(){
         $label_title = "Completed Refill Request";
         $statusRefill = $this->constructRefillRequest->statusCompleteRefill();
+        return view('Refill-Request', compact('statusRefill','label_title'));
+    }
+
+    function refilltocancelled(){
+        $label_title = "Cancelled Refill Request";
+        $statusRefill = $this->constructRefillRequest->statusCancelledRefill();
         return view('Refill-Request', compact('statusRefill','label_title'));
     }
 
@@ -183,5 +189,11 @@ class AllRefillSalesController extends Controller
             }else{
                 return view('log-in');
             }
+    }
+
+    function Decline($ID){
+        $this->constructRefillRequest->Decline_refill($ID);
+        return back()->with('Cancelled', 'Cancel!');
+
     }
 }

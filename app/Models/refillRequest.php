@@ -74,7 +74,7 @@ class refillRequest extends Model
                         ->orderByDesc('refill_requests.updated_at')->get();
         }
     }
-    
+
     function statusCompleteRefill(){
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             return DB::table('refill_requests')
@@ -93,6 +93,24 @@ class refillRequest extends Model
         }
     }
 
+    function statusCancelledRefill(){
+        if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
+            return DB::table('refill_requests')
+                        ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
+                        ->where('refill_requests.Reseller_ID', session()->get(env('USER_SESSION_KEY')))
+                        ->where('refill_requests.status', 'Cancelled')
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
+        }
+        if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
+            return DB::table('refill_requests')
+                        ->join('log_in_models', 'refill_requests.Reseller_ID', '=', 'log_in_models.reseller_id')
+                        ->where('refill_requests.status', 'Cancelled')
+                        ->select('refill_requests.updated_at', 'refill_requests.id','refill_requests.Reseller_ID', 'refill_requests.NumberOfGallon', 'refill_requests.RefillCost', 'refill_requests.RefillShipFee', 'refill_requests.TotalCost', 'refill_requests.status', 'log_in_models.firstname', 'log_in_models.lastname')
+                        ->orderByDesc('refill_requests.updated_at')->get();
+        }
+    }
+
     function Accept_refill($ref_ID){
         return $this->where('id', $ref_ID)
                     ->update([
@@ -105,5 +123,9 @@ class refillRequest extends Model
                     ->update([
                         'status' => 'Completed'
                     ]);
+    }
+
+    function Decline_refill($ID){
+        return $this->where('id', '=', $ID)->update(['status' => 'Cancelled']);
     }
 }

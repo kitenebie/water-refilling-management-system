@@ -130,16 +130,16 @@
 					<h1>Refill Transactions</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a class="active order_btn" href="{{ route('refillrequest') }}">Request</a>
+							<a class="active order_btn" @if ($label_title == "Pending Refill Request") style="background-color: rgba(54, 162, 235) !important; color: white !important" @endif href="{{ route('refillrequest') }}">Request</a>
 						</li>
 						<li>
-							<a class="active order_btn" href="{{ route('refilltoreceive') }}">ToReceive</a>
+							<a class="active order_btn" @if ($label_title == "Process Refill Request") style="background-color: rgba(54, 162, 235) !important; color: white !important" @endif href="{{ route('refilltoreceive') }}">ToReceive</a>
 						</li>
 						<li>
-							<a class="active order_btn" href="{{ route('refilltocompleted') }}">Completed</a>
+							<a class="active order_btn" @if ($label_title == "Completed Refill Request") style="background-color: rgba(54, 162, 235) !important; color: white !important" @endif href="{{ route('refilltocompleted') }}">Completed</a>
 						</li>
 						<li>
-							<a class="active order_btn" href="#">Cancelled</a>
+							<a class="active order_btn" @if ($label_title == "Cancelled Refill Request") style="background-color: rgba(54, 162, 235) !important; color: white !important" @endif href="{{ route('refilltocancelled') }}">Cancelled</a>
 						</li>
 					</ul>
 				</div>
@@ -187,8 +187,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-						<form action="{{ route('CompleteRequest') }}" method="post">
-							@csrf
+
                             <tbody>
                                    @if (isset($statusRefill))
 									   @foreach ($statusRefill as $refillStatus)
@@ -230,9 +229,9 @@
 
 												@if ($label_title == "Process Refill Request")
 													@if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-													<button type="submit" style="border:none; background:transparent; cursor:pointer">
+													<a href="/Refill-request/Request/complete/{{ $refillStatus->id }}/{{ $refillStatus->NumberOfGallon }}/{{ $refillStatus->TotalCost }}" style="border:none; background:transparent; cursor:pointer">
 														<span class="status Completed" style="font-size: .8em; font-weight:600">Complete</span>
-													</button>
+													</a>
 													@endif
 												@endif
 
@@ -242,7 +241,7 @@
 								   @endif
                             </tbody>
                         </table>
-					</form>
+
                     </div>
 				</div>
 			</div>
@@ -257,6 +256,17 @@
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
 
+    @if (session('Cancelled'))
+    <script>
+        toastr.warning("Request has been cancelled", "Refill Request Cancelled", {
+            closeButton: true,
+            tapToDismiss: true, // prevent the toast from disappearing when clicked
+            newestOnTop: true,
+            positionClass: 'toast-top-right', // set the position of the toast
+            preventDuplicates: true,
+        }, 5000);
+    </script>
+    @endif
 	{{-- Accepted --}}
 	@if (session('Accepted'))
     <script>

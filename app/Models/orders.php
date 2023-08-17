@@ -61,11 +61,7 @@ class orders extends Model
 
     function SubmitClientOrder($submit_req){
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            echo '<h1><a href="http://127.0.0.1:8000/orders">Successfully Saved!</a></h1>';
-            return $this->create($submit_req);
-        }
-        if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            echo '<h1><a href="http://127.0.0.1:8000/orders">No function</a></h1>';
+            $this->create($submit_req);
         }
     }
 
@@ -142,5 +138,9 @@ class orders extends Model
 
     function getAllData($ID){
         return $this->where('id','=', $ID)->get();
+    }
+
+    function DeclineOrder($ID){
+        return $this->where('id', '=', $ID)->update(['status' => 'Cancelled']);
     }
 }

@@ -100,6 +100,12 @@ class OrderController extends Controller
 
         ];
         $this->constructOrder->SubmitClientOrder($data_Submit);
+        return back()->with('successOrder', 'done!');
+    }
+
+    function Decline($ID){
+        $this->constructOrder->DeclineOrder($ID);
+        return back()->with('Cancelled', 'Cancel!');
     }
 
     function AcceptOrder($id, $qty, $pdtID){
@@ -146,4 +152,6 @@ class OrderController extends Controller
         $this->constructrefillRequest->SaveRefillRequest($refillrequestDATA);
         return back()->with('clientrefilled', 'submitted request');
     }
+
+
 }

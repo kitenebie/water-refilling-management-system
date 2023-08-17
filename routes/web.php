@@ -83,6 +83,9 @@ Route::get('/orders/Request/Accept/{id}/quantity/{qty}/productID/{pdtID}', [Orde
 //*CompleteAddSale
 Route::get('/Complete/{id}', [OrderController::class, 'CompleteAddSale'])->name('CompleteAddSale');
 
+//*Cancelorders
+Route::get('/orders/Request/Decline/{id}', [OrderController::class, 'Decline'])->name('Decline');
+Route::get('/Refill-request/Request/Decline/{id}', [AllRefillSalesController::class, 'Decline'])->name('Decline');
 
 
 //* Applicants
@@ -115,6 +118,8 @@ Route::get('/Refill-request', [dashboardController::class, 'refillrequest'])->na
 Route::get('/Refill-process', [AllRefillSalesController::class, 'refilltoreceive'])->name('refilltoreceive');
 //* refilltocompleted
 Route::get('/Refill-completed', [AllRefillSalesController::class, 'refilltocompleted'])->name('refilltocompleted');
+//* refilltocancelled
+Route::get('/Refill-cancelled', [AllRefillSalesController::class, 'refilltocancelled'])->name('refilltocancelled');
 
 
 //*adminsales AddProductSales - AddRefillSalesAdmin
@@ -126,7 +131,7 @@ Route::post('Add-Refill-Sale', [AllRefillSalesController::class, 'AddRefillSale'
 
 //*refill status update
 Route::get('/Refill-request/Request/Accept/{ref_ID}', [AllRefillSalesController::class, 'AcceptRequest'])->name('AcceptRequest');
-Route::post('/Refill-request/Request/complete', [AllRefillSalesController::class, 'CompleteRequest'])->name('CompleteRequest');
+Route::get('/Refill-request/Request/complete/{ID}/{Quantity}/{Amount}', [AllRefillSalesController::class, 'CompleteRequest'])->name('CompleteRequest');
 
 // *settings
 Route::get('/Settings', [dashboardController::class, 'Settings'])->name('Settings');
@@ -171,6 +176,7 @@ Route::get("/productPrices/{data}", [ProductController::class, 'productPrices'])
 
 //saveAddressFee
 Route::post('/save-Address-Fee', [AddressFee::class,'saveAddressFee'])->name('saveAddressFee');
+Route::get('/Address-Delete/{id}', [AddressFee::class,'DeleteAddressFee'])->name('DeleteAddressFee');
 Route::get('/download-Sales/{year}', [PDFController::class, 'downloadSales'])->name('downloadSales');
 Route::get('/download-refill/{year}', [PDFController::class, 'downloadRefill'])->name('downloadRefill');
 

@@ -15,11 +15,12 @@ class AddressFee extends Model
     function saveAddressFee(Request $saveAddressWithFee){
         $Data = [
             'Address' => $saveAddressWithFee->address,
-            'Fee' => $saveAddressWithFee->fee
+            'Fee' => $saveAddressWithFee->fee,
+            'RefillFee' => $saveAddressWithFee->Refillfee,
         ];
         $findAddress = $this->where('Address', $Data['Address'])->first();
         if($findAddress == null){
-            return $this->create($Data);
+            $this->create($Data);
         }else{
             return back()->with('existed', 'Already Registerd!');
         }
@@ -32,5 +33,10 @@ class AddressFee extends Model
 
     function Address(){
         return $this->orderBy('Address', 'desc')->get();
+    }
+
+    function DeleteAddressFee($id){
+        $this->where('id', '=', $id)->delete();
+        return back()->with('Deleted', 'Done!');
     }
 }
