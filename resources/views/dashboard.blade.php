@@ -325,7 +325,20 @@
                         $('.num').text(response.length);
 					for(var i = 0; i < response.length; i++){
 						// console.log(response[i].announce_Code)
-						$('#anncontainer').append('<li class="completed"><div><strong><span> '+response[i].created_at.slice(0,10)+' </span></strong><p style="text-align:justify">'+response[i].annoucements_content+'</p></div></li>')
+                        const dateString = response[i].created_at;
+                        // Convert the date string to a Date object
+                        const date = new Date(dateString);
+
+                        // Get the current time
+                        const now = new Date();
+
+                        // Calculate the difference between the two dates
+                        const difference = now - date;
+
+                        // Convert the difference to hours
+                        const hours = difference / 3600;
+                        agoString = `${date.toLocaleString("en-US")}`;
+						$('#anncontainer').append('<li class="completed"><div><strong style="color: grey;"><span> '+ agoString +' </span></strong><p style="text-align:justify">'+response[i].annoucements_content+'</p></div></li>')
 					}
 				}
 				});

@@ -183,8 +183,8 @@
                                     <th>Seller Name</th>
                                     <th>No. of Gallon</th>
                                     <th>Total Amount</th>
-                                    <th>Date</th>
                                     <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
 
@@ -205,10 +205,10 @@
 													{{ $refillStatus->TotalCost }}
 													<input value="{{ $refillStatus->TotalCost }}" type="text" name="Amount" id="Amount" hidden>
 												</td>
-												<td>
+												{{--  <td>
 												{{ \Carbon\Carbon::parse($refillStatus->updated_at)->format('F j, Y') }}
 
-												</td>
+												</td>  --}}
 												<td>
 													@if ($label_title == "Pending Refill Request")
                                                     @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
@@ -234,6 +234,10 @@
 													</a>
 													@endif
 												@endif
+
+												</td>
+												<td>
+												{{ Carbon::parse($refillStatus->updated_at)->diffForHumans() }}
 
 												</td>
 										   </tr>

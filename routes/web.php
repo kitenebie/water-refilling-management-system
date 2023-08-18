@@ -17,7 +17,7 @@ use App\Http\Controllers\Member;
 use App\Models\AddressFee;
 use Illuminate\Notifications\Notification;
 use Sabberworm\CSS\Settings;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\refillCostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,3 +183,7 @@ Route::get('/download-refill/{year}', [PDFController::class, 'downloadRefill'])-
 
 //members
 Route::get('/members', [Member::class,'members'])->name('members');
+
+
+//refillcost
+Route::post('/save-RefillCost', [refillCostController::class,'RefillCost'])->name('RefillCost');

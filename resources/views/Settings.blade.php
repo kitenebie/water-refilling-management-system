@@ -270,7 +270,19 @@
                 </div>
                 <div class="order">
                     <div class="head">
-                        {{-- box4 --}}
+                        <h4>Refill Cost</h4><br>
+                        <form action="{{ route('RefillCost') }}" method="POST" style="width:300px">
+                            @csrf
+                            <div style="display: flex; flex-direction:column; gap: 2px; width:100%; position: relative;">
+                                <label for="">Reffilling Cost: </label>
+                                <input style="width: 100%" id="fee" class="inputs-products2" type="text" name="refillCost" value="@if(isset($getRefillCost)){{ $getRefillCost }}@endif">
+                                <button style="margin-left: auto; margin-top:3px" type="submit" class="save-btn">Save</button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="head">
+                        <br>
 						<h4>Shipping Fee</h4>
                     </div>
                     <div class="head">
@@ -320,6 +332,7 @@
                     </div>
                 </div>
 				@endif
+
 			</div>
 		</main>
 		<!-- MAIN -->
@@ -393,6 +406,17 @@
 	@if (session('success'))
 	<script>
 		toastr.info('Succesfully Registerd!', "New Address Registered", {
+			closeButton: true,
+			tapToDismiss: true, // prevent the toast from disappearing when clicked
+			newestOnTop: true,
+			positionClass: 'toast-top-right', // set the position of the toast
+			preventDuplicates: true,
+		}, 5000);
+	</script>
+	@endif
+	@if (session('UpdateCost'))
+	<script>
+		toastr.info('Succesfully Updated!', "Refill cost has been changed", {
 			closeButton: true,
 			tapToDismiss: true, // prevent the toast from disappearing when clicked
 			newestOnTop: true,

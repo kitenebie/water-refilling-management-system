@@ -212,8 +212,8 @@
                                     <th>No. of Orders</th>
                                     <th>Product Order ID</th>
                                     <th>Total Amount</th>
-                                    <th>Date</th>
                                     <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -247,7 +247,7 @@
                                                 PHP {{ number_format($resellerData->Amount, 2) }}
                                                 <input type="text" hidden name="Amount" value="{{ $resellerData->Amount }}">
                                             </td>
-                                            <td>{{ \Carbon\Carbon::parse($resellerData->updated_at)->format('F j, Y') }}</td>
+                                            {{--  <td>{{ \Carbon\Carbon::parse($resellerData->updated_at)->format('F j, Y') }}</td>  --}}
                                             <td>
                                                 @if ($label_title == "Request Orders")
                                                     @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
@@ -279,6 +279,7 @@
                                                     @endif  --}}
                                                 @endif
                                             </td>
+                                            <td>{{ $resellerData->updated_at->diffForHumans() }}</td>
                                         @php
                                             $count++;
                                         @endphp
@@ -363,7 +364,7 @@
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Number of Gallon</label>
                                 <input required type="text" name="numberGalllon" id="numberGalllon" placeholder="e.g., 10" class="inputs-products"/>
                                 <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
-                                <input required type="text" name="refillcost" id="refillcost" class="inputs-products" placeholder=""/>
+                                <input required type="text" readonly value="@if(isset($getRefillCost)){{ $getRefillCost }}@endif" name="refillcost" id="refillcost" class="inputs-products" placeholder=""/>
                                 <label id="refillshipfee" class="input_margin" for="">Shipping Fee (Php)</label>
                                 @if(isset($Fees))
                                     @foreach ($Fees as $fee)

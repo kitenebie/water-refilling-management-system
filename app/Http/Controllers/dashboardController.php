@@ -14,6 +14,7 @@ use App\Models\ResellerProducts;
 use App\Models\refillRequest;
 use App\Models\AddressFee;
 use App\Http\Controllers\NotificationController;
+use App\Models\refillCost;
 use Carbon\Carbon;
 
 class dashboardController extends Controller
@@ -21,7 +22,7 @@ class dashboardController extends Controller
 
     private $constructSalse, $constructRefill, $constructApplicant, $constructProduct,
             $constructclient_stocks, $constructOrders, $constructResellerProducts,
-            $constructRefillRequest, $NotificationController, $constructAddress;
+            $constructRefillRequest, $NotificationController, $constructAddress, $constructrefillCost;
     //* for total_income
     public $adminStocks, $pendingAmount, $proccessAmount,$refillprending, $refillprocess;
 
@@ -39,6 +40,7 @@ class dashboardController extends Controller
             $this->constructRefillRequest = new refillRequest();
             $this->NotificationController = new NotificationController();
             $this->constructAddress = new AddressFee();
+            $this->constructrefillCost = new refillCost();
             return $this;
     }
 
@@ -139,6 +141,9 @@ class dashboardController extends Controller
             $month = $refill->month;
             $refillAmount = $refill->refillAmount;
             @$allAmount = $allSales->where('month', $month)->first()->allAmount;
+            if ($allAmount === null) {
+                $allAmount = 0;
+            }
             $totalAmount = $refillAmount + $allAmount;
 
             $Generalsales->push([
@@ -183,7 +188,8 @@ class dashboardController extends Controller
             $ProductPrice = $this->constructResellerProducts->getproductDetails();
             $StockDetails = $this->constructclient_stocks->stock_details();
             $AddressFees = $this->constructAddress->getAddress();
-            return view('Settings', compact('ProductPrice','details','StockDetails', 'AddressFees'));
+            $getRefillCost =  $this->constructrefillCost->getRefillCost();
+            return view('Settings', compact('ProductPrice','details','StockDetails', 'AddressFees', 'getRefillCost'));
         }else{
             return view('log-in');
         }

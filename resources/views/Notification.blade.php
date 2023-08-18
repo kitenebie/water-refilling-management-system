@@ -143,9 +143,9 @@
                                 <ul class="todo-list" id="anncontainer">
                                     <li class="completed" style="margin: 5px 0">
                                         <div>
-                                            <span style="color: grey"><small>{{ date('M d, Y - h:i a', strtotime($announcement->created_at)) }}</small></span>
-
-                                            <p style="text-align:justify">{{ $announcement->annoucements_content }}</p>
+                                            <h4 >Jonel's Water Refilling Station </h4>
+                                            <small style="color: grey">{{ $announcement->created_at->diffForHumans() }}</small>
+                                            <p style="text-align:justify; margin-top: 4px">{{ $announcement->annoucements_content }}</p>
                                     </div>
                                     </li>
                                 </ul>

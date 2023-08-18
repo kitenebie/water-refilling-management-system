@@ -10,6 +10,7 @@ use App\Models\AllSales;
 use App\Models\ResellerProducts;
 use App\Models\refillRequest;
 use App\Models\AddressFee;
+use App\Models\refillCost;
 use Illuminate\Support\Str;
 
 use PhpParser\Node\Stmt\Foreach_;
@@ -19,7 +20,7 @@ class OrderController extends Controller
     //do something
     private $constructOrder,$constructresseller,$constructProduct,
              $constructAddressFee, $constructAllSales,
-             $constructResellerProduct, $constructrefillRequest;
+             $constructResellerProduct, $constructrefillRequest, $constructrefillCost;
 
     function __construct(){
             $this->constructOrder = new orders();
@@ -29,6 +30,7 @@ class OrderController extends Controller
             $this->constructAllSales = new AllSales();
             $this->constructResellerProduct = new ResellerProducts();
             $this->constructrefillRequest = new refillRequest();
+            $this->constructrefillCost = new refillCost();
             return $this;
     }
 
@@ -36,10 +38,8 @@ class OrderController extends Controller
         if(session()->get(env('USER_SESSION_KEY'))){
             $productData = $this->constructProduct->get_products();
             $Fees = $this->constructAddressFee->isAddressFees();
-            // foreach($Fees as $fee){
-            //     echo $fee->Fee;
-            // }
-            return view('orders', compact('Fees', 'productData'));
+            $getRefillCost =  $this->constructrefillCost->getRefillCost();
+            return view('orders', compact('Fees', 'productData', 'getRefillCost'));
         }else{
             return view('log-in');
         }
