@@ -39,4 +39,8 @@ class AddressFee extends Model
         $this->where('id', '=', $id)->delete();
         return back()->with('Deleted', 'Done!');
     }
+
+    function isAddressFees(){
+        return $this->where('Address', session()->get(env('USER_CURRENT_ADDRESS')))->get();
+    }
 }

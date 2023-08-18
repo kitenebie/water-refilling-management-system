@@ -78,7 +78,7 @@ class UserRegisterLogin extends Controller
                         session()->put(env('USER_SESSION_AUTHENTICATION_ID'), $account->user_authe);
                         session()->put(env('USER_SESSION_AUTHENTICATION_NAME'), $account->firstname);
                         session()->put('username', $account->username);
-                        session()->put('profile', $account->profile_pic);
+                        session()->put(env('USER_CURRENT_ADDRESS'), $account->address);
                         $this->NotificationController->delete_Notification();
                         // Retrieve a value from the session
                         $reqData = $this->construct->getALLrequest();

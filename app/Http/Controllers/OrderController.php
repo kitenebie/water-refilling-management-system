@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\orders;
 use App\Models\LogInModel;
 use App\Models\products;
-use App\Models\client_stocks;
 use App\Models\AllSales;
 use App\Models\ResellerProducts;
 use App\Models\refillRequest;
+use App\Models\AddressFee;
 use Illuminate\Support\Str;
 
 use PhpParser\Node\Stmt\Foreach_;
@@ -18,14 +18,14 @@ class OrderController extends Controller
 {
     //do something
     private $constructOrder,$constructresseller,$constructProduct,
-             $constructClientStocks, $constructAllSales,
+             $constructAddressFee, $constructAllSales,
              $constructResellerProduct, $constructrefillRequest;
 
     function __construct(){
             $this->constructOrder = new orders();
             $this->constructresseller = new LogInModel();
             $this->constructProduct = new Products();
-            $this->constructClientStocks = new client_stocks();
+            $this->constructAddressFee = new AddressFee();
             $this->constructAllSales = new AllSales();
             $this->constructResellerProduct = new ResellerProducts();
             $this->constructrefillRequest = new refillRequest();
@@ -34,13 +34,15 @@ class OrderController extends Controller
 
     function orders(){
         if(session()->get(env('USER_SESSION_KEY'))){
-        $img_ = "img/header-dashboard.png";
-        $productData = $this->constructProduct->get_products();
-
-        return view('orders', compact('img_', 'productData'));
-    }else{
-        return view('log-in');
-    }
+            $productData = $this->constructProduct->get_products();
+            $Fees = $this->constructAddressFee->isAddressFees();
+            // foreach($Fees as $fee){
+            //     echo $fee->Fee;
+            // }
+            return view('orders', compact('Fees', 'productData'));
+        }else{
+            return view('log-in');
+        }
     }
     function Request(){
         $label_title = "Request Orders";

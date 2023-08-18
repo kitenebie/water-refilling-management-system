@@ -184,7 +184,7 @@
                         @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
                             @if($label_title == "To Receive Orders")
                             <li>
-                                <a href="{{ route('get_toReceive_orders') }}" class="save-btn status Pending" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
+                                <a href="{{ route('get_toReceive_orders') }}" class="save-btn status Pending" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-weight:700">
                                     <i class='bx bxs-download' ></i>
                                     <span class="text"> Process Report</span>
                                 </a>
@@ -193,7 +193,7 @@
 
                             @if($label_title == "Completed Orders")
                             <li>
-                                <a  href="{{ route('get_completed_orders') }}" class="save-btn" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-wigth:700">
+                                <a  href="{{ route('get_completed_orders') }}" class="save-btn" style="width: max-content; letter-spacing:.1rem;font-size:1rem; font-weight:700">
                                     <i class='bx bxs-download' ></i>
                                     <span class="text"> Completed Report {{ date('F-Y') }}</span>
                                 </a>
@@ -324,9 +324,9 @@
                                     @endif
                                 </select>
                                 <label class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span>Quantity</label>
-                                <input type="text" name="order" id="prdqty" class="inputs-products" placeholder="e.g., 10"/>
+                                <input required type="text" name="order" id="prdqty" class="inputs-products" placeholder="e.g., 10"/>
                                 <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
-                                <input readonly type="text" name="" id="prdcost" class="inputs-products" placeholder=""/>
+                                <input required readonly type="text" name="" id="prdcost" class="inputs-products" placeholder=""/>
                                 @if (session()->get('auth') == 'Reseller')
                                 <label id="labelpymnt" class="input_margin" for="">Select Payment Method</label>
                                 <select name="" id="pymnt" class="inputs-products">
@@ -334,11 +334,15 @@
                                     {{--  <option value="Walk in">Walk in</option>  --}}
                                 </select>
                                 <label id="sfeelbl" class="input_margin" for="">Shipping Fee (Php)</label>
-                                <input type="text" value="5" name="" id="prdfee" class="inputs-products" placeholder="e.g., 10"/>
+                                @if(isset($Fees))
+                                    @foreach ($Fees as $fee)
+                                    <input required readonly type="text" value="{{ $fee->Fee }}" name="" id="prdfee" class="inputs-products" placeholder="e.g., 10"/>
+                                    @endforeach
+                                @endif
                                 @endif
 
                                 <label class="input_margin" for="">Total Cost (Php)</label>
-                                <input style="font-weight: 700" type="text" readonly name="price" id="prdtotal" class="inputs-products"/>
+                                <input required style="font-weight: 700" type="text" readonly name="price" id="prdtotal" class="inputs-products"/>
 
                                 <br>
                                 <div style="width:100%;">
@@ -357,13 +361,17 @@
                                 method="post">
                                 @csrf
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Number of Gallon</label>
-                                <input type="text" name="numberGalllon" id="numberGalllon" placeholder="e.g., 10" class="inputs-products"/>
+                                <input required type="text" name="numberGalllon" id="numberGalllon" placeholder="e.g., 10" class="inputs-products"/>
                                 <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
-                                <input type="text" name="refillcost" id="refillcost" class="inputs-products" placeholder=""/>
+                                <input required type="text" name="refillcost" id="refillcost" class="inputs-products" placeholder=""/>
                                 <label id="refillshipfee" class="input_margin" for="">Shipping Fee (Php)</label>
-                                <input type="text" value="5" name="refillfee" id="refillfee" class="inputs-products" placeholder="e.g., 10"/>
+                                @if(isset($Fees))
+                                    @foreach ($Fees as $fee)
+                                        <input required readonly type="text" value="{{ $fee->RefillFee }}" name="refillfee" id="refillfee" class="inputs-products" placeholder="e.g., 10"/>
+                                    @endforeach
+                                @endif
                                 <label class="input_margin" for="">Total Cost (Php)</label>
-                                <input style="font-weight: 700" type="text" readonly name="refilltotal" id="refilltotal" class="inputs-products"/>
+                                <input required style="font-weight: 700" type="text" readonly name="refilltotal" id="refilltotal" class="inputs-products"/>
 
                                 <br>
                                 <div style="width:100%;">
@@ -504,6 +512,7 @@
 				}
 				});
 		});
+
 	</script>
 @endif
         <script>
