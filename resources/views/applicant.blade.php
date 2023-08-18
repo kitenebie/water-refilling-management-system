@@ -141,9 +141,16 @@
 					<div class="head">
 						<h3>Recent Orders</h3>
                         <form>
+
                             <div class="form-input2">
                                 <input type="search" name="search" id="search" placeholder="Search Name..." class="recent-search">
-                                <button disabled style="cursor:text" type="button" id="btnsearch" class="search-btn"><i tyle="cursor:text" class='bx bx-search' ></i></button>
+                                <button disabled style="cursor:text" type="submit" id="btnsearch" class="search-btn"><i tyle="cursor:text" class='bx bx-search' ></i></button>
+                                <script>
+                                    var input = document.getElementById("search");
+                                    input.addEventListener("keyup", function() {
+                                    this.value = this.value.toUpperCase();
+                                    });
+                                </script>
                             </div>
                         </form>
 					</div>
@@ -163,7 +170,7 @@
                                 @foreach ($reqData as $req)
                                     <tr id="existingData">
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->reseller_id, '*', 2,8) }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ $req->firstname }} {{ $req->lastname }}</td>
+                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ strtoupper($req->firstname) }} {{ strtoupper($req->lastname) }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ $req->address }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->contact, '*', 2,6) }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->username, '*', 3,-4) }}</td>

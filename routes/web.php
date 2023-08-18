@@ -180,5 +180,3 @@ Route::get('/Address-Delete/{id}', [AddressFee::class,'DeleteAddressFee'])->name
 Route::get('/download-Sales/{year}', [PDFController::class, 'downloadSales'])->name('downloadSales');
 Route::get('/download-refill/{year}', [PDFController::class, 'downloadRefill'])->name('downloadRefill');
 
-
-ROute::get('/sendEmail', [Controller::class, 'index']);

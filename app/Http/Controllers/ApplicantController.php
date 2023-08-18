@@ -93,6 +93,7 @@ class ApplicantController extends Controller
         $this->constructreseller_request->DeleteRequest($ID);
         return back()->with('Deleted', 'deleted!');
      }
+
     }
 
 

@@ -173,10 +173,16 @@
                             <div class="form-input2">
                                 <h3>Products</h3>
                                 <input type="search" name="search" id="search" placeholder="Search Product Name..." class="recent-search"><i tyle="cursor:text" class='bx bx-search' ></i>
+                                <script>
+                                    var input = document.getElementById("search");
+                                    input.addEventListener("keyup", function() {
+                                    this.value = this.value.toLowerCase();
+                                    });
+                                </script>
                             </div>
                             <div class="head">
                             </div>
-                                    <table>
+                                    <table id="tableT">
                                         <thead>
                                             <tr>
                                                 <th>Product Name</th>
@@ -191,7 +197,7 @@
                                                 @foreach ($productData as $data_product)
                                                     <tr id="existingData">
                                                         <td data-value="{{ $data_product->product_Name }}">
-                                                            {{ $data_product->product_Name }}
+                                                            {{ strtolower($data_product->product_Name) }}
                                                         </td>
                                                         <td>{{ $data_product->stocks }}</td>
                                                         <td>Php {{ $data_product->price }}</td>
@@ -525,6 +531,22 @@
     </script>
 	<script src="{{ asset('js/amounts.js') }}"></script>
 	<script src="{{ asset('js/localStorage.js') }}"></script>
+    <script>
+        var searchInput = $("#search");
 
+            searchInput.on("keyup", function() {
+                var searchTerm = this.value;
+                var rows = $("#tableT #existingData");
+                rows.each(function() {
+                var rowText = $(this).text();
+
+                if (rowText.indexOf(searchTerm) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+                });
+            });
+    </script>
 </body>
 </html>
