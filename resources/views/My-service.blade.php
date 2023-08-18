@@ -57,7 +57,7 @@
 
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
-                <a href="#">
+                <a href="{{ route('members') }}">
                     <i class='bx bxs-user-account' ></i>
                     <span class="text">Members</span>
                 </a>
@@ -351,8 +351,12 @@
     <script>
         $('document').ready(function(){
             getData();
-            calculateBuy()
+            calculateBuy();
+            if($('#Cqty').val() == 0){
+                $("#submitbtn").prop('disabled','true');
+            }
             $('#prdctNames').on('change', ()=>{
+                $('#Cqty').val(0);
                 getData();
                 calculateBuy()
             });
@@ -365,12 +369,17 @@
             }
             // Create a function to handle the Ajax response
             function handleResponse(data) {
+                console.log(data);
                 $('#product_id').val(data[$('#prdctNames').val()].product_ID);
                 $('#selectedPrice').val(data[$('#prdctNames').val()].Price);
+                $('#Cqty').attr("max", data[$('#prdctNames').val()].Quantity);
                 $('#lblselectedPrice').text('Price: '+data[$('#prdctNames').val()].Price)
                 calculateBuy();
             }
             $('#Cqty').on('input', ()=>{
+                if($('#Cqty').val() == 0){
+                    $("#submitbtn").prop('disabled','true');
+                }
                 var length = $('#Cqty').val().length
                 if(length==0){
                     $('#Cqty').val(0)

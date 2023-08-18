@@ -10,7 +10,7 @@
 	<!-- My CSS -->
 	<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
-	<title>Applicants</title>
+	<title>Members</title>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
-			<span class="text">Applicants</span>
+			<span class="text">Members</span>
 		</a>
 		<ul class="side-menu top">
 			<li>
@@ -56,13 +56,13 @@
             @endif
 
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-            <li>
+            <li  class="active">
                 <a href="{{ route('members') }}">
                     <i class='bx bxs-user-account' ></i>
                     <span class="text">Members</span>
                 </a>
             </li>
-            <li  class="active">
+            <li>
                 <a href="{{ route('applicantRequest') }}">
                     <i class='bx bxs-group' ></i>
                     <span class="text">Applicants</span>
@@ -123,10 +123,10 @@
 		<main>
 			<div class="head-title">
 				<div class="left">
-					<h1>Applicants</h1>
+					<h1>Members</h1>
 					<ul class="breadcrumb">
 						<li>
-							<a class="active" href="#">Applicants</a>
+							<a class="active" href="#">Members</a>
 						</li>
 					</ul>
 				</div>
@@ -162,7 +162,6 @@
 								<th>Address</th>
 								<th>Contact Number</th>
                                 <th>Email Address</th>
-                                <th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -174,36 +173,9 @@
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ $req->address }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->contact, '*', 2,6) }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->username, '*', 3,-4) }}</td>
-                                        <td style="auto">
-                                            <a href="/applicant/Request/Accept/{{ $req->id }}/email/{{ $req->username }}">
-                                                <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
-                                            </a>
-                                            <a href="/applicant/Request/Decline/{{ $req->id }}/email/{{ $req->username }}">
-                                                <span class="status Pending" style="font-size: .8em; font-weight:600">Decline</span>
-                                            </a>
-                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
-                            @if (isset($Data))
-                            @foreach ($Data as $req)
-                                <tr id="existingData">
-                                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->reseller_id }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->firstname }} {{ $req->lastname }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->address }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->contact }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->username }}</td>
-                                        <td style="auto">
-                                        <a href="/applicant/Request/Accept/{{ $req->id }}/email/{{ $req->username }}">
-                                            <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
-                                        </a>
-                                        <a href="/applicant/Request/Decline/{{ $req->id }}/email/{{ $req->username }}">
-                                            <span class="status Pending" style="font-size: .8em; font-weight:600">Decline</span>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
 						</tbody>
 					</table>
 				</div>

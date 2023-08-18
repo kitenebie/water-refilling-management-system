@@ -57,7 +57,7 @@
                     </a>
 			    </li>
 				<li>
-					<a href="#">
+                    <a href="{{ route('members') }}">
 						<i class='bx bxs-user-account' ></i>
 						<span class="text">Members</span>
 					</a>

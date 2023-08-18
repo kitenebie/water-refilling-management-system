@@ -105,7 +105,7 @@
                     <input class="form-check-input" type="checkbox" value="" id="checkbox1" required>
                     <span>I agree to abide by the <a href="{{ route('terms') }}">terms and conditions</a> set forth by Jonel Refilling Station and have carefully reviewed their <a href="{{ route('privacy') }}">privacy policy</a>".</span>
                 </div>
-                <button type="submit" class="btn-submit"><strong>Register</strong></button>
+                <button id="btnreg" type="submit" class="btn-submit"><strong>Register</strong></button>
             </div>
           </form>
 

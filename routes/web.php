@@ -13,6 +13,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\announcementController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\Member;
 use App\Models\AddressFee;
 use Illuminate\Notifications\Notification;
 use Sabberworm\CSS\Settings;
@@ -180,3 +181,5 @@ Route::get('/Address-Delete/{id}', [AddressFee::class,'DeleteAddressFee'])->name
 Route::get('/download-Sales/{year}', [PDFController::class, 'downloadSales'])->name('downloadSales');
 Route::get('/download-refill/{year}', [PDFController::class, 'downloadRefill'])->name('downloadRefill');
 
+//members
+Route::get('/members', [Member::class,'members'])->name('members');

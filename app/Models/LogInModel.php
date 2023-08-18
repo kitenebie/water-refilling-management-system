@@ -62,4 +62,9 @@ class LogInModel extends Model
     function getDetails(){
         return $this->where('reseller_id', session()->get(env('USER_SESSION_KEY')))->get();
     }
+
+    function getMembers(){
+        return $this->where('user_authe', '=', 'Reseller')
+                ->where('Status', '=', 'Active')->get();
+    }
 }
