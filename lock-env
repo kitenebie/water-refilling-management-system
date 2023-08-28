@@ -1,0 +1,84 @@
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=base64:lDjjivBvViWenK0jrcoS5Mzgu7PsVdFyUECpZKZjZ3k=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+
+# server
+DB_DATABASE=id20934396_water_refilling_system
+DB_USERNAME=id20934396_water_refilling_system2023
+DB_PASSWORD=P@$$w0rd123
+# end server
+
+BOOTSTRAP_CSS_URL=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css
+BOOTSTRAP_JS_URL=https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js
+JQUERY_AJAX_URL=https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js
+TOASTR_URL_CSS=https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css
+TOASTR_URL_JQUERY=https://code.jquery.com/jquery-3.6.0.min.js
+TOASTR_URL_MIN_JS=https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js
+TOASTR_JQUERY_LINK = https://cdnjs.cloudflare.com/ajax/libs/jquery-number/2.1.6/jquery.number.min.js
+
+IMG_PROF = https://scontent.fmnl17-4.fna.fbcdn.net/v/t39.30808-6/333340644_1327255571388612_4208285979650004537_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeE9kP-fsPWVmvElJd-9nLYrpEHPiYT0V16kQc-JhPRXXjJ8R9S1TDOIJBprqxQh_NiJRa1TNLm4qbYXizp6xLi-&_nc_ohc=gHnAKB_nA_QAX8MPj0b&_nc_ht=scontent.fmnl17-4.fna&oh=00_AfDC5RUA3YBwITdOiMTR97E9aNpeABeol9gDJiQtk52jxw&oe=6464D329
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
+MEMCACHED_HOST=127.0.0.1
+
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
+
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
+
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+
+
+#status
+STATUS_ORDER_ONE = 'Pending'
+STATUS_ORDER_TWO = 'To Receive'
+STATUS_ORDER_TREE = 'Complited'
+STATUS_ORDER_FOUR = 'Cancelled'
+#
+USER_STATUS_STATE_ONE = 'Active'
+USER_STATUS_STATE_TWO = 'Pending'
+#
+USER_CREDINTIAL_ADMIN = 'Admin'
+USER_CREDINTIAL_RESELLER = 'Reseller'
+#
+USER_SESSION_KEY = 'key'
+USER_SESSION_AUTHENTICATION_ID = 'auth'
+USER_SESSION_AUTHENTICATION_NAME = 'Name'
+#session()->get(env('USER_SESSION_KEY'));
+# session()->get(env('USER_SESSION_AUTHENTICATION_ID'));
