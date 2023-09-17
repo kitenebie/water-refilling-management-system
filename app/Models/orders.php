@@ -60,6 +60,7 @@ class orders extends Model
     }
 
     function SubmitClientOrder($submit_req){
+        // dd($submit_req);
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             $this->create($submit_req);
         }
