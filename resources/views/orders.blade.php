@@ -225,10 +225,13 @@
                                     $Name = $data[0]['lastname']. ", ".$data[0]['firstname'];
                                     ?>
                                     <tr>
-                                        @php
+<<<<<<< HEAD
+                                        <?php
                                         $data = json_decode($N3wData[$count], true);
                                         $Name = $data[0]['lastname']. ", ".$data[0]['firstname'];
-                                       @endphp
+                                        ?>
+=======
+>>>>>>> d68d73900c825a35cb16ee5f793cb67387c7ad0d
                                             <td>
                                                 <input type="text" hidden name="orderid" value=" {{ $resellerData->id }}">
                                                 {{ str::mask($resellerData->reseller_ID, 'X', 7,5) }}
