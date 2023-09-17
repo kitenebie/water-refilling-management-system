@@ -217,13 +217,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(isset($resellerReqData) && isset($N3wData))
+                                {{--  {{ dd($N3wData) }}  --}}
+                                @if($resellerReqData->count() > 0)
                                     @foreach($resellerReqData as $resellerData)
+                                    <?php
+                                    $data = json_decode($N3wData[$count], true);
+                                    $Name = $data[0]['lastname']. ", ".$data[0]['firstname'];
+                                    ?>
                                     <tr>
-                                        <?php
+                                        @php
                                         $data = json_decode($N3wData[$count], true);
                                         $Name = $data[0]['lastname']. ", ".$data[0]['firstname'];
-                                        ?>
+                                       @endphp
                                             <td>
                                                 <input type="text" hidden name="orderid" value=" {{ $resellerData->id }}">
                                                 {{ str::mask($resellerData->reseller_ID, 'X', 7,5) }}
@@ -315,21 +320,25 @@
                             @endif
                             method="post">
                                 @csrf
-                                <input hidden type="text" name="product_ID" id="product_ID">
+                                <input type="hidden" name="product_ID" id="product_ID">
                                 <label id="labelCahange" class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span> Select Product</label>
-                                <select readonly name="productname" id="productname" class="inputs-products">
+                                {{--  <select readonly name="productname" id="productname" class="inputs-products">
                                     @if(isset($productData))
                                         @foreach ($productData as $product)
                                             <option value="{{ $product->id }}">{{ $product->product_Name }}</option>
                                         @endforeach
                                     @endif
-                                </select>
+                                </select>  --}}
+                                <label id="productNAME"
+                                class="inputs-products" style="height: 40px !important"
+                                ></label>
+                                <input type="hidden" name="productname" id="productname" class="inputs-products"/>
                                 <label class="input_margin" for=""><span style="color:rgb(238, 23, 7); font-weight: 700">*</span>Quantity</label>
                                 <input required type="text" name="order" id="prdqty" class="inputs-products" placeholder="e.g., 10"/>
                                 <label id="costlbl" class="input_margin" for="">Cost (Php)</label>
                                 <input required readonly type="text" name="" id="prdcost" class="inputs-products" placeholder=""/>
                                 @if (session()->get('auth') == 'Reseller')
-                                <label id="labelpymnt" class="input_margin" for="">Select Payment Method</label>
+                                <label id="labelpymnt" class="input_margin" for="">Payment Method</label>
                                 <select name="" id="pymnt" class="inputs-products">
                                     <option value="Cash on Delivery">Cash on Delivery</option>
                                     {{--  <option value="Walk in">Walk in</option>  --}}
@@ -569,7 +578,10 @@
         var productCost = $(this).find('td:nth-child(3)').text();
         var productID = $(this).find('td:last').text();
         $('#prdcost').val(productCost);
-        $('#productname').html('<option selected value="' + productNAme + '">' + productNAme + '</option>');
+        //$('#productname').html('<option selected value="' + productNAme + '">' + productNAme + '</option>');
+        $('#productname').val(productNAme);
+        $('#productname').hide();
+        $('#productNAME').text(productNAme);
         $('#product_ID').val(productID);
     });
 
