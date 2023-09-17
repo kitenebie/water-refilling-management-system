@@ -69,7 +69,7 @@
 			<li>
 				<a href="{{ route('MyService') }}">
 					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Service</span>
+					<span class="text">Products</span>
 				</a>
 			</li>
 			<li>

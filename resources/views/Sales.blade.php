@@ -55,7 +55,7 @@
 			<li>
 				<a href="{{ route('MyService') }}">
 					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Service</span>
+					<span class="text">Products</span>
 				</a>
 			</li>
 			<li  class="active">
@@ -169,55 +169,6 @@
 
 			</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			<ul class="box-info">
-                <li>
-                    <i class='bx bxs-calendar-check' ></i>
-                    <span class="text">
-                        @if (isset($RecentOrders))
-                            <h3><span id="RecentOrders">{{ $RecentOrders }}</span></h3>
-                        @endif
-                            <p>Orders</p>
-                    </span>
-                </li>
-                <li>
-                    <i class='bx bxs-box' ></i>
-                    <span class="text">
-                        @if (isset($adminStocks))
-                            <h3><span id="adminStocks">{{ $adminStocks }}</span></h3>
-                        @endif
-                        <p>Stocks</p>
-                    </span>
-                </li>
-                <li>
-                    <i class='bx bxs-coin-stack' ></i>
-                    <span class="text">
-                        <h3>PHP <span id="yearlySales">{{ $TOTALAMOUNTSALE }}</span></h3>
-                        <p>Total Sales</p>
-                    </span>
-                </li>
-            </ul>
             <div class="table-data">
                 <div class="order">
                     <form action="{{ route('submitFindSaleyear') }}" method="post">
@@ -232,7 +183,7 @@
                                 <option disabled style="color:grey" selected value="{{ $thisyear }}">Sales Report of Year <b>{{ $thisyear }}</b></option>
                             @endif
                         </Select>
-                        <button type="submit" id="btnshowsales">Show Slaes</button>
+                        <button type="submit" id="btnshowsales">Show Sales</button>
                         @endif
                         </div>
                     </form>

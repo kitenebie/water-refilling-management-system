@@ -31,7 +31,7 @@
 			<li class="active">
 				<a href="{{ route('MyService') }}">
 					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Service</span>
+					<span class="text">Products</span>
 				</a>
 			</li>
 			<li>
@@ -128,7 +128,7 @@
 						</li>
 						<li><i class='bx bx-chevron-right' ></i></li>
 						<li>
-							<a class="active" href="{{ route('MyService') }}">My Service</a>
+							<a class="active" href="{{ route('MyService') }}">Products</a>
 						</li>
 					</ul>
 				</div>
@@ -139,7 +139,7 @@
 			</div>
 
 
-			<ul class="box-info">
+			{{-- <ul class="box-info">
                 <li>
                     <i class='bx bxs-calendar-check' ></i>
                     <span class="text">
@@ -165,7 +165,7 @@
                         <p>Total Sales</p>
                     </span>
                 </li>
-            </ul>
+            </ul> --}}
 
 
 			<div class="table-data" id="tableT">
