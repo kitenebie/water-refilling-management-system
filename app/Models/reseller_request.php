@@ -22,5 +22,4 @@ class reseller_request extends Model
         return $this->where('id', $ID)->delete();
     }
 
-
 }

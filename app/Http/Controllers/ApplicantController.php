@@ -28,11 +28,6 @@ class ApplicantController extends Controller
         }
     }
 
-    function RequestNotification($rsID){
-        $Data = $this->constructApplicant->getResellerID($rsID);
-        return view('applicant', compact('Data'));
-    }
-
     function AcceptApplicant($ID, $mail){
         $token = Str::random(26);
         $url = env('URL_WEB_EMAIL');

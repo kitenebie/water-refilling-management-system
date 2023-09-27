@@ -38,12 +38,12 @@
             background: rgb(84, 164, 238);
         }
     </style>
+
 	<!-- SIDEBAR -->
 	<section id="sidebar">
-
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
-			<span class="text">Sales</span>
+			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
 			<li>
@@ -58,26 +58,40 @@
 					<span class="text">Products</span>
 				</a>
 			</li>
-			<li  class="active">
-				<a href="{{ route('getsalesmonth') }}">
-					<i class='bx bxs-chart' ></i>
-					<span class="text">Sales</span>
-				</a>
-			</li>
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-			    <li>
-                    <a href="{{ route('orders') }}">
-                        <i class='bx bxs-store' ></i>
-                        <span class="text">Orders</span>
-                    </a>
-			    </li>
 			    <li>
                     <a href="{{ route('refillrequest') }}">
                         <i class='bx bxs-store-alt' ></i>
                         <span class="text">Refill Request</span>
                     </a>
 			    </li>
+			    <li>
+                    <a href="{{ route('orders') }}">
+                        <i class='bx bxs-store' ></i>
+                        <span class="text">Orders</span>
+                    </a>
+			    </li>
             @endif
+            @if (session()->get('auth') == 'Reseller')
+            <li>
+                <a href="{{ route('refillrequest') }}">
+                    <i class='bx bxs-store-alt' ></i>
+                    <span class="text">Refill Request</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('orders') }}">
+                    <i class='bx bxs-cart' ></i>
+                    <span class="text">Request Order</span>
+                </a>
+            </li>
+            @endif
+			<li class="active">
+				<a href="{{ route('getsalesmonth') }}">
+					<i class='bx bxs-chart' ></i>
+					<span class="text">Sales</span>
+				</a>
+			</li>
 
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
@@ -90,14 +104,6 @@
                 <a href="{{ route('applicantRequest') }}">
                     <i class='bx bxs-group' ></i>
                     <span class="text">Applicants</span>
-                </a>
-            </li>
-            @endif
-            @if (session()->get('auth') == 'Reseller')
-            <li>
-                <a href="{{ route('orders') }}">
-                    <i class='bx bxs-cart' ></i>
-                    <span class="text">Request Order</span>
                 </a>
             </li>
             @endif
@@ -171,7 +177,7 @@
 
             <div class="table-data">
                 <div class="order">
-                    <form action="{{ route('submitFindSaleyear') }}" method="post">
+                        <form action="{{ route('submitFindSaleyear') }}" method="post">
                         @csrf
                         <div>
                         @if(isset($existingYears))
@@ -188,48 +194,87 @@
                         </div>
                     </form>
                 </div>
+                <div class="order" style="display: flex !important">
+                    @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                    <form action="{{ route('getAllBetweenSales') }}" method="post"
+                        style="display: flex; flex-direction:column; justify-content:start; align-items:start"
+                    >
+                    @endif
+                    @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+                    <form action="{{ route('SellerWalkIngetAllBetweenSales') }}" method="post"
+                        style="display: flex; flex-direction:column; justify-content:start; align-items:start"
+                    >
+                    @endif
+                    @csrf
+                        <label for="">Start: </label>
+                        <input onchange="copytext()" type="date" id="dateStart" name="dateStart" class="inputs-products" placeholder="e.g., 10" value="0">
+                        <label for="">End: </label>
+                        <input onchange="copytext()" type="date" id="dateEnd" name="dateEnd" class="inputs-products" placeholder="e.g., 10" value="0">
+                        <div>
+                            <button type="submit" style="margin-top: 5px; margin-left: 5px" id="btnshowsales">Show chart Sales</button>
+                            <a id="data" onclick="copytext()" href="#">
+                                <button type="button" style="margin-top: 5px; margin-left: 5px" id="btnshowsales">Show Table Sales</button>
+                            </a>
+                        </div>
+                </div>
             </div>
-
+            <script>
+                // Get the current date as a string in the format yyyy-mm-dd
+                function getCurrentDate() {
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                    const day = String(today.getDate()).padStart(2, '0');
+                    return `${year}-${month}-${day}`;
+                }
+        
+                // Set the input field value to the current date
+                document.getElementById('dateStart').max = getCurrentDate();
+                document.getElementById('dateEnd').max = getCurrentDate();
+                document.getElementById('dateStart').value = getCurrentDate();
+                document.getElementById('dateEnd').value = getCurrentDate();
+                function copytext(){
+                    const dateStart = document.getElementById('dateStart').value;
+                    const dateEnd = document.getElementById('dateEnd').value;
+                    const href = `/Sales-report/${dateStart}/${dateEnd}`;
+                    document.getElementById('data').href = href;
+                }
+            </script>
+            @if(isset($startDate))
+                <script>
+                    document.getElementById('dateStart').value = '{{ $startDate }}';
+                    document.getElementById('dateEnd').value = '{{ $endDate }}';
+                </script>
+            @endif
+            @if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                <div class="table-data">
+                    <div class="order">
+                        <h3>Cash on Delivery Sales @if(isset($dateRange)){{ $dateRange }}@endif</h3>
+                        <div class="head" width="100" height="100">
+                            <canvas id="codSales"></canvas>
+                        </div>
+                    </div>
+                </div>
+            @endif
 			<div class="table-data">
                 <div class="order">
+                    @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+                    <h3>Walk In Sales @if(isset($dateRange)){{ $dateRange }}@endif</h3>
+                    @else
+                    <h3>Product and Refill Sales @if(isset($dateRange)){{ $dateRange }}@endif</h3>
+                    @endif
                     <div class="head">
-                        <canvas id="ProductMonthlySales"></canvas>
+                        <canvas id="walkinsale"></canvas>
                     </div>
                 </div>
+			</div>
+			<div class="table-data">
                 <div class="order">
-                    <div class="head">
-                        <canvas id="RefillMonthlySales"></canvas>
-                    </div>
-                    <?php
-                        $refillsaleMonth = [];
-                        $refillTotalSales = [];
-                        foreach($refillSALES as $refillsale){
-                            $refillsaleMonth[] = DateTime::createFromFormat('!m', $refillsale->Month)->format('F');
-                            $refillTotalSales[]= floatval($refillsale->TotalSales);
-                        }
-                    ?>
-                </div>
-                <div class="order">
-                    <div class="head">
-                        <canvas id="GeneralMonthlySales"></canvas>
-                    </div>
-                    <?php
-                        $GensaleMonth = [];
-                        $GenTotalSales = [];
-                        foreach($Generalsales as $Generalsale){
-                            $GensaleMonth[] = DateTime::createFromFormat('!m', $Generalsale['month'])->format('F');
-                            $GenTotalSales[]= floatval($Generalsale['totalAmount']);
-                        }
-                    ?>
-                </div>
-                <div class="order">
+                    <h3>Pending And Process Report</h3>
                     <div class="head">
                         <canvas id="Unpayable"></canvas>
                     </div>
                 </div>
-                <script>
-
-                </script>
 			</div>
 		</main>
 		<!-- MAIN -->
@@ -237,137 +282,96 @@
 	<!-- CONTENT -->
 
 	<script src="{{ asset('js/dashboard.js') }}"></script>
+    @if(isset($WalkInallrefillDates))
+        <script>
+            const dateRangewalkinsale = document.getElementById('walkinsale');
+            Chart.defaults.font.size = 14;
+            const dateRangewalkinsalelabels = <?php echo json_encode($WalkInallrefillDates) ?>;
+            new Chart(dateRangewalkinsale, {
+                    data: {
+                    datasets: [{
+                        type: 'bar',
+                        label: 'Product Sales',
+                        data: <?php echo json_encode($WalkInallSalesTotal) ?>,
+                        backgroundColor: [
+                        'rgba(255, 99, 132)',],
+                    }, {
+                        type: 'bar',
+                        label: 'Refill Sales',
+                        data: <?php echo json_encode($WalkInallrefillSalesTotal) ?>,
+                        backgroundColor: [
+                        'rgba(75, 192, 192)']
+                }, {
+                        type: 'bar',
+                        label: 'Over All Sales',
+                        data: <?php echo json_encode($walkInOverALLtotalAmount) ?>,
+                        backgroundColor: [
+                        'rgba(54, 162, 235)']
+                }],
+                    labels: dateRangewalkinsalelabels
+                },
+                options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+            });
+        </script>
+    @endif
+    @if(isset($COD_InallrefillDates) && session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+        <script>
+            const dateRangedateRangeCODsale = document.getElementById('codSales');
+            Chart.defaults.font.size = 14;
+            const dateRangedateRangeCODsalelabels = <?php echo json_encode($COD_InallrefillDates) ?>;
+            new Chart(dateRangedateRangeCODsale, {
+                    data: {
+                    datasets: [{
+                        type: 'bar',
+                        label: 'Product Sales',
+                        data: <?php echo json_encode($COD_InallSalesTotal) ?>,
+                        backgroundColor: [
+                        'rgba(255, 99, 132)',],
+                    }, {
+                        type: 'bar',
+                        label: 'Refill Sales',
+                        data: <?php echo json_encode($COD_InallrefillSalesTotal) ?>,
+                        backgroundColor: [
+                        'rgba(75, 192, 192)']
+                }, {
+                        type: 'bar',
+                        label: 'Over All Sales',
+                        data: <?php echo json_encode($COD_InOverALLtotalAmount) ?>,
+                        backgroundColor: [
+                        'rgba(54, 162, 235)']
+                }],
+                    labels: dateRangedateRangeCODsalelabels
+                },
+                options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                }
+                }
+            }
+            });
+        </script>
+    @endif
+
 	<script>
-        const ProductMonthlySales = document.getElementById('ProductMonthlySales');
-        Chart.defaults.font.size = 16;
-        const ProductMonthlySaleslabels = <?php echo json_encode($productMonth) ?>;
-        new Chart(ProductMonthlySales, {
-            type: 'bar',
-            data: {
-                labels: ProductMonthlySaleslabels,
-
-            datasets: [{
-                label: 'COD & Walk In Monthly Sales Report -₱',
-                data: {{ json_encode($productMontlySales) }},
-                backgroundColor: [
-                'rgba(255, 99, 132)',
-                'rgba(255, 159, 64)',
-                'rgba(255, 205, 86)',
-                'rgba(75, 192, 192)',
-                'rgba(54, 162, 235)',
-                'rgba(153, 102, 255)',
-                'rgba(201, 203, 207)'
-                ],
-                borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)',
-                'rgb(201, 203, 207)'
-                ],
-                borderWidth: 1
-            }]
-            },
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
-                }
-                }
-            }
-        });
-        const RefillMonthlySales = document.getElementById('RefillMonthlySales');
-        const RefillMonthlySaleslabels = <?php echo json_encode($refillsaleMonth) ?>;
-        new Chart(RefillMonthlySales, {
-            type: 'bar',
-            data: {
-                labels: RefillMonthlySaleslabels,
-
-            datasets: [{
-                label: 'Refill Monthly Sales Report -₱',
-                data: {{ json_encode($refillTotalSales) }},
-                backgroundColor: [
-                'rgba(255, 99, 132)',
-                'rgba(255, 159, 64)',
-                'rgba(255, 205, 86)',
-                'rgba(75, 192, 192)',
-                'rgba(54, 162, 235)',
-                'rgba(153, 102, 255)',
-                'rgba(201, 203, 207)'
-                ],
-                borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)',
-                'rgb(201, 203, 207)'
-                ],
-                borderWidth: 1
-            }]
-            },
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
-                }
-                }
-            }
-        });
-        const GeneralMonthlySales = document.getElementById('GeneralMonthlySales');
-        const GeneralMonthlySaleslabels = <?php echo json_encode($GensaleMonth) ?>;
-        new Chart(GeneralMonthlySales, {
-            type: 'bar',
-            data: {
-                labels: GeneralMonthlySaleslabels,
-
-            datasets: [{
-                label: 'General Monthly Sales Report -₱',
-                data: {{ json_encode($GenTotalSales) }},
-                backgroundColor: [
-                'rgba(255, 99, 132)',
-                'rgba(255, 159, 64)',
-                'rgba(255, 205, 86)',
-                'rgba(75, 192, 192)',
-                'rgba(54, 162, 235)',
-                'rgba(153, 102, 255)',
-                'rgba(201, 203, 207)'
-                ],
-                borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)',
-                'rgb(201, 203, 207)'
-                ],
-                borderWidth: 1
-            }]
-            },
-            options: {
-                scales: {
-                y: {
-                    beginAtZero: true
-                }
-                }
-            }
-        });
         const Unpayable = document.getElementById('Unpayable');
         const Unpayablelabels = ["Pending Orders",
                                 "Process Orders",
                                 "Pending Refill",
                                 "Process Refill"];
             new Chart(Unpayable, {
-                type: 'doughnut',
+                type: 'line',
                 data: {
                     labels: Unpayablelabels,
 
                 datasets: [{
-                    label: 'Pending And Process Report -₱',
+                    label: '',
                     data: [
                         {{ @$pendingAmount }},
                         {{ @$proccessAmount }},
@@ -381,12 +385,13 @@
                     'rgba(153, 102, 255)'
                     ],
                     borderColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
-                    'rgb(153, 102, 255)'
+                    'rgba(255, 99, 132)',
+                    'rgba(75, 192, 192)',
+                    'rgba(54, 162, 235)',
+                    'rgba(153, 102, 255)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 5,
+                    pointBorderWidth: 25,
                 }]
                 },
                 options: {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\products;
 use App\Models\ResellerProducts;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,7 @@ class ProductController extends Controller
     function saving_product(Request $request){
         $data_PR0duct = [
             'User_ID' => session()->get(env('USER_SESSION_KEY')),
-            'product_id' => $request->product_ID,
+            'product_id' => 'Product-'.Str::random(6),
             'product_Name' => $request->product_Name,
             'price' => $request->product_Price,
             'stocks' => $request->product_qty,
@@ -35,12 +36,12 @@ class ProductController extends Controller
 
     function updateStocks(Request $prdReq){
         $this->constructProduct->updatingStocks($prdReq->prd_ID, $prdReq->qtyStocks);
-        echo '<h1><a href="http://127.0.0.1:8000/My-service">Successfully Updated Stock!</a></h1>';
+        return redirect('My-service')->with('updated', 'updated');
     }
 
     function delStocks($delID){
         $this->constructProduct->Deleting_Product($delID);
-        echo '<h1><a href="http://127.0.0.1:8000/My-service">Successfully Deleted Product!</a></h1>';
+        return back()->with('delete', 'deleted');
     }
 
     function searchPresentProduct(Request $search_present_Product){

@@ -18,7 +18,8 @@ use App\Models\AddressFee;
 use Illuminate\Notifications\Notification;
 use Sabberworm\CSS\Settings;
 use App\Http\Controllers\refillCostController;
-
+use App\Http\Controllers\rangeSalesController;
+use App\Http\Controllers\ResellerRequestController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,7 +83,7 @@ Route::get('/orders/cancelled', [OrderController::class, 'cancelled'])->name('ca
 Route::get('/orders/Request/Accept/{id}/quantity/{qty}/productID/{pdtID}', [OrderController::class, 'AcceptOrder'])->name('AcceptOrder');
 
 //*CompleteAddSale
-Route::get('/Complete/{id}', [OrderController::class, 'CompleteAddSale'])->name('CompleteAddSale');
+Route::get('/Complete/{id}/pymt/{pyment}', [OrderController::class, 'CompleteAddSale'])->name('CompleteAddSale');
 
 //*Cancelorders
 Route::get('/orders/Request/Decline/{id}', [OrderController::class, 'Decline'])->name('Decline');
@@ -132,7 +133,7 @@ Route::post('Add-Refill-Sale', [AllRefillSalesController::class, 'AddRefillSale'
 
 //*refill status update
 Route::get('/Refill-request/Request/Accept/{ref_ID}', [AllRefillSalesController::class, 'AcceptRequest'])->name('AcceptRequest');
-Route::get('/Refill-request/Request/complete/{ID}/{Quantity}/{Amount}', [AllRefillSalesController::class, 'CompleteRequest'])->name('CompleteRequest');
+Route::get('/Refill-request/Request/complete/{ID}/{Quantity}/{Amount}/{pyment}', [AllRefillSalesController::class, 'CompleteRequest'])->name('CompleteRequest');
 
 // *settings
 Route::get('/Settings', [dashboardController::class, 'Settings'])->name('Settings');
@@ -187,3 +188,32 @@ Route::get('/members', [Member::class,'members'])->name('members');
 
 //refillcost
 Route::post('/save-RefillCost', [refillCostController::class,'RefillCost'])->name('RefillCost');
+
+
+//forgot pwd - recover_Account - /Change-My-Password/
+Route::get('/forgot-password', [UserRegisterLogin::class, 'forgot_pwd'])->name('forgot_pwd');
+Route::post('/recover-Account', [UserRegisterLogin::class, 'recover_Account'])->name('recover_Account');
+Route::get('/Change-My-Password/{email}/{pwd}', [UserRegisterLogin::class, 'change_pwd'])->name('change_pwd');
+
+
+route::post('getAllBetweenSales', [rangeSalesController::class, 'getAllBetweenSales'])->name('getAllBetweenSales');
+// submitFindSaleyearReseller
+route::post('SellerWalkIngetAllBetweenSales', [rangeSalesController::class, 'SellerWalkIngetAllBetweenSales'])->name('SellerWalkIngetAllBetweenSales');
+route::post('submitFindSaleyearReseller', [rangeSalesController::class, 'submitFindSaleyearReseller'])->name('submitFindSaleyearReseller');
+
+// update_change
+route::post('update_change', [OrderController::class, 'update_change'])->name('update_change');
+
+//update_changeRefill
+route::post('update_changeRefill', [ResellerRequestController::class, 'update_changeRefill'])->name('update_changeRefill');
+
+// restoration restore-address/1 /restore-product/
+Route::get('/restore-address/{id}', [SettingsController::class, 'restoreAddress'])->name('restoreAddress');
+Route::get('/restore-product/{id}', [SettingsController::class, 'restoreProduct'])->name('restoreProduct');
+
+//showSalesTbl Sales-report/
+Route::get('/Sales-report/{start}/{end}', [rangeSalesController::class, 'showSalesTbl'])->name('showSalesTbl');
+Route::get('/refill-report/{start}/{end}', [rangeSalesController::class, 'showrefillTbl'])->name('showrefillTbl');
+///refill-report/ ProductreportBetween
+Route::get('/refill-report-pdf/{start}/{end}', [PDFController::class, 'RefillreportBetween'])->name('RefillreportBetween');
+Route::get('/Sales-report-pdf/{start}/{end}', [PDFController::class, 'ProductreportBetween'])->name('ProductreportBetween');

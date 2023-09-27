@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('Refill_ID');
             $table->integer('Quantity');
             $table->decimal('Amount');
+            $table->text('paymentMethod');
             $table->timestamps();
         });
     }

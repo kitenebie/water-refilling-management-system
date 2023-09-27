@@ -15,6 +15,8 @@ use App\Models\ResellerProducts;
 use App\Models\refillRequest;
 use App\Http\Controllers\NotificationController;
 use Carbon\Carbon;
+use App\Models\AllSales as Sale;
+use App\Models\RefillSales as Refill;
 
 class AllRefillSalesController extends Controller
 {
@@ -46,6 +48,7 @@ class AllRefillSalesController extends Controller
         'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
         'ProductID' => $request->product_ID,
         'Quantity' => $request->order,
+        'paymentMethod' => 'Walk in',
         'Amount' => $request->price,
        ];
        $this->constructSalse->AddAdminSale($data);
@@ -57,7 +60,8 @@ class AllRefillSalesController extends Controller
             'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
             'Refill_ID' =>  $randomNumber,
             'Quantity' => $request->numberGalllon,
-            'Amount' => $request->refilltotal
+            'Amount' => $request->refilltotal,
+            'paymentMethod' => 'Walk in'
         ];
         $this->constructRefill->SaveRefillSales($refillData);
         var_dump($refillData);
@@ -70,7 +74,8 @@ class AllRefillSalesController extends Controller
             'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
             'Refill_ID' =>  $randomNumber,
             'Quantity' => $request->numberOFgallon,
-            'Amount' => $request->refilltotal_amount
+            'Amount' => $request->refilltotal_amount,
+            'paymentMethod' => 'Walk in'
             ];
             $this->constructRefill->SaveRefillSales($refillData);
             return back()->with('refilled', 'Successfully Purchased!');
@@ -81,11 +86,12 @@ class AllRefillSalesController extends Controller
         return back()->with('Accepted', 'Successfull');
     }
 
-    function CompleteRequest($ID, $Quantity, $Amount){
+    function CompleteRequest($ID, $Quantity, $Amount, $pymt){
         $ref_DATA = [
             'Account_SaleID' =>  session()->get(env('USER_SESSION_KEY')),
             'Refill_ID' => Str::random(12),
             'Quantity' => $Quantity,
+            'paymentMethod' => $pymt,
             'Amount' => $Amount
         ];
         $this->constructRefillRequest->completed_refill($ID);
@@ -115,7 +121,7 @@ class AllRefillSalesController extends Controller
 
         if(session()->get(env('USER_SESSION_KEY'))){
             $year = Carbon::now()->year;
-            $year = date('Y');
+            $year = $selectedyear->yearSale;
             $productMonth = [];
             $productMontlySales = [];
             $Currentsales = $this->constructSalse->getMonthlySales($selectedyear->yearSale);
@@ -142,50 +148,108 @@ class AllRefillSalesController extends Controller
             }
 
            // Sum Amount column for each month from refill_sales table
-            $refillSales = DB::table('refill_sales')
-            ->select(DB::raw('MONTH(created_at) AS month'), DB::raw('SUM(Amount) AS refillAmount'))
-            ->whereYear('created_at', '=',  date($selectedyear->yearSale))
-            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
-            ->groupBy(DB::raw('MONTH(created_at)'))
-            ->get();
+       // Sum Amount column for each month from refill_sales table
+    //    insertcode
 
-            // Sum Amount column for each month from all_sales table
-            $allSales = DB::table('all_sales')
-            ->select(DB::raw('MONTH(created_at) AS month'), DB::raw('SUM(Amount) AS allAmount'))
-            ->whereYear('created_at', '=', date($selectedyear->yearSale))
-            ->where('Account_SaleID', session()->get(env('USER_SESSION_KEY')))
-            ->groupBy(DB::raw('MONTH(created_at)'))
-            ->get();
-
-            //Combine the sums from both tables
-            $Generalsales = collect([]);
-            if(!$refillSales == null){
-                foreach ($refillSales as $refill) {
-                $month = $refill->month;
-                $refillAmount = $refill->refillAmount;
-                @$allAmount = $allSales->where('month', $month)->first()->allAmount;
-                $totalAmount = $refillAmount + $allAmount;
-
-                $Generalsales->push([
-                    'month' => $month,
-                    'totalAmount' => $totalAmount
-                ]);
-            }
+    function addArrays($Walkarr1, $arr2) {
+        $result = [];
+        $maxLength = max(count($Walkarr1), count($arr2));
+    
+        for ($i = 0; $i < $maxLength; $i++) {
+            $val1 = isset($Walkarr1[$i]) ? $Walkarr1[$i] : 0;
+            $val2 = isset($arr2[$i]) ? $arr2[$i] : 0;
+            $result[] = $val1 + $val2;
         }
+    
+        return $result;
+    }
+    
+    $Walksales = Sale::select(
+        DB::raw('SUM(Amount) as totalAmount'),
+        DB::raw('MONTH(created_at) as month')
+    )
+        ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+        ->where('paymentMethod', '=', "Walk in")
+        ->whereYear('created_at', '=', date('Y'))
+        ->groupBy('month')
+        ->get();
+    
+    $WalkInallSalesTotal = [];
+    
+    foreach ($Walksales as $Walksale) {
+        $WalkInallSalesTotal[] = $Walksale->totalAmount;
+    }
+
+    $Walkrefillsales = Refill::select(
+        DB::raw('SUM(Amount) as totalAmount'),
+        DB::raw('MONTH(created_at) as month')
+    )
+    ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+    ->where('paymentMethod', '=', "Walk in")
+    ->whereYear('created_at', '=', date('Y'))
+    ->groupBy('month')
+    ->get();
+        // dd($Walksales,$Walkrefillsales);
+    $WalkInallrefillDates = [];
+    $WalkInallrefillSalesTotal = [];
+    
+    foreach ($Walkrefillsales as $Walkrefillsale) {
+        $WalkInallrefillDates[] = date('F', mktime(0, 0, 0, $Walkrefillsale->month, 1));
+        $WalkInallrefillSalesTotal[] = $Walkrefillsale->totalAmount;
+    }
+    
+    $walkInOverALLtotalAmount = addArrays($WalkInallSalesTotal, $WalkInallrefillSalesTotal);
+
+    //*******COD******** */
+    
+
+    $COD_sales = Sale::select(
+        DB::raw('SUM(Amount) as totalAmount'),
+        DB::raw('MONTH(created_at) as month'))
+        ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+        ->where('paymentMethod', '=', "Cash on Delivery")
+        ->whereYear('created_at', '=', date('Y'))
+        ->groupBy('month')
+        ->get();
+    
+    $COD_InallSalesTotal = [];
+    
+    foreach ($COD_sales as $COD_sale) {
+        $COD_InallSalesTotal[] = $COD_sale->totalAmount;
+    }
+
+    $COD_refillsales = Refill::select(
+        DB::raw('SUM(Amount) as totalAmount'),
+        DB::raw('MONTH(created_at) as month'))
+    ->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))
+    ->where('paymentMethod', '=', "Cash on Delivery")
+    ->whereYear('created_at', '=', date('Y'))
+    ->groupBy('month')
+    ->get();
+
+    $COD_InallrefillDates = [];
+    $COD_InallrefillSalesTotal = [];
+    
+    foreach ($COD_refillsales as $COD_refillsale) {
+        $COD_InallrefillDates[] = date('F', mktime(0, 0, 0, $COD_refillsale->month, 1));
+        $COD_InallrefillSalesTotal[] = $COD_refillsale->totalAmount;
+    }
+    $COD_InOverALLtotalAmount = addArrays($COD_InallSalesTotal, $COD_InallrefillSalesTotal);
+
+//end code
+            //end
             $RecentOrders = $this->constructOrders->getAllpendingOrders();
             $TOTALAMOUNTSALE = $this->constructSalse->GetAllUserCurrentYearlySALE($year);
-            if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-               $adminStocks = $this->constructProduct->getALLAdminStocks();
-            }
 
-            if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-                $adminStocks = $this->constructclient_stocks->GetTotalSumOfAllUserStocks();
-            }
             $pendingAmount = $this->constructOrders->getTotalAmountPendingData();
             $proccessAmount = $this->constructOrders->getTotalAmountProccessData();
             $refillprending = $this->constructRefillRequest->RefillPendingData();
             $refillprocess = $this->constructRefillRequest->RefillProccessData();
-             return view('Sales', compact('thisyear','existingYears','refillprending','refillprocess','pendingAmount','proccessAmount','adminStocks','productMonth','productMontlySales', 'refillSALES', 'Generalsales', 'RecentOrders', 'TOTALAMOUNTSALE'));
+             return view('Sales', compact('thisyear','existingYears','refillprending','refillprocess','pendingAmount','proccessAmount','productMonth','productMontlySales', 'refillSALES',  'RecentOrders', 'TOTALAMOUNTSALE',         
+        'WalkInallrefillDates', 'WalkInallSalesTotal', 
+        'WalkInallrefillSalesTotal', 'walkInOverALLtotalAmount',
+        'COD_InallrefillDates', 'COD_InallSalesTotal', 
+        'COD_InallrefillSalesTotal', 'COD_InOverALLtotalAmount'));
             }else{
                 return view('log-in');
             }
@@ -194,6 +258,5 @@ class AllRefillSalesController extends Controller
     function Decline($ID){
         $this->constructRefillRequest->Decline_refill($ID);
         return back()->with('Cancelled', 'Cancel!');
-
     }
 }

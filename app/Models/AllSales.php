@@ -14,8 +14,8 @@ class AllSales extends Model
     protected $guarded = [];
 
     function availableYear(){
-        $allSales = DB::table('all_sales')->select('created_at')->get()->toArray();
-        $refillSales = DB::table('refill_sales')->select('created_at')->get()->toArray();
+        $allSales = DB::table('all_sales')->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))->select('created_at')->get()->toArray();
+        $refillSales = DB::table('refill_sales')->where('Account_SaleID', '=', session()->get(env('USER_SESSION_KEY')))->select('created_at')->get()->toArray();
 
         $combinedSales = array_merge($allSales, $refillSales);
 

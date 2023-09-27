@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class orders extends Model
 {
@@ -23,39 +24,163 @@ class orders extends Model
     function get_orders_Request(){
 
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Pending')->orderByDesc('updated_at')->get();
+            // return $this->where('status', 'Pending')->orderByDesc('updated_at')->get();
+            return DB::table('orders')
+                   ->join('products', 'orders.product_ID','products.product_id')
+                   ->select(
+                       'orders.reseller_ID',
+                       'orders.product_ID',
+                       'orders.order',
+                       'orders.Amount',
+                       'orders.paymentMethod',
+                       'orders.status',
+                       'orders.created_at',
+                       'orders.id as orderID',
+                       'orders.updated_at as theID',
+                       'products.*'
+                   )
+                   ->where('orders.status', 'Pending')->orderBy('orders.id', 'DESC')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            return $this->where('reseller_ID', session()->get('key'))->where('status', 'Pending')->get();
+            return DB::table('orders')
+            ->join('products', 'orders.product_ID','products.product_id')
+            ->select(
+                'orders.reseller_ID',
+                'orders.product_ID',
+                'orders.order',
+                'orders.Amount',
+                'orders.paymentMethod',
+                'orders.status',
+                'orders.created_at',
+                'orders.id as orderID',
+                'orders.updated_at as theID',
+                'products.*'
+            )
+            ->where('orders.reseller_ID', session()->get('key'))
+            ->where('orders.status', 'Pending')
+            ->orderBy('orders.id', 'DESC')->get();
         }
     }
 
 
     function get_orders_ToReceive(){
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Process')->orderByDesc('updated_at')->get();
+            // return $this->where('status', 'Process')->orderBy('created_at')->get();
+            return DB::table('orders')
+            ->join('products', 'orders.product_ID','products.product_id')
+            ->select(
+                'orders.reseller_ID',
+                'orders.product_ID',
+                'orders.order',
+                'orders.Amount',
+                'orders.paymentMethod',
+                'orders.status',
+                'orders.created_at',
+                'orders.id as orderID',
+                'orders.updated_at as theID',
+                'products.*'
+            )
+            ->where('orders.status', 'Process')->orderByDesc('theID')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            return $this->where('reseller_ID', session()->get('key'))->where('status', 'Process')->get();
+            return DB::table('orders')
+            ->join('products', 'orders.product_ID','products.product_id')
+            ->select(
+                'orders.reseller_ID',
+                'orders.product_ID',
+                'orders.order',
+                'orders.Amount',
+                'orders.paymentMethod',
+                'orders.status',
+                'orders.created_at',
+                'orders.id as orderID',
+                'orders.updated_at as theID',
+                'products.*'
+            )
+            ->where('orders.status', 'Process')
+            ->where('reseller_ID', session()->get('key'))
+            ->orderByDesc('theID')->get();
         }
     }
 
     function get_orders_Completed(){
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Completed')->orderByDesc('updated_at')->get();
+            // return $this->where('status', 'Completed')->orderByDesc('updated_at')->get();
+            return DB::table('orders')
+            ->join('products', 'orders.product_ID','products.product_id')
+            ->select(
+                'orders.reseller_ID',
+                'orders.product_ID',
+                'orders.order',
+                'orders.Amount',
+                'orders.paymentMethod',
+                'orders.status',
+                'orders.created_at',
+                'orders.id as orderID',
+                'orders.updated_at as theID',
+                'products.*'
+            )
+            ->where('orders.status', 'Completed')->orderByDesc('theID')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            return $this->where('reseller_ID', session()->get('key'))->where('status', 'Completed')->get();
+            return DB::table('orders')
+            ->join('products', 'orders.product_ID','products.product_id')
+            ->select(
+                'orders.reseller_ID',
+                'orders.product_ID',
+                'orders.order',
+                'orders.Amount',
+                'orders.paymentMethod',
+                'orders.status',
+                'orders.created_at',
+                'orders.id as orderID',
+                'orders.updated_at as theID',
+                'products.*'
+            )
+            ->where('orders.status', 'Completed')
+            ->where('reseller_ID', session()->get('key'))
+            ->orderByDesc('theID')->get();
         }
     }
 
 
     function get_orders_Cancelled(){
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
-            return $this->where('status', 'Cancelled')->orderByDesc('updated_at')->get();
+            // return $this->where('status', 'Cancelled')->orderByDesc('updated_at')->get();
+            return DB::table('orders')
+            ->join('products', 'orders.product_ID','products.product_id')
+            ->select(
+                'orders.reseller_ID',
+                'orders.product_ID',
+                'orders.order',
+                'orders.Amount',
+                'orders.paymentMethod',
+                'orders.status',
+                'orders.created_at',
+                'orders.id as orderID',
+                'orders.updated_at as theID',
+                'products.*'
+            )
+            ->where('orders.status', 'Cancelled')->orderByDesc('theID')->get();
         }
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
-            return $this->where('reseller_ID', session()->get('key'))->where('status', 'Cancelled')->get();
+            return DB::table('orders')
+            ->join('products', 'orders.product_ID','products.product_id')
+            ->select(
+                'orders.reseller_ID',
+                'orders.product_ID',
+                'orders.order',
+                'orders.Amount',
+                'orders.paymentMethod',
+                'orders.status',
+                'orders.created_at',
+                'orders.id as orderID',
+                'orders.updated_at as theID',
+                'products.*'
+            )
+            ->where('orders.status', 'Cancelled')
+            ->where('reseller_ID', session()->get('key'))
+            ->orderByDesc('theID')->get();
         }
     }
 
@@ -96,6 +221,8 @@ class orders extends Model
         if(session()->get('auth') == env('USER_CREDINTIAL_RESELLER')){
             $orders =  orders::join('products', 'orders.product_id', '=', 'products.product_id')
                         ->join('log_in_models', 'orders.reseller_ID', '=', 'log_in_models.reseller_id')
+                        ->select('products.*', 'log_in_models.*', 'orders.*', 'orders.status AS theSTS')
+                        ->orderBy('theSTS', 'DESC')
                         ->where('orders.reseller_ID',  session()->get(env('USER_SESSION_KEY')))
                         ->get();
             $filtered_orders = $orders->filter(function ($order) {
@@ -108,6 +235,7 @@ class orders extends Model
         if(session()->get('auth') == env('USER_CREDINTIAL_ADMIN')){
             return orders::join('products', 'orders.product_id', '=', 'products.product_id')
                             ->join('log_in_models', 'orders.reseller_ID', '=', 'log_in_models.reseller_id')
+                            ->select('products.*', 'log_in_models.*', 'orders.*', 'orders.status AS theSTS')
                             ->where('orders.status', 'Pending')
                             ->orWhere('orders.status', 'Process')
                             ->get();
@@ -143,5 +271,10 @@ class orders extends Model
 
     function DeclineOrder($ID){
         return $this->where('id', '=', $ID)->update(['status' => 'Cancelled']);
+    }
+
+    function updateNewQty($id, $updatedValue){
+        return $this->where('id', '=', $id)
+                    ->update($updatedValue);
     }
 }

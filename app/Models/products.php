@@ -13,7 +13,7 @@ class products extends Model
     protected $guarded = [];
 
     function get_products(){
-        return $this->all();
+        return $this->where('status','=', null)->orderBy('product_Name', 'ASC')->get();
     }
 
     function get_product_info($option){
@@ -37,7 +37,7 @@ class products extends Model
     }
 
     function Deleting_Product($prdID){
-        return $this->where('id', $prdID)->delete();
+        return $this->where('id', $prdID)->update(['status' => 'Removed']);
     }
 
     function searchForPresentProduct($search){

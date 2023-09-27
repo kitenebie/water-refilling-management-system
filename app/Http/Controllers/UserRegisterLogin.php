@@ -78,7 +78,7 @@ class UserRegisterLogin extends Controller
                         session()->put(env('USER_SESSION_AUTHENTICATION_ID'), $account->user_authe);
                         session()->put(env('USER_SESSION_AUTHENTICATION_NAME'), $account->firstname);
                         session()->put('username', $account->username);
-                        session()->put(env('USER_CURRENT_ADDRESS'), $account->address);
+                        session()->put('USER_CURRENT_ADDRESS', $account->address);
                         $this->NotificationController->delete_Notification();
                         // Retrieve a value from the session
                         $reqData = $this->construct->getALLrequest();
@@ -91,5 +91,21 @@ class UserRegisterLogin extends Controller
             }
         }
     }
-
+    function forgot_pwd()
+    {
+        return view('forgot_password');
+    }
+    function recover_Account(Request $request)
+    {
+        $result = $this->construct->checkEmailAddress($request->email, $request->password);
+        if($result == true)
+        {
+            return back()->with('sent_email', 'sent');
+        }
+        return back()->with('invalid_email', 'invalid');
+    }
+    function change_pwd($email, $pwd){
+        $this->construct->channgeNewPwd($email, $pwd);
+        return redirect('/log-in')->with('changedPWD', 'changed');
+    }
 }

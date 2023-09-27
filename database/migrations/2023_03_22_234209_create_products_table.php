@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('product_Name');
             $table->text('stocks');
             $table->double('price');
+            $table->text('status');
             $table->timestamps();
         });
     }

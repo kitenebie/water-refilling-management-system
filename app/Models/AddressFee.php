@@ -28,19 +28,19 @@ class AddressFee extends Model
     }
 
     function getAddress(){
-        return $this->orderBy('id', 'desc')->get();
+        return $this->where('status', '=', null)->orderBy('Address', 'ASC')->get();
     }
 
     function Address(){
-        return $this->orderBy('Address', 'desc')->get();
+        return $this->where('status', '=', null)->orderBy('Address', 'ASC')->get();
     }
 
     function DeleteAddressFee($id){
-        $this->where('id', '=', $id)->delete();
+        $this->where('id', '=', $id)->update(['status' => 'Removed']);
         return back()->with('Deleted', 'Done!');
     }
 
     function isAddressFees(){
-        return $this->where('Address', session()->get(env('USER_CURRENT_ADDRESS')))->get();
+        return $this->where('Address', session()->get('USER_CURRENT_ADDRESS'))->get();
     }
 }

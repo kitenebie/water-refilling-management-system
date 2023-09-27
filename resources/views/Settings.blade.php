@@ -11,93 +11,101 @@
 	<link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 	<title>Settings</title>
     <script src="{{ env('JQUERY_AJAX_URL') }}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-	<!-- SIDEBAR -->
-	<section id="sidebar">
-		<a href="#" class="brand">
-			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
-			<span class="text">Order & Transaction</span>
-		</a>
-		<ul class="side-menu top">
-			<li>
-				<a href="{{ route('dashboard') }}">
-					<i class='bx bxs-dashboard' ></i>
-					<span class="text">Dashboard</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ route('MyService') }}">
-					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Service</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ route('getsalesmonth') }}">
-					<i class='bx bxs-chart' ></i>
-					<span class="text">Sales</span>
-				</a>
-			</li>
-            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-			    <li>
-                    <a href="{{ route('orders') }}">
-                        <i class='bx bxs-store' ></i>
-                        <span class="text">Orders</span>
-                    </a>
-			    </li>
-			    <li>
-                    <a href="{{ route('refillrequest') }}">
-                        <i class='bx bxs-store-alt' ></i>
-                        <span class="text">Refill Request</span>
-                    </a>
-			    </li>
-            @endif
 
-            @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-            <li>
-                <a href="{{ route('members') }}">
-                    <i class='bx bxs-user-account' ></i>
-                    <span class="text">Members</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('applicantRequest') }}">
-                    <i class='bx bxs-group' ></i>
-                    <span class="text">Applicants</span>
-                </a>
-            </li>
-            @endif
-            @if (session()->get('auth') == 'Reseller')
-            <li>
-                <a href="{{ route('orders') }}">
-                    <i class='bx bxs-cart' ></i>
-                    <span class="text">Request Order</span>
-                </a>
-            </li>
-            @endif
-		</ul>
-		<ul class="side-menu">
-			<li>
-				<a href="{{ route('ShowPostNotification') }}">
-					<i class='bx bxs-bell'></i>
-					<span class="text">Notification</span>
-				</a>
-			</li>
-			<li class="active">
-				<a href="#">
-					<i class='bx bxs-cog' ></i>
-					<span class="text">Settings</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ route('logout') }}" class="logout">
-					<i class='bx bxs-log-out-circle' ></i>
-					<span class="text">Logout</span>
-				</a>
-			</li>
-		</ul>
-	</section>
-	<!-- SIDEBAR -->
+		<!-- SIDEBAR -->
+		<section id="sidebar">
+			<a href="#" class="brand">
+				<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
+				<span class="text">Dashboard</span>
+			</a>
+			<ul class="side-menu top">
+				<li>
+					<a href="{{ route('dashboard') }}">
+						<i class='bx bxs-dashboard' ></i>
+						<span class="text">Dashboard</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('MyService') }}">
+						<i class='bx bxs-shopping-bag-alt' ></i>
+						<span class="text">Products</span>
+					</a>
+				</li>
+				@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+					<li>
+						<a href="{{ route('refillrequest') }}">
+							<i class='bx bxs-store-alt' ></i>
+							<span class="text">Refill Request</span>
+						</a>
+					</li>
+					<li>
+						<a href="{{ route('orders') }}">
+							<i class='bx bxs-store' ></i>
+							<span class="text">Orders</span>
+						</a>
+					</li>
+				@endif
+				@if (session()->get('auth') == 'Reseller')
+				<li>
+					<a href="{{ route('refillrequest') }}">
+						<i class='bx bxs-store-alt' ></i>
+						<span class="text">Refill Request</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('orders') }}">
+						<i class='bx bxs-cart' ></i>
+						<span class="text">Request Order</span>
+					</a>
+				</li>
+				@endif
+				<li>
+					<a href="{{ route('getsalesmonth') }}">
+						<i class='bx bxs-chart' ></i>
+						<span class="text">Sales</span>
+					</a>
+				</li>
+	
+				@if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+				<li>
+					<a href="{{ route('members') }}">
+						<i class='bx bxs-user-account' ></i>
+						<span class="text">Members</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('applicantRequest') }}">
+						<i class='bx bxs-group' ></i>
+						<span class="text">Applicants</span>
+					</a>
+				</li>
+				@endif
+			</ul>
+			<ul class="side-menu">
+				<li>
+					<a href="{{ route('ShowPostNotification') }}">
+						<i class='bx bxs-bell'></i>
+						<span class="text">Notification</span>
+					</a>
+				</li>
+				<li class="active">
+					<a href="{{ route('Settings') }}">
+						<i class='bx bxs-cog' ></i>
+						<span class="text">Settings</span>
+					</a>
+				</li>
+				<li>
+					<a href="{{ route('logout') }}" class="logout">
+						<i class='bx bxs-log-out-circle' ></i>
+						<span class="text">Logout</span>
+					</a>
+				</li>
+			</ul>
+		</section>
+		<!-- SIDEBAR -->
 
 	<!-- CONTENT -->
 	<section id="content">
@@ -136,7 +144,7 @@
                 <div class="order">
                     <div class="head">
                         {{-- box1 --}}
-						<h4>Personal Information</h4>
+						<h4  class="font-bold">Personal Information</h4>
                     </div>
 					<div class="head" style="position: relative;">
 						<form action="{{ route('updateProfile') }}"method="post" enctype="multipart/form-data">
@@ -164,7 +172,7 @@
                 <div class="order">
                     <div class="head">
                         {{-- box2 --}}
-						<h4>Product Price</h4>
+						<h4  class="font-bold">Product Price</h4>
                     </div>
 					<form action="{{ route('UpdatePrice') }}" method="post">
 						@csrf
@@ -204,7 +212,7 @@
                 <div class="order">
                     <div class="head">
                         {{-- box3 --}}
-						<h4>Set Minimun Product Stock Alert Notification</h4>
+						<h4  class="font-bold">Set Minimun Product Stock Alert Notification</h4>
                     </div>
 					<form action="{{ route('updateLimitStocks') }}" method="post">
 						@csrf
@@ -247,21 +255,21 @@
                 <div class="order">
                     <div class="head">
                         {{-- box4 --}}
-						<h4>Post Announcement</h4>
+						<h4  class="font-bold">Post Announcement</h4>
                     </div>
                     <div class="head">
 						<form action="{{ route('Announcement_Post') }}" method="post">
 							@csrf
 							<label for="">Caption</label><br>
 							<textarea name="annoucements_content" id="annoucements_content" style="width:450px; height: 350px" class="inputs-products"></textarea>
-							<button type="submit" class="save-btn" style="margin-left: 1.2rem">Post</button>
+							<button type="submit" class="save-btn bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm" style="margin-left: 1rem ">Post</button>
 						</form>
                     </div>
                 </div>
                 <div class="order">
                     <div class="head">
                         {{-- box4 --}}
-						<h4>Announcement</h4>
+						<h4  class="font-bold">Announcement</h4>
                     </div>
                     <div class="todo box">
 						<ul class="todo-list" id="anncontainer">
@@ -270,20 +278,20 @@
                 </div>
                 <div class="order">
                     <div class="head">
-                        <h4>Refill Cost</h4><br>
+                        <h4  class="font-bold">Refill Cost</h4><br>
                         <form action="{{ route('RefillCost') }}" method="POST" style="width:300px">
                             @csrf
                             <div style="display: flex; flex-direction:column; gap: 2px; width:100%; position: relative;">
                                 <label for="">Reffilling Cost: </label>
                                 <input style="width: 100%" id="fee" class="inputs-products2" type="text" name="refillCost" value="@if(isset($getRefillCost)){{ $getRefillCost }}@endif">
-                                <button style="margin-left: auto; margin-top:3px" type="submit" class="save-btn">Save</button>
+                                <button style="margin-left: auto; margin-top:3px" type="submit" class="save-btn bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm" style="margin-left: 5.2rem">Save</button>
                             </div>
                         </form>
                     </div>
                     <hr>
                     <div class="head">
                         <br>
-						<h4>Shipping Fee</h4>
+						<h4  class="font-bold">Shipping Fee</h4>
                     </div>
                     <div class="head">
                         <form action="{{ route('saveAddressFee') }}" method="post">
@@ -295,7 +303,7 @@
                                 <input id="fee" class="inputs-products2" type="text" name="fee" value=""><br><br>
                                 <label for="">Refill Ship Fee: </label>
                                 <input id="fee" class="inputs-products2" type="text" name="Refillfee" value=""><br><br>
-                                <button type="submit" class="save-btn" style="margin-left: 5.2rem">Save</button>
+                                <button type="submit" class="save-btn bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm" style="margin-left: 5.2rem">Save</button>
                             </div>
                         </form>
                     </div>
@@ -303,6 +311,7 @@
                         <table>
                             <thead>
                                 <tr>
+								<th hidden>id</th>
                                 <th>Address</th>
                                 <th>Product Ship Fee</th>
                                 <th>Refill Ship Fee</th>
@@ -313,6 +322,7 @@
                                 @if(isset($AddressFees))
                                     @foreach ($AddressFees as $AddressFee)
                                     <tr>
+                                        <td style="display: none">{{ $AddressFee->id }}</td>
                                         <td>{{ $AddressFee->Address }}</td>
                                         <td>{{ $AddressFee->Fee }}</td>
                                         <td>{{ $AddressFee->RefillFee }}</td>
@@ -320,7 +330,8 @@
                                             {{--  <a href="/Address-Edit/{{ $AddressFee->id }}">
                                             <span class="status Completed" style="font-size: .8em; font-weight:600">Edit</span>
                                             </a>  --}}
-                                            <a href="/Address-Delete/{{ $AddressFee->id }}">
+											{{-- /Address-Delete/{{ $AddressFee->id }} --}}
+                                            <a onclick="deleteData(this)" id="openModal" href="#">
                                                 <span class="status Cancelled" style="font-size: .8em; font-weight:600">Delete</span>
                                             </a>
                                         </td>
@@ -330,6 +341,70 @@
                             </tbody>
                         </table>
                     </div>
+					<hr>
+					<br>
+					<h4  class="font-bold">Temporarily Removing</h4>
+					<br>
+					<h6 class="font-bold text-gray-500">Deleted Product</h6>
+					<div class="head">
+						<table>
+							<thead>
+								<tr>
+									<th hidden></th>
+									<th>discription</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if (isset($getproductLogs))
+									@foreach ($getproductLogs as $getproductLog)
+									<tr>
+										<td style="display: none">{{ $getproductLog->id }}</td>
+										<td>
+											Product Deleted <b>{{ $getproductLog->product_Name }}</b>, stocks: {{ $getproductLog->stocks }} and price: {{ number_format($getproductLog->price,2) }}
+										</td>
+										<td>
+											<a onclick="restoreProduct(this)" id="openModal" href="#">
+												<span class="status Completed" style="font-size: .8em; font-weight:600">Restore</span>
+											</a>
+										</td>
+									</tr>
+									@endforeach
+								@endif
+							</tbody>
+						</table>
+					</div>
+					<br>
+					<h6 class="font-bold text-gray-500">Deleted Address</h6>
+					<div class="head">
+						<table>
+							<thead>
+								<tr>
+									<th hidden></th>
+									<th>discription</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if ($getaddrLogs)
+									@foreach ($getaddrLogs as $getaddrLog)
+									<tr>
+										<td style="display: none">{{ $getaddrLog->id }}</td>
+										<td>
+											Address Deleted <b>{{ $getaddrLog->Address }}</b>, product shipping fee: {{ number_format($getaddrLog->Fee,2) }} and refill shipping fee: {{ number_format($getaddrLog->RefillFee,2) }}
+										</td>
+										<td>
+											<a onclick="restoreAddress(this)" id="openModal" href="#">
+												<span class="status Completed" style="font-size: .8em; font-weight:600">Restore</span>
+											</a>
+										</td>
+									</tr>
+										
+									@endforeach
+								@endif
+							</tbody>
+						</table>
+					</div>
                 </div>
 				@endif
 
@@ -337,6 +412,97 @@
 		</main>
 		<!-- MAIN -->
 	</section>
+	
+    <div id="modal" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-start">
+                  <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <svg class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                  </div>
+                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h5 class="text-base leading-4 text-gray-400" id="modal-title"></h5>
+                    <div class="mt-2">
+                      <p id="msgContent" class="text-sm text-gray-500"></p>
+                      <input type="text" id="itemID">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button id="yesbtn" onclick="delteItem()" class="inline-flex w-full justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"></button>
+                <button id="closeModal" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    <script>
+        const title = document.getElementById('modal-title');
+        const content = document.getElementById('msgContent');
+        const yesbtn = document.getElementById('yesbtn');
+        var url_link;
+        function restoreProduct(button) {
+            // Get the row that contains the clicked button
+            var row = button.parentNode.parentNode;
+            // Get data from the row cells
+            title.innerHTML = 'Log: ' + row.cells[1].textContent;
+			content.innerHTML = 'Are you sure you want to <strong class="text-blue-500">Restore</strong> this product?';
+            url_link = `/restore-product/${encodeURIComponent(row.cells[0].textContent)}`;
+			yesbtn.classList.add('bg-blue-600');
+			yesbtn.classList.add('hover:bg-blue-600');
+			yesbtn.classList.remove('bg-red-600');
+			yesbtn.classList.remove('hover:bg-red-600');
+			yesbtn.innerHTML = "Restore";
+        }
+        
+        function restoreAddress(button) {
+            // Get the row that contains the clicked button
+            var row = button.parentNode.parentNode;
+            // Get data from the row cells
+            title.innerHTML = 'Log: ' + row.cells[1].textContent;
+			content.innerHTML = 'Are you sure you want to <strong class="text-blue-500">Restore</strong> this product?';
+            url_link = `/restore-address/${encodeURIComponent(row.cells[0].textContent)}`;
+			yesbtn.classList.add('bg-blue-600');
+			yesbtn.classList.add('hover:bg-blue-600');
+			yesbtn.classList.remove('bg-red-600');
+			yesbtn.classList.remove('hover:bg-red-600');
+			yesbtn.innerHTML = "Restore";
+        }
+        function deleteData(button) {
+            // Get the row that contains the clicked button
+            var row = button.parentNode.parentNode;
+            // Get data from the row cells
+            content.innerHTML = 'Are you sure you want to <strong class="text-red-500">Delete</strong> this product?';
+            url_link = `/Address-Delete/${encodeURIComponent(row.cells[0].textContent)}`;
+			yesbtn.classList.remove('bg-blue-600');
+			yesbtn.classList.remove('hover:bg-blue-600');
+			yesbtn.classList.add('bg-red-600');
+			yesbtn.classList.add('hover:bg-red-600');
+			yesbtn.innerHTML = "Delete";
+        }
+        function delteItem()
+        {
+           return  window.location.href = url_link;
+        }
+        const closeModalButton = document.getElementById('closeModal');
+        const modal = document.getElementById('modal');
+        const openModalButton = document.querySelectorAll('#openModal');
+        openModalButton.forEach(function(element) {
+            element.addEventListener('click', () => {
+                    modal.classList.remove('hidden');
+            });
+        });
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    </script>
 	<!-- CONTENT -->
     <script src="{{ asset('js/numberonly.js') }}"></script>
     <script src="{{ asset('js/textonly.js') }}"></script>
@@ -347,6 +513,18 @@
     <script src="{{ env('TOASTR_URL_JQUERY') }}"></script>
     <script src="{{ env('TOASTR_URL_MIN_JS') }}"></script>
     <script src="{{ env('TOASTR_JQUERY_LINK') }}"></script>
+
+	@if (session('restore'))
+	<script>
+		toastr.info('Successfully Restored', "Data has been Restored!", {
+			closeButton: true,
+			tapToDismiss: true, // prevent the toast from disappearing when clicked
+			newestOnTop: true,
+			positionClass: 'toast-top-right', // set the position of the toast
+			preventDuplicates: true,
+		}, 3000);
+	</script>
+	@endif
 
 	@if (session('Deleted'))
 	<script>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('Address');
             $table->text('Fee');
             $table->text('RefillFee');
+            $table->text('status');
             $table->timestamps();
         });
     }

@@ -52,8 +52,8 @@ class OrderController extends Controller
             $N3wData[] .= $this->constructresseller->FindResellerID($eachRequestData->reseller_ID);
         }
 
-        $img_ = "img/header-dashboard.png";
-        return view('orders', compact('label_title','N3wData','resellerReqData','img_'));
+        // dd($resellerReqData, $N3wData);
+        return view('orders', compact('label_title','N3wData','resellerReqData'));
     }
 
     function ToReceive(){
@@ -64,8 +64,8 @@ class OrderController extends Controller
             $N3wData[] .= $this->constructresseller->FindResellerID($eachRequestData->reseller_ID);
         }
 
-        $img_ = "img/header-dashboard.png";
-        return view('orders', compact('label_title','N3wData','resellerReqData','img_'));
+
+        return view('orders', compact('label_title','N3wData','resellerReqData'));
     }
 
     function Completed(){
@@ -76,8 +76,7 @@ class OrderController extends Controller
             $N3wData[] .= $this->constructresseller->FindResellerID($eachRequestData->reseller_ID);
         }
 
-        $img_ = "img/header-dashboard.png";
-        return view('orders', compact('label_title','N3wData','resellerReqData','img_'));
+        return view('orders', compact('label_title','N3wData','resellerReqData'));
     }
 
     function cancelled(){
@@ -88,8 +87,8 @@ class OrderController extends Controller
             $N3wData[] .= $this->constructresseller->FindResellerID($eachRequestData->reseller_ID);
         }
 
-        $img_ = "img/header-dashboard.png";
-        return view('orders', compact('label_title','N3wData','resellerReqData','img_'));
+
+        return view('orders', compact('label_title','N3wData','resellerReqData'));
     }
 
     function SubmitProductRequest(Request $request_Product){
@@ -98,6 +97,7 @@ class OrderController extends Controller
             'product_ID' => $request_Product->product_ID,
             'order' => $request_Product->order,
             'Amount' => $request_Product->price,
+            'paymentMethod' => $request_Product->pymnt,
             'status' => env('STATUS_ORDER_ONE'),
 
         ];
@@ -117,7 +117,7 @@ class OrderController extends Controller
     }
 
     //* add to sale(admin) and complete reseller order
-    function CompleteAddSale($success_req){
+    function CompleteAddSale($success_req, $pymt){
         $AddSale = [];
         $Reseller_AddToNewPRoduct = [];
         $orderInfo = $this->constructOrder->getAllData($success_req);
@@ -126,6 +126,7 @@ class OrderController extends Controller
                 'Account_SaleID' => session()->get(env('USER_SESSION_KEY')),
                 'ProductID' => $info->product_ID,
                 'Quantity' => $info->order,
+                'paymentMethod' => $pymt,
                 'Amount' => $info->Amount
             ];
             $Reseller_AddToNewPRoduct = [
@@ -149,11 +150,20 @@ class OrderController extends Controller
             'RefillCost' => $request->refillcost,
             'RefillShipFee' => $request->refillfee,
             'TotalCost' => $request->refilltotal,
+            'paymentMethod' => $request->pymnt,
             'status' => 'Pending'
         ];
         $this->constructrefillRequest->SaveRefillRequest($refillrequestDATA);
         return back()->with('clientrefilled', 'submitted request');
     }
 
-
+    function update_change(Request $change)
+    {
+        $data = [
+            'order' => $change->newQTY,
+            'Amount' => $change->newQTY * $change->thePrice
+        ];
+        $this->constructOrder->updateNewQty($change->orderID, $data);
+        return back()->with('updated', 'done!');
+    }
 }

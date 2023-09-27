@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text("product_ID");
             $table->integer("order");
             $table->double('Amount');
+            $table->text('paymentMethod');
             $table->text("status");
             $table->timestamps();
         });

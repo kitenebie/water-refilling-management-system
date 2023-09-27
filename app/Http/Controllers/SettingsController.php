@@ -7,7 +7,9 @@ use App\Models\LogInModel;
 use App\Models\ResellerProducts;
 use App\Models\client_stocks;
 use App\Models\Notifications;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use App\Models\AddressFee;
+use App\Models\products;
 
 class SettingsController extends Controller
 {
@@ -59,6 +61,16 @@ class SettingsController extends Controller
         }
         $this->NotificationController->deleteNotification();
         return back()->with('imgsuccess', 'Image uploaded successfully!');
+    }
 
+    function restoreAddress($id)
+    {
+        AddressFee::where('id', '=', $id)->update(['status' => null]);
+        return back()->with('restore', 'restored!');
+    }
+    function restoreProduct($id)
+    {
+        products::where('id', '=', $id)->update(['status' => null]);
+        return back()->with('restore', 'restored!');
     }
 }

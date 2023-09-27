@@ -73,17 +73,20 @@
     <section class="form-2 mt-2 mb-8">
         <div class="container-ter">
             <div class="text-container bgcolor">
-                <p>Use the provided username and password to log in. You don't have a password? Then please <a class="colorprim" href="{{ route('sign_up') }}">Register</a></p>
           <!-- Log In Form -->
           <form action="{{ route('login') }}" method="POST">
             @csrf
-            <br><labe>Email Address</labe>
+            @if (session('changedPWD'))
+            <div style="background: rgba(10, 143, 32, 0.61); padding: 2px 10px">
+              <span style="color:aliceblue; font-weight:bold">Password Changed!</span>
+              <p style="color:aliceblue">Please Enter your New Password</p>
+            </div>
+            @endif<labe>Email Address</labe>
             <input type="text" placeholder="Email Address" name="username" required><br>
             <labe>Password</labe>
             <input type="password" placeholder="Password" name="pwd" required>
             <div class="cont">
-                <input checked class="form-check-input" type="checkbox" value="" id="checkbox1" required>
-                <span>I agree to abide by the <a href="{{ route('terms') }}">terms and conditions</a> set forth by Jonel Refilling Station and have carefully reviewed their <a href="{{ route('privacy') }}">privacy policy</a>".</span>
+              <p>Use the provided username and password to log in. You don't have a password? Then please <a class="colorprim" href="{{ route('sign_up') }}">Register</a> : <span style="margin-left: 5px"><a class="colorprim" href="{{ route('forgot_pwd') }}">Forgot Password?</a></span></p>
             </div>
             <button type="submit" name="login" class="btn-submit"><strong>Login</strong></button>
           </form>

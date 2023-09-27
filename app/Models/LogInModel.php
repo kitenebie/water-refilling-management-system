@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class LogInModel extends Model
 {
@@ -66,5 +65,42 @@ class LogInModel extends Model
     function getMembers(){
         return $this->where('user_authe', '=', 'Reseller')
                 ->where('Status', '=', 'Active')->get();
+    }
+
+    function checkEmailAddress($email, $pwd)
+    {
+        $result =  $this->where('username', '=', $email)->get();
+        if($result->count() > 0)
+        {
+            $url = env('URL_WEB_EMAIL');
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_POSTFIELDS => http_build_query([
+                    "recipient" => $email,
+                    "subject"   => 'Password Change Verification',
+                    "body"      => 'Dear ['.$email.'],'.PHP_EOL.
+                    PHP_EOL.PHP_EOL.
+                    'We have received a request to change your password for your Jonel\'s Water Refilling Station  account. To ensure the security of your account, please verify your email address by clicking the link below:'.
+                    PHP_EOL.PHP_EOL.
+                    'http://127.0.0.1:8000/Change-My-Password/'. $email. '/'.hash('md5',$pwd).
+                    PHP_EOL.PHP_EOL.
+                    'If you did not initiate this password change request, please ignore this email, and your account password will remain unchanged. It is possible that someone else may have entered your email address by mistake.'.
+                    PHP_EOL.PHP_EOL.
+                    'If you have any questions, please do not hesitate to contact us.'.
+                    PHP_EOL.PHP_EOL.
+                    'Thank you,'.PHP_EOL.
+                    'Jonel Water Refilling Station'
+                ])
+            ]);
+            curl_exec($ch);
+            return true;
+        }
+        return false;
+    }
+    function channgeNewPwd($email, $pwd)
+    {
+        return $this->where('username', '=', $email)->update(['password'=>$pwd]);
     }
 }

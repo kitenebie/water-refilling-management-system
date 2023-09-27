@@ -72,8 +72,7 @@
     <section class="form-2 mt-2 mb-8">
       <div class="container-ter">
         <div class="text-container bgcolor">
-          <p>Fill out the form to register. Already Registered? Then just <a class="colorprim" href="{{ route('log_in') }}">Log In</a></p>
-
+          
           <!-- Sign Up Form -->
           <form action="{{ route('register') }}" method="post">
             @csrf
@@ -101,9 +100,8 @@
                 <input  type="password" id="password" required>
                 <label for="">Confirm Password</label><span style="color: red; font-size: 13px !important" id="ConfpasswordError"></span>
                 <input name="password" id="confirmPassword" type="password" required>
-                <div class="cont">
-                    <input class="form-check-input" type="checkbox" value="" id="checkbox1" required>
-                    <span>I agree to abide by the <a href="{{ route('terms') }}">terms and conditions</a> set forth by Jonel Refilling Station and have carefully reviewed their <a href="{{ route('privacy') }}">privacy policy</a>".</span>
+                <div class="cont"><br>
+                  <p>Fill out the form to register. Already Registered? Then just <a class="colorprim" href="{{ route('log_in') }}">Log In</a></p>
                 </div>
                 <button id="btnreg" type="submit" class="btn-submit"><strong>Register</strong></button>
             </div>

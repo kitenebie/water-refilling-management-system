@@ -11,6 +11,124 @@ use Illuminate\Http\Request;
 
 class PDFController extends Controller
 {
+    function RefillreportBetween($dateStart, $dateEnd){
+        $startDate = Carbon::parse($dateStart)->format('F j, Y');
+        $endDate = Carbon::parse($dateEnd)->format('F j, Y');
+        $refills = null;
+        $NewtotalAmount = null;
+        $Qty = null;
+        $caption = 'Refill Sales From '  .$startDate. ' to ' .$endDate;
+        if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+        {
+            $refills = DB::table('refill_requests')
+                    ->join('log_in_models', 'refill_requests.Reseller_ID','log_in_models.reseller_id')
+                    ->select('refill_requests.*', 'log_in_models.firstname',
+                    'log_in_models.lastname'
+                    )->where('refill_requests.status', '=', 'Completed')
+                    ->whereBetween('refill_requests.created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                    ->orderBy('refill_requests.created_at', 'DESC')->get();
+
+            $NewtotalAmount = DB::table('refill_requests')
+                    ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                    ->where('status', '=', 'Completed')
+                                    ->select(DB::raw('SUM(TotalCost) as TotalCost'))
+                                    ->sum('TotalCost');
+
+            $Qty = DB::table('refill_requests')
+                    ->where('status', '=', 'Completed')
+                    ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                    ->select(DB::raw('SUM(NumberOfGallon) as NumberOfGallon'))
+                    ->sum('NumberOfGallon');
+        }
+        if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+        {
+            $refills = DB::table('refill_requests')
+                    ->join('log_in_models', 'refill_requests.Reseller_ID','log_in_models.reseller_id')
+                    ->select('refill_requests.*', 'log_in_models.firstname',
+                    'log_in_models.lastname'
+                    )->where('refill_requests.status', '=', 'Completed')
+                    ->where('refill_requests.Reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
+                    ->whereBetween('refill_requests.created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                    ->orderBy('refill_requests.created_at', 'DESC')->get();
+
+                    
+            $NewtotalAmount = DB::table('refill_requests')
+            ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+
+                                    ->where('status', '=', 'Completed')
+                                    ->where('Reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
+                                    ->sum('TotalCost');
+
+            $Qty = DB::table('refill_requests')
+            ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+
+                    ->where('status', '=', 'Completed')
+                    ->where('Reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
+                    ->sum('NumberOfGallon');
+        }
+        // dd($refills, $NewtotalAmount[0]->TotalCost, $Qty[0]->NumberOfGallon);
+        return PDF::loadView('report-range-pdf', ['refills' => $refills, 'NewtotalAmount' => $NewtotalAmount,
+                            'caption' => $caption, 'Qty' => $Qty])->download('Product Report'. $startDate .'-'. $endDate.'.pdf');
+    }
+
+
+    function ProductreportBetween($dateStart, $dateEnd){
+        $startDate = Carbon::parse($dateStart)->format('F j, Y');
+        $endDate = Carbon::parse($dateEnd)->format('F j, Y');
+        $Sales = null;
+        $NewtotalAmount = null;
+        $Qty = null;
+        $caption = 'Product Sales From '  .$startDate. ' to ' .$endDate;
+        if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
+        {
+            $Sales = DB::table('orders')->join('products', 'orders.product_ID', 'products.product_id')
+                        ->join('log_in_models', 'orders.reseller_ID','log_in_models.reseller_id')
+                        ->select('orders.*', 'log_in_models.firstname',
+                        'log_in_models.lastname', 'products.product_Name'
+                        )->where('orders.status', '=', 'Completed')
+                        ->whereBetween('orders.created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                        ->orderBy('orders.created_at', 'DESC')->get();
+
+            $NewtotalAmount = DB::table('orders')
+            ->where('status', '=', 'Completed')
+                        ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                        ->sum('Amount');
+
+            $Qty = DB::table('orders')
+            ->where('status', '=', 'Completed')
+                        ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                        ->sum('order');
+        }
+        if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
+        {
+            $Sales = DB::table('orders')->join('products', 'orders.product_ID', 'products.product_id')
+                    ->join('log_in_models', 'orders.reseller_ID','log_in_models.reseller_id')
+                    ->select('orders.*', 'log_in_models.firstname',
+                    'log_in_models.lastname', 'products.product_Name'
+                    )->where('orders.status', '=', 'Completed')
+                    ->where('orders.reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
+                    ->whereBetween('orders.created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                    ->orderBy('orders.created_at', 'DESC')->get();
+
+                    
+            $NewtotalAmount = DB::table('orders')
+                                    ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                                    ->where('status', '=', 'Completed')
+                                    ->where('reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
+                                    ->sum('Amount');
+
+            $Qty = DB::table('orders')
+                    ->whereBetween('created_at', [Carbon::parse($dateStart)->subDay(), Carbon::parse($dateEnd)->addDay()])
+                    ->where('status', '=', 'Completed')
+                    ->where('reseller_ID', '=', session()->get(env('USER_SESSION_KEY')))
+                    ->sum('order');
+        }
+        // dd($Sales, $NewtotalAmount, $Qty);
+        return PDF::loadView('report-range-pdf', ['Sales' => $Sales, 'NewtotalAmount' => $NewtotalAmount,
+                            'caption' => $caption, 'Qty' => $Qty])->download('Refill Report'. $startDate .'-'. $endDate.'.pdf');
+    }
+
+
     function get_toReceive_orders(){
         $caption = "Delivery Orders List";
          $ordersData = Order::join('log_in_models', 'orders.reseller_ID', '=', 'log_in_models.reseller_id')

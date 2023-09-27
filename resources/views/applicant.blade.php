@@ -19,7 +19,7 @@
 	<section id="sidebar">
 		<a href="#" class="brand">
 			<img style="margin: 5px" width="50px" height="50px" src="{{ asset('images/header-dashboard.png') }}" alt="" srcset="">
-			<span class="text">Applicants</span>
+			<span class="text">Dashboard</span>
 		</a>
 		<ul class="side-menu top">
 			<li>
@@ -31,29 +31,37 @@
 			<li>
 				<a href="{{ route('MyService') }}">
 					<i class='bx bxs-shopping-bag-alt' ></i>
-					<span class="text">My Service</span>
-				</a>
-			</li>
-			<li>
-				<a href="{{ route('getsalesmonth') }}">
-					<i class='bx bxs-chart' ></i>
-					<span class="text">Sales</span>
+					<span class="text">Products</span>
 				</a>
 			</li>
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-			    <li>
-                    <a href="{{ route('orders') }}">
-                        <i class='bx bxs-store' ></i>
-                        <span class="text">Orders</span>
-                    </a>
-			    </li>
 			    <li>
                     <a href="{{ route('refillrequest') }}">
                         <i class='bx bxs-store-alt' ></i>
                         <span class="text">Refill Request</span>
                     </a>
 			    </li>
+			    <li>
+                    <a href="{{ route('orders') }}">
+                        <i class='bx bxs-store' ></i>
+                        <span class="text">Orders</span>
+                    </a>
+			    </li>
             @endif
+            @if (session()->get('auth') == 'Reseller')
+            <li>
+                <a href="{{ route('orders') }}">
+                    <i class='bx bxs-cart' ></i>
+                    <span class="text">Request Order</span>
+                </a>
+            </li>
+            @endif
+			<li>
+				<a href="{{ route('getsalesmonth') }}">
+					<i class='bx bxs-chart' ></i>
+					<span class="text">Sales</span>
+				</a>
+			</li>
 
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
@@ -62,18 +70,10 @@
                     <span class="text">Members</span>
                 </a>
             </li>
-            <li  class="active">
+            <li class="active">
                 <a href="{{ route('applicantRequest') }}">
                     <i class='bx bxs-group' ></i>
                     <span class="text">Applicants</span>
-                </a>
-            </li>
-            @endif
-            @if (session()->get('auth') == 'Reseller')
-            <li>
-                <a href="{{ route('orders') }}">
-                    <i class='bx bxs-cart' ></i>
-                    <span class="text">Request Order</span>
                 </a>
             </li>
             @endif
@@ -175,35 +175,16 @@
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->contact, '*', 2,6) }}</td>
                                         <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 1px; font-size: 14px !important">{{ str::mask($req->username, '*', 3,-4) }}</td>
                                         <td style="auto">
-                                            <a href="/applicant/Request/Accept/{{ $req->id }}/email/{{ $req->username }}">
-                                                <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
-                                            </a>
-                                            <a href="/applicant/Request/Decline/{{ $req->id }}/email/{{ $req->username }}">
-                                                <span class="status Pending" style="font-size: .8em; font-weight:600">Decline</span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            @if (isset($Data))
-                            @foreach ($Data as $req)
-                                <tr id="existingData">
-                                    <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->reseller_id }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->firstname }} {{ $req->lastname }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->address }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->contact }}</td>
-                                        <td style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;padding: 1px 2px">{{ $req->username }}</td>
-                                        <td style="auto">
                                         <a href="/applicant/Request/Accept/{{ $req->id }}/email/{{ $req->username }}">
                                             <span class="status Completed" style="font-size: .8em; font-weight:600">Accept</span>
                                         </a>
                                         <a href="/applicant/Request/Decline/{{ $req->id }}/email/{{ $req->username }}">
                                             <span class="status Pending" style="font-size: .8em; font-weight:600">Decline</span>
                                         </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
 						</tbody>
 					</table>
 				</div>

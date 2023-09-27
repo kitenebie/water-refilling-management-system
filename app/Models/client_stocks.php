@@ -63,5 +63,8 @@ class client_stocks extends Model
         return $storeData;
     }
 
-
+    function GetTotalSumOfAllUserStocks()
+    {
+        
+    }
 }

@@ -72,26 +72,40 @@
 					<span class="text">Products</span>
 				</a>
 			</li>
-			<li>
-				<a href="{{ route('getsalesmonth') }}">
-					<i class='bx bxs-chart' ></i>
-					<span class="text">Sales</span>
-				</a>
-			</li>
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-			    <li>
-                    <a href="{{ route('orders') }}">
-                        <i class='bx bxs-store' ></i>
-                        <span class="text">Orders</span>
-                    </a>
-			    </li>
 			    <li>
                     <a href="{{ route('refillrequest') }}">
                         <i class='bx bxs-store-alt' ></i>
                         <span class="text">Refill Request</span>
                     </a>
 			    </li>
+			    <li>
+                    <a href="{{ route('orders') }}">
+                        <i class='bx bxs-store' ></i>
+                        <span class="text">Orders</span>
+                    </a>
+			    </li>
             @endif
+            @if (session()->get('auth') == 'Reseller')
+            <li>
+                <a href="{{ route('refillrequest') }}">
+                    <i class='bx bxs-store-alt' ></i>
+                    <span class="text">Refill Request</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('orders') }}">
+                    <i class='bx bxs-cart' ></i>
+                    <span class="text">Request Order</span>
+                </a>
+            </li>
+            @endif
+			<li>
+				<a href="{{ route('getsalesmonth') }}">
+					<i class='bx bxs-chart' ></i>
+					<span class="text">Sales</span>
+				</a>
+			</li>
 
             @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
             <li>
@@ -104,14 +118,6 @@
                 <a href="{{ route('applicantRequest') }}">
                     <i class='bx bxs-group' ></i>
                     <span class="text">Applicants</span>
-                </a>
-            </li>
-            @endif
-            @if (session()->get('auth') == 'Reseller')
-            <li>
-                <a href="{{ route('orders') }}">
-                    <i class='bx bxs-cart' ></i>
-                    <span class="text">Request Order</span>
                 </a>
             </li>
             @endif
@@ -220,9 +226,9 @@
                             <tr>
                                 <th>Full Name</th>
                                 <th>Product</th>
-                                <th>order</th>
+                                <th>Order</th>
                                 <th>Total</th>
-                                <th>status</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -233,46 +239,12 @@
                                         <td>{{ $personInfo->product_Name }}</td>
                                         <td>{{ $personInfo->order }}</td>
                                         <td id="amount">{{ $personInfo->Amount }}</td>
-                                        <td><span class="status Pending" style="font-size: .8em; font-weight:600">{{ $personInfo->status }}</span></td>
+                                        <td><span class="status Pending" style="font-size: .8em; font-weight:600">{{ $personInfo->theSTS }}</span></td>
                                     </tr>
                                 @endforeach
                             @endif
                         </tbody>
                     </table>
-				</div>
-				<div class="todo">
-                    @if (session()->get('auth') == env('USER_CREDINTIAL_ADMIN'))
-					<div class="head">
-						<h3>Applying Reseller <i class='bx bxs-bell'></i><span id="count" style="color:red; position: absolute; top:0; font-size:.8rem"></span></h3>
-					</div>
-					<ul class="todo-list" id="#container">
-                        @if (isset($reqData))
-                            @foreach ($reqData as $ReqDAta)
-                                <li class="completed relative" id="req">
-                                    <a href="RequestNotification/{{ $ReqDAta->reseller_id }}" style="color:inherit">
-                                        <p>
-                                            <b>{{ $ReqDAta->lastname }}. {{ $ReqDAta->firstname }}</b>, from
-                                            <b>{{ $ReqDAta->address }}</b> is waiting For your Response for applying as one of your reseller.
-                                        </p>
-                                        {{--  <i class='bx bx-dots-vertical-rounded' ></i>  --}}
-                                    </a>
-                                </li>
-                            @endforeach
-                        @endif
-					</ul>
-                    @endif
-                    @if (session()->get('auth') == env('USER_CREDINTIAL_RESELLER'))
-                    <div class="order">
-                        <div class="head">
-                            {{-- box4 --}}
-                            <h4>Notifications</h4>
-                        </div>
-                        <div class="todo box">
-                            <ul class="todo-list" id="anncontainer">
-                            </ul>
-                        </div>
-                    </div>
-                    @endif
 				</div>
 			</div>
 		</main>
